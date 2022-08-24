@@ -1,0 +1,199 @@
+// Font Weights
+$font-light: 300;
+$font-normal: 400;
+$font-medium: 500;
+$font-semi-bold: 600;
+$font-bold: 700;
+$font-extra-bold: 800;
+$text-color-purple: #5752eb;
+$text-color-dark: #38434f;
+$text-color-dark-2: #3c4257;
+$text-color-light: #e8e6f3;
+$text-color-faded: #bdbeff;
+$text-color-link: #6459c5;
+$text-color-light-dark: #898d92;
+$text-color-warning: #e04060;
+
+// Default Font Size
+$font-base: 14px;
+
+// Font Stack
+$font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+.text {
+    &--medium {
+        font-weight: $font-medium !important;
+    }
+    &--bold {
+        font-weight: $font-bold !important;
+    }
+    // &--700 {
+    //     font-weight: 700
+    // }
+    &--upper {
+        text-transform: uppercase;
+    }
+    &--lower {
+        text-transform:lowercase;
+    }
+    &--capitalize {
+        text-transform:capitalize;
+    }
+    &--color-dark {
+        color: #172B4D;
+    }
+    &--color-warning {
+        color: $text-color-warning !important;
+    }
+    &--color-normal {
+        color: #5E6C84 !important;
+    }
+    &-faded {
+        color: $text-color-light-dark;
+    }
+    &-normal {
+        font-weight: $font-normal;
+    }
+    &-right {
+        text-align: right;
+    }
+    &-center {
+        text-align: center;
+    }
+    &-left {
+        text-align: left;
+    }
+    &-purple {
+        color: $text-color-purple
+    }
+    &--link{
+        color: $text-color-link !important;
+    }
+    &--xxs {
+        font-size: 10px;
+    }
+    &--xs {
+        font-size: 12px !important;
+    }
+    &--sm {
+        font-size: 0.875rem !important;
+    }
+    &--md {
+        font-size: 18px;
+    }
+    &--xmd {
+        font-size: 22px;
+    }
+    &--lg {
+        font-size: 26px;
+    }
+
+    &--disabled {
+        cursor: not-allowed;
+        color: $text-color-light-dark;
+    }
+    &--info {
+        color: #1897b1 !important
+    }
+    &--mute {
+    color: #6c757d!important;
+}
+
+}
+
+.big-text {
+    font-size: 18px;
+}
+
+.info-text {
+    color: $text-color-dark;
+    display: inline-block;
+    padding-top: 8px;
+    &--sm {
+        font-size: 12px;
+        color: #919EAB;
+    }
+}
+
+.sub-text{
+    font-size:12px;
+
+    &--grey{
+        color:#888888;
+        letter-spacing: normal;
+        line-height:normal;
+    }
+    &--link{
+        color: $text-color-link;
+        cursor:pointer
+    }
+}
+.main-text{
+    font-size:16px;
+    
+    &--bold{
+        color:#3a3a3a;
+    }
+}
+
+.no--decor {
+    text-decoration:none;
+}
+
+.text-underline-onHover {
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+/*
+@font-face {
+    font-family: 'ProximaNova';
+    font-style: italic;
+    font-weight: 300;
+    src: url("../fonts/ProximaNova-LightItalic.otf") format("opentype");
+}
+
+@font-face {
+    font-family: 'ProximaNova';
+    font-style: normal;
+    font-weight: 300;
+    src: url("../fonts/ProximaNova-Light.otf") format("opentype");
+}
+
+@font-face {
+    font-family: 'ProximaNova';
+    font-style: italic;
+    font-weight: 400;
+    src: url("../fonts/ProximaNovaCond-RegularIt") format("opentype");
+}
+
+@font-face {
+    font-family: 'ProximaNova';
+    font-style: normal;
+    font-weight: 400;
+    src: url("../fonts/ProximaNova-Regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: 'ProximaNova';
+    font-style: normal;
+    font-weight: 600;
+    src: url("../fonts/ProximaNova-Semibold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: 'ProximaNova';
+    font-style: normal;
+    font-weight: 700;
+    src: url("../fonts/ProximaNova-Semibold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: 'ProximaNova';
+    font-style: normal;
+    font-weight: 800;
+    src: url("../fonts/ProximaNova-Bold.otf") format("opentype");
+}
+
+*/

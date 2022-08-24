@@ -1,0 +1,198 @@
+.invoice {
+    &__price {
+        flex-grow: 1;
+    }
+    &__amount {
+        min-width: 70px;
+    }
+    &__calculate {
+        &--row {
+            display: flex;
+            width: 100%;
+            align-items: center;
+
+            &.form__row__right {
+                flex-basis: calc(50% - 13px);
+                margin-left: 13px;
+                width: auto;
+            }
+        }
+
+        &--wrap {
+            width: 100% !important;
+            display: flex;
+
+            .form__row__left {
+                flex-basis: calc(50% - 13px);
+                margin-right: 13px;
+            }
+        }
+
+        &--label {
+            flex-basis: 35%;
+
+            label {
+                display: inline-block;
+                padding: 6px 0;
+                font-size: 14px;
+                line-height: 1.5;
+                color: inherit;
+            }
+        }
+    }
+    &__compile {
+        &--row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+        &--label, &--value , &--btn {
+            color: #3c4257;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        &--value {
+            font-weight: normal;
+        }
+        &--btn {
+            color: #5469d4;
+        }
+        &--select {
+            max-width: 208px;
+        }
+        &--memo {
+            margin-top: 3rem !important;
+            display: block !important;
+
+            &--label {
+                font-feature-settings: "pnum";
+                font-variant: proportional-nums;
+                line-height: 28px;
+                font-weight: 700;
+                font-size: 20px !important;
+                color: #3c4257;
+            }
+            textarea, .due_date {
+                width: 500px;
+            }
+        }
+    }
+    &__tax {
+        &--item {
+            &:hover {
+                background: none !important;
+                background-color: transparent !important;
+            }
+
+            &.last {
+                margin-top: 14px;
+                margin-bottom: 14px;
+
+                .btn--secondary {
+                    margin-right: 10px;
+                }
+            }
+            &.dropdown-menu {
+                margin-top: 14px;
+            }
+        }
+    }
+
+    &__client {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .heading {
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #637381;
+            font-size: 14px;
+        }
+        &--bio {
+            width: auto;
+
+            .title {
+                color: #a9a9a9;
+                font-weight: 400;
+                text-transform: capitalize;
+                font-size: 12px;
+            }
+            .sub-title {
+                color: #212b36;
+            }
+
+        }
+    }
+
+    &__preview {
+        &--wrap {
+            position: relative;
+            visibility: visible;
+            justify-content: center;
+            display: flex;
+            width: 95%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        &--contents {
+            // width: 432px;
+            // height: 601.3px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        &--header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #6177e6;
+            color: #fff;
+            padding: 1.5rem;
+
+            h1 {
+                font-size: 3rem;
+                text-transform: uppercase;
+                color: inherit
+            }
+
+            >div {
+                p {
+                    font-size: 0.875rem;
+                    color: inherit
+                }
+            }
+        }
+        &--card {
+            width: 100%;
+            // box-shadow: 0 15px 35px 0 rgba(64, 68, 82, 0.08), 0 5px 15px 0;
+            border-bottom-right-radius: 6px;
+            border-bottom-left-radius: 6px; 
+            background-color: #fff;
+            padding: 2rem 1rem;
+            border: 1px solid #eee;
+            height: auto;
+          
+            .top {
+                  display: flex;
+                justify-content: space-between;
+                 *h6 {
+                color: #808080;
+                font-weight: 500;
+                font-size: 1rem;
+                }
+
+                *p {
+                    color: #212b36;
+                    font-size: 0.875rem;
+                }
+                .left {
+                    max-width: 50%;
+                }
+            }
+            
+        }
+    }
+}

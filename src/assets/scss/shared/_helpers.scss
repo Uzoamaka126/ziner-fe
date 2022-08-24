@@ -1,0 +1,537 @@
+.container {
+    padding-left: 15px;
+    padding-right: 15px;
+
+    // @include media(576px) {
+    //     width: 540px;
+    //     margin-left: auto;
+    //     margin-right: auto;
+    // }
+
+    // @include media(768px) {
+    //     width: 750px;
+    // }
+
+    // @include media(992px) {
+    //     width: 970px;
+    // }
+
+    // @include media(1200px) {
+    //     width: 1170px;
+    // }
+
+    // @include media(1600px) {
+    //     width: 1300px;
+    // }
+}
+
+.hide {
+    display: none !important;
+}
+
+.block {
+    display: block !important;
+}
+
+.hidden--xxs {
+    // @include media(max-width 576px) {
+    //     display: none;
+    // }
+}
+
+.hidden--xs {
+    // @include media(max-width 767px) {
+    //     display: none !important;
+    // }
+}
+
+#app {
+    height: 100%;
+}
+
+.width{
+    &--45{
+        width:45%;
+    }
+    &--90{
+        width:90% !important;
+    }
+    &--100{
+        width:100% !important;
+    }
+    &--auto{
+        width:auto;
+    }
+}
+
+
+.imgCircle {
+    border-radius: 50%;
+}
+
+.imgResponsive {
+    width: 100%;
+    object-fit: cover;
+    height:auto;
+}
+
+.visibilityNone {
+    visibility: hidden;
+}
+
+.link {
+    text-decoration: none;
+    color: $text-color-link;
+    cursor: pointer;
+    
+    &:hover {
+        color: $text-color-purple
+    }
+}
+
+.pull--right {
+    float: right;
+}
+
+.row {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    max-width:1800px;
+    margin-right:auto;
+    margin-left:auto;
+    padding:0 30px;
+
+    &__left, &__right {
+        display: flex;
+        align-items: center;
+    }
+
+    &__right {
+        &--padded-top{
+            padding-top:9px;
+        }
+    }
+
+    &__item {
+        padding: 0 12px 9px;
+        
+        &:last-child {
+            padding-right: 0;
+        }
+        &:first-child {
+            padding-left: 0;
+        }
+    }
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.info-icon{
+    vertical-align: middle;
+}
+.link-decorated{
+    text-decoration:underline;
+    cursor: pointer;
+    &__black{
+        color:#212b36;
+    }
+    &:hover{
+        color: $text-color-link;
+    }
+}
+
+.positionRelative {
+    position: relative;
+}
+
+.positionAbsolute {
+    position: absolute;
+}
+
+.hr {
+    border-width: 1px 0 0 0;
+    border-style: solid;
+    border-color: rgba($text-color-dark, 0.2);
+}
+.mt{
+    &--0 {
+        margin-top: 0px;
+    }
+    &--40{
+        margin-top:40px;
+    }
+    &--80{
+        margin-top:80px;
+    }
+    &--10{
+        margin-top:10px;
+    }
+    &--5{
+        margin-top:5px;
+    }
+    &--15{
+        margin-top:15px;
+    }
+    &--20{
+        margin-top:20px;
+    }
+    &--30{
+        margin-top: 30px;
+    }
+}
+
+.mb{
+    &--0 {
+        margin-bottom: 0px !important;
+    }
+     &--10{
+        margin-bottom: 10px !important;
+    }
+    &--15{
+        margin-bottom: 15px;
+    }
+    &--20{
+        margin-bottom: 20px;
+    }
+    &--45{
+        margin-bottom: 45px;
+    }
+}
+
+.no--padding{
+
+    &__all{
+        padding:0;
+    }
+    &__x{
+        padding-right:0;
+        padding-left:0;
+    }
+    &__y{
+        padding-top:0;
+        padding-bottom:0;
+    }
+    &__yt{
+        padding-top:0;
+    }
+    &__yb{
+        padding-bottom:0;
+    }
+    &__xl{
+        padding-left:0;
+    }
+    &__xr{
+        padding-right:0;
+    }
+}
+
+.no--margin{
+
+    &__all{
+        margin:0;
+    }
+    &__x{
+        margin-right:0;
+        margin-left:0;
+    }
+    &__y{
+        margin-top:0;
+        margin-bottom:0;
+    }
+    &__yt{
+        margin-top:0;
+    }
+    &__yb{
+        margin-bottom:0 !important;
+    }
+    &__xl{
+        margin-left:0;
+    }
+    &__xr{
+        margin-right:0;
+    }
+}
+.no--border-radius{
+    border-radius:0;
+}
+
+.no--shadows{
+    box-shadow:none;
+}
+
+.divider{
+    &--horizontal{
+        width: 53px;
+        height: 1.5px;
+        background: #b3c7cd;
+        margin:19px 0;
+        &--full{
+            width:100%;
+            height:1px;
+            background:#ededed;
+            margin:0;
+        }
+        &--light{
+            height:0;
+            border-top:0.5px solid #f2f2f2;
+        }
+        &__wtext{
+            // @include default-flex-container();
+        }
+
+        &--right, &--left{
+            margin:38px 0;
+            flex-basis:45%;
+        }
+    }
+    &--vertical{
+        width: 1.5px;
+        height: 23px;
+        background: #b3c7cd;
+        margin:0 19px;
+        &--light{
+            height:48.6px;
+            width:1px;
+            background:#ededed;
+            margin:0;
+        }
+    }
+
+}
+
+.overflow-wrap{
+    max-width: 200px;
+    overflow-wrap: break-word;
+    &--md{
+        max-width:350px;
+    }
+    &--lg{
+        max-width:100%;
+    }
+}
+
+.ml{
+    &--0 {
+        margin-left: 0 !important;
+    }
+    &--5{
+        margin-left:5px;
+    }
+    &--10{
+        margin-left:10px;
+    }
+    &--15{
+        margin-left:15px;
+    }
+    &--20{
+        margin-left:20px;
+    }
+}
+
+.mr{
+    &--0 {
+        margin-right: 0;
+    }
+    &--5{
+        margin-right:5px;
+    }
+    &--10{
+        margin-right:10px;
+    }
+    &--12{
+        margin-right:12px;
+    }
+    &--15{
+        margin-right:15px;
+    }
+    &--25 {
+        margin-right: 25px;
+    }
+    &--35 {
+        margin-right: 35px;
+    }
+}
+
+.text-divider{
+    margin-left:5px;
+    margin-right:5px;
+}
+
+.flex-wrap{
+    flex-wrap:wrap;
+}
+
+.stroke-icon{
+    background:#4a4a4a;
+    margin-right:10px;
+    &--thick{
+        height:8px;
+        width:16px;
+        display: inline-block;
+
+    }
+    &--thin{
+        display:block;
+        height:2px;
+        width:16px;
+        &:not(:last-child){
+            margin-bottom:1px;
+        }
+    }
+}
+
+//css arrows
+.left-arrow {
+    border-color: transparent black;
+    border-style: solid;
+    border-width: 20px 20px 20px 0px;
+    height: 0px;
+    width: 0px;
+}
+
+.right-arrow {
+    border-color: transparent black;
+    border-style: solid;
+    border-width: 20px 0px 20px 20px;
+    height: 0px;
+    width: 0px;
+}
+
+.down-arrow {
+    border-color: black transparent;
+    border-style: solid;
+    border-width: 20px 20px 0px 20px;
+    height: 0px;
+    width: 0px;
+}
+
+.up-arrow {
+    border-color: black transparent;
+    border-style: solid;
+    border-width: 0px 20px 20px 20px;
+    height: 0px;
+    width: 0px;
+}
+
+//no border
+.no--border{
+    &__all{
+        border:0;
+    }
+    &__x{
+        border-right:0;
+        border-left:0;
+    }
+    &__y{
+        border-top:0;
+        border-bottom:0;
+    }
+    &__yt{
+        border-top:0;
+    }
+    &__yb{
+        border-bottom:0;
+    }
+    &__xl{
+        border-left:0;
+    }
+    &__xr{
+        border-right:0;
+    }
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.top {
+    &--5{
+        top: 10px;
+    }
+    &--10{
+        top: 10px;
+    }
+    &--20{
+        top: 20px;
+    }
+    &--30{
+        top: 30px;
+    }
+    &--40{
+        top: 40px;
+    }
+    &--50{
+        top: 50px;
+    }
+}
+
+.right {
+    &--5{
+        right: 10px;
+    }
+    &--10{
+        right: 10px;
+    }
+    &--20{
+        right: 20px;
+    }
+    &--30{
+        right: 30px;
+    }
+}
+
+
+.pre{
+    &--nowhitespace{
+        white-space: pre-line
+
+    }
+}
+
+.flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+.justify-content-evenly {
+    justify-content: space-evenly;
+}
+.justify-content-end {
+    justify-content: flex-end;
+}
+.cursor-text {
+    cursor: text;
+}
+
+.badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor:not-allowed !important;
+}

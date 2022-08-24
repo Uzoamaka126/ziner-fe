@@ -1,0 +1,88 @@
+ .accordion {
+    background-color: transparent;
+
+    &-button {
+        padding: 10px 14px !important;
+
+        &:focus, &:visited {
+            border: none !important;
+            border-color: transparent !important;
+            box-shadow: none !important;
+        }
+        &::after {
+            flex-shrink: unset !important;
+            width: 0 !important;
+            height: 0 !important;
+            margin-left: auto !important;
+            content: "" !important;
+            background-image: none !important;
+            background-repeat:none !important;
+            background-size: none !important;
+            transition: none !important;
+        }
+
+        &:not(.collapsed) {
+            color: #404452 !important;
+            background-color: transparent !important;
+            box-shadow: 0 !important;
+
+        }
+    }
+ }
+   .accordion {
+        background-color: #f6f8fa !important;
+   }
+
+.action {
+    &--btns {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 16px;
+        display: inline-flex;
+        position: relative;
+        z-index: 1;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        margin: 0;
+        text-decoration: none;
+        vertical-align: middle;
+        word-break: normal;
+        background: transparent;
+        border: 0;
+        outline: 0;
+        transition: color var(--sail-duration);
+        -webkit-appearance: none;
+        appearance: none;
+        -webkit-user-select: auto;
+        -ms-user-select: auto;
+        user-select: auto;
+        min-height: 24px;
+        padding-right: 8px;
+        padding-left: 8px;
+        border-radius: 6px;
+        align-items: center;
+
+        &__wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+        }
+
+        &__clear {
+            color: rgba(64, 68, 82, 1);
+            box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(64 68 82 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(64 68 82 / 8%) 0px 2px 5px 0px;
+            background-color: #ffffff;
+        }
+
+        &__run {
+            color: rgba(255, 255, 255, 1);
+            background: #596DDE !important;
+        }
+    }
+}
+
+.accordion-item:first-of-type .accordion-button, .accordion-button {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}

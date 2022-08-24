@@ -1,0 +1,100 @@
+.project {
+    &__overview {
+        &--item {
+            padding: 20px 0;
+                    border-bottom: 1px solid #e5e5e5;
+        }
+    }
+
+    &--item {
+        &__dot {
+            margin: 0px 5px 0px 0px;
+            display: inline-block;
+            font-weight: 700;
+            // font-size: 26px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: #d94182
+        }
+    }
+}
+
+// Tasks
+.task {
+
+    &__completed {
+        &__wrap {
+            flex: 0 0 auto;
+            margin: 0 3px 0 0;
+            align-items: center;
+            box-sizing: border-box;
+            display: inline-flex;
+            height: 16px;
+            justify-content: center;
+            overflow: visible;
+            width: 16px;
+        }
+
+        &--list {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #edeae9;
+        }
+        &--icon {
+            height: 16px;
+            min-height: 16px;
+            min-width: 16px;
+            width: 16px;
+            overflow: hidden;
+            margin: -3px;
+            padding: 0px;
+            display: block;
+            stroke-width: 2px;
+
+            path.outer-path {
+                fill: #fff;
+                stroke: #6d6e6f;
+                transition: 200ms fill,200ms stroke;
+            }
+            path.inner-path {
+                fill: #6d6e6f;
+                transition: 200ms fill,200ms stroke;
+            }
+        }
+    }
+
+    &__form {
+        &--input {
+            background: transparent;
+            border-radius: 0;
+            display: block;
+            // height: 100%;
+            outline: 0 !important;
+            overflow: hidden;
+            margin-left: 2px;
+            width: 100%;
+            white-space: pre;
+            padding-bottom: 0;
+            padding-top: 0;
+            border: none !important;
+            width: fit-content;
+            padding-top: 0;
+            padding-bottom: 0;
+
+            &:focus-within, &:active, &:focus {
+                border: none !important;
+                outline: 0 !important;
+                box-shadow: none !important;
+                border-color: transparent !important;
+            }
+        }
+    }
+}
+
+// calendar 
+.vc-weeks {
+    min-height: 310px !important;
+    padding: 15px 6px !important;
+}

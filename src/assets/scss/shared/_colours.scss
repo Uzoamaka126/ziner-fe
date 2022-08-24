@@ -1,0 +1,54 @@
+// colors
+$brand-color: #5750ec;
+$accent-color: #7b68ee;
+$default-border-color: #dfdbfb;
+$default-icon-color: #7c828d;
+// $sidebar-bg-color: #FAFBFC;
+$sidebar-bg-color: rgb(250, 251, 252);
+$sidebar-bg-textColor: rgb(66, 82, 110);
+$warning-color: #f1616f;
+// Border colors
+$default-border-color: #E6E7E9;
+$table-header-border: #f5f5f5;
+
+.color{
+    &--red{
+        color: #f1616f;
+    }
+    &--green{
+        // color:$tag-success;
+    }
+    &--blue{
+        color:#4a90e2;
+    }
+    &--deep-blue{
+        color:#00249F;
+    }
+    &--orange{
+        // color:$accent-color;
+    }
+    &--deep-green{
+        color:#27AE60;
+    }
+    &--white{
+        color:white;
+    }
+    &--primary {
+        color: $accent-color;
+    }
+}
+
+.background-grey{
+    background:#c4cdd5;
+}
+.background{
+    &--grey{
+        background-color:#fcfcfc;
+    }
+    &--white{
+        background-color:#fff;
+    }
+    // &--lightRed{
+    //     background-color:lighten($danger, 20%)
+    // }
+}

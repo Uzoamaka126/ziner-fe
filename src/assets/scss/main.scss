@@ -1,0 +1,51 @@
+@charset 'UTF-8';
+
+// Configuration and helpers
+// @import
+//     'abstracts/variables',
+//     'abstracts/mixins';
+
+// Reset File
+@import
+    'shared/reset';
+
+// Base stuff
+@import
+    'shared/colours',
+    'shared/fonts',
+    'shared/style';
+
+// For third parties
+// @import
+//     'vendor/nprogress',
+//     'vendor/izitoast',
+//     'vendor/v-select/vue-select';
+
+// Layout-related sections
+@import
+    'layout/sidebar',
+    'layout/header',
+    'layout/content';
+
+// Components
+@import
+    'components/button',
+    'components/form',
+    'components/tabs',
+    'components/modal',
+    'components/table',
+    'components/filter';
+
+    // Styles for views
+@import
+    'pages/auth',
+    'pages/workspace',
+    'pages/tags',
+    'pages/tasks',
+    'pages/projects',
+    'pages/invoices',
+    'pages/home';
+
+// For things like class reset
+@import
+    'shared/helpers';

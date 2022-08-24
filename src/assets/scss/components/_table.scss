@@ -1,0 +1,102 @@
+table {
+    width: 100%;
+}
+
+thead, th {
+    border-style: hidden !important;
+    border-color: #eee !important;
+}
+
+.table {
+    &>:not(caption)>*>* {
+        font-size: 14px;
+    }
+    &.root {
+        border-radius: 0px;
+        padding: 0px;
+        background-color: rgb(255, 255, 255);
+        border-top: none;
+        border-collapse: initial;
+        box-shadow: rgb(235 231 235 / 50%) 0px -1px 0px 0px inset;
+        table-layout: fixed;
+    }
+
+    th {
+        &:first-of-type {
+            padding-left: 20px;
+        }
+
+        &.first {
+            height: 50px;
+            padding: 0px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            vertical-align: middle;
+            color: rgb(149, 137, 155);
+            cursor: default;
+            text-transform: uppercase;
+            box-shadow: rgb(235 231 235 / 50%) 0px -1px 0px 0px inset;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+        }
+
+        &.header {
+            height: 50px;
+            padding: 0px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            vertical-align: middle;
+            // color: rgba(26, 27, 37, 1);
+            color: rgb(149, 137, 155);
+            cursor: default;
+            text-transform: uppercase;
+            box-shadow: rgb(235 231 235 / 50%) 0px -1px 0px 0px inset;
+            text-align: left;
+        }
+    }
+
+    tbody {
+        tr, a, span {
+            background: rgb(255, 255, 255);
+            color: rgb(0, 0, 0);
+            // cursor: pointer;
+
+            &:hover, &:focus-within {
+                background: #e9ebf3 !important;
+                background-color: #e9ebf3 !important;
+            }
+        }
+
+        td {
+            transition: all 0.3s ease-in-out;
+            vertical-align: middle;
+            // color: rgba(64, 68, 82, 1);
+
+            &.first {
+                max-width: 197px;
+                overflow-x: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+
+        a, span {
+            display: table-row;
+            vertical-align: inherit;
+            border-color: inherit;
+            border-style: solid;
+            border-width: 0;
+
+            &:hover, &:focus-within {
+                background: #eff0f5 !important;
+                background-color: #eff0f5 !important;
+            }
+        }
+    }
+}
+
+.table-hover>tbody>a:hover>* {
+    background: #f6f8fd !important;
+    background-color: #f6f8fd !important;
+}

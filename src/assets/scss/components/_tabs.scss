@@ -1,0 +1,113 @@
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  .tab-list {
+    list-style: none;
+    display: flex;
+    padding-left: 0;
+    border-bottom: 1px solid #e0e1e4;
+    &.center {
+      justify-content: center;
+    }
+    &.end {
+      justify-content: flex-end;
+    }
+    &__item {
+      padding: 13px 10px;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      bottom: -1px;
+      // text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.05rem;
+
+      &:first-of-type {
+        padding-left: 20px;
+      }
+
+      &:not(:first-child) {
+        margin-left: 10px;
+      }
+
+      &[aria-selected="true"] {
+        border-bottom: 2px solid #5750ec;
+        font-weight: 700;
+        color: #5750ec;
+      }
+      &[aria-disabled="true"] {
+        cursor: not-allowed;
+        color: var(--disabled-text-color);
+      }
+    }
+  }
+
+  &.horizontal {
+    &.reverse {
+      .tab-list {
+        grid-row: 2;
+        border: none;
+        border-top: 1px solid var(--border-color);
+      }
+    }
+  }
+
+  &.vertical {
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    .tab-list {
+      flex-direction: column;
+      border-bottom: none;
+      border-right: 1px solid var(--border-color);
+
+      &__item {
+        margin-left: 0;
+        border-radius: 0;
+
+        &[aria-selected="true"] {
+          border: none;
+          border-left: 2px solid var(--primary-color);
+        }
+      }
+    }
+
+    &.reverse {
+      grid-template-columns: 1fr auto;
+      .tab-list {
+        grid-column: 2;
+        border: none;
+        border-left: 1px solid var(--border-color);
+      }
+
+      .tab {
+        grid-row: 1;
+        grid-column: 1;
+      }
+    }
+  }
+}
+
+.tab {
+    margin-top: 1rem;
+
+    &-list {
+      // -webkit-box-shadow: 0 1.2px 5.6px 0 rgba(0, 0, 0, 0.12) !important;
+      // box-shadow: 0 0.83px 1.6px 0 rgba(0, 0,0, 0.12) !important;
+      padding: 0px 20px 0px 20px;
+      margin-bottom: 0px;
+    }
+
+    &--panel {
+      border-radius: 3px;
+      background-color: #fff;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+    &-content {
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-top: 20px;
+    }
+}

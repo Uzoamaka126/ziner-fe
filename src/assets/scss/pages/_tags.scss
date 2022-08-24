@@ -1,0 +1,91 @@
+.tags {
+    &--project {
+        position: relative;
+        display: inline-flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        height: 32px;
+        // max-width: 200px;
+        // padding-right: 10px;
+        margin: 8px 0px 8px 8px;
+        cursor: pointer;
+        border: 1px solid rgb(206, 206, 206);
+        border-radius: 5px;
+        background-color: rgb(255, 255, 255);
+
+        &__item {
+            padding: 7px 10px;
+            width: 100%;
+        }
+
+        &-text {
+            position: relative;
+            height: 100%;
+            font-family: Roboto, Helvetica, sans-serif;
+            font-size: 13px;
+            color: rgb(0, 0, 0);
+            margin-right: 0.8rem;
+
+            span {
+                max-width: 200px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                visibility: visible;
+                white-space: pre;
+            }
+        }
+
+        &-action {
+            display: flex;
+            width: 6px;
+            margin-right: 7px;
+
+            .icon {
+                display: flex;
+                -webkit-box-align: center;
+                align-items: center;
+                -webkit-box-pack: center;
+                justify-content: center;
+                width: 30px;
+                height: 30px;
+                border-radius: 8px;
+                cursor: pointer;
+                user-select: none;
+            }
+        }
+    }
+}
+
+.tag {
+    border-radius: 20px;
+    padding: 8px;
+    display: inline !important;
+    vertical-align: middle !important;
+    border-color: unset !important;
+    border-style: solid !important;
+    border-width: inherit !important;
+    font-size: 0.875rem !important;
+    border: transparent !important;
+
+    &--cornsilk {
+        background: cornsilk !important;
+        color: chocolate !important;
+    }
+
+    &--red {
+        background: #db5c5c !important;
+        color: #f2f2f2 !important;
+    }
+    
+    &--green {
+        background: #05c987 !important;
+        color: cornsilk !important;
+    }
+
+    &--blue {
+        background: aliceblue !important;
+        color: #8faafb !important;
+    }
+}
