@@ -469,3 +469,16 @@ p {
         border: 1px solid #212b36;
     }
 }
+
+.error {
+    &__wrapper {
+        width: 1120px;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        -webkit-margin-after: var(--space-64);
+        margin-block-end: var(--space-64);
+        text-align: center;
+        padding: 6rem 1rem;
+    }
+}

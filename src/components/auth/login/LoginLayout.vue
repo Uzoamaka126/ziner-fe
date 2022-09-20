@@ -82,7 +82,7 @@
 <script>
 import SinerLogo from '../../shared/Logo.vue';
 import IconSvg from '../../shared/icons/Icon-Svg.vue';
-import PrimaryButtton from '../../shared/buttons/PrimaryButton.vue';
+import PrimaryButton from '../../shared/buttons/PrimaryButton.vue';
 import { clearDataOnLs } from '../../../utils/others'
 import { mapActions, mapState } from 'vuex'
 
@@ -91,7 +91,7 @@ export default {
   components: {
     SinerLogo,
     IconSvg,
-    'primary-button': PrimaryButtton
+    'primary-button': PrimaryButton
   },
   data() {
     return {
