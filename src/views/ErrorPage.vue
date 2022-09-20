@@ -47,8 +47,7 @@ export default {
   },
   methods: {
     goBackToHome() {
-      console.log('this.$router--->', this.$router);
-      this.$router.push('/');
+      this.$router.replace('/');
     }
   }
 }
