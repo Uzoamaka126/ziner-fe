@@ -1,15 +1,12 @@
 <template>
     <div class="sidebar--nav__wrap">
         <nav class="nav nav--sidebar" :style="{ width: sidebarWidth }">
-        <!-- Navigation Section //random-->
             <div class="nav__section">
-                <!-- Navigation Section content -->
                 <div class="nav__section__content">
                     <div class="nav__section__content__group no--border sidebar--nav__brand" style="margin-left: 0; margin-right: 0;">
-                        <!-- navigation item -->
                         <template v-if="!collapse">
                             <div class="nav__item__logo">
-                                <siner-logo :layout="'center'"></siner-logo>
+                                <siner-logo :layout="'left'" :padding-left-num="'1'"></siner-logo>
                             </div>
                             <div @click="toggleSidebar()" class="cursor-pointer">
                                 <icon-svg 

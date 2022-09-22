@@ -77,7 +77,18 @@ p {
     
     &--left {
         justify-content: flex-start;
-        padding-left: 5rem;
+
+        &--1 {
+            padding-left: 1rem;
+        }
+
+        &--2 {
+            padding-left: 2rem;
+        }
+
+        &--5 {
+            padding-left: 5rem;
+        }
     }
 
     &--right {

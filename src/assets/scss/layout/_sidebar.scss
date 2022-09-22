@@ -97,10 +97,10 @@
             // border-right: solid 0.2px rgba(90, 104, 120, 0.9);
 
           svg{
-              width:150px;
-              height:27px;
-              display: inline-block;
-              vertical-align: middle;
+            //   width:150px;
+            //   height:27px;
+            //   display: inline-block;
+            //   vertical-align: middle;
           }
         }
 
@@ -240,6 +240,11 @@
         }
 
         &__content {
+
+            &__links {
+                margin-top: 2rem;
+            }
+            
             &__group {
                 padding-bottom: 14px;
                 margin-bottom:20px;
@@ -251,7 +256,7 @@
                 }
 
 
-              &__title{
+                &__title{
                   font-size: 0.875rem;
                     font-weight: $font-normal;
                   color: $sidebar-bg-textColor;

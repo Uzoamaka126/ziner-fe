@@ -19,12 +19,12 @@ import { layoutObj, shadowObj } from '../../utils/css';
 
 export default {
   name: 'Logo',
-  props: ['layout', 'shadowType'],
+  props: ['layout', 'shadowType', 'paddingLeftNum'],
   created() {
   },
   data() {
     return {
-      layout: `logo--${layoutObj[this.layout]}`,
+      layout: `logo--${layoutObj[this.layout]} logo--${layoutObj[this.layout]}--${this.paddingLeftNum}`,
       shadow: `shadow-${shadowObj[this.shadowType]}`,
     }
   },
