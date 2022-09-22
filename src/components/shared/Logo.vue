@@ -37,12 +37,6 @@ export default {
 
 <style lang="scss" scoped>
   .shadow-bottom {
-    height: 65px;
-    position: fixed;
-    width: 100%;
-    left: 0;
-    top: 0;
     box-shadow: 0 4px 13px rgb(0 0 0 / 5%);
-    z-index: 99;
   }
 </style>
