@@ -1,10 +1,8 @@
 <template>
   <div style="height: 100%;">
     <div class="auth__bg">
+        <siner-logo :shadow-type="'bottom'" :layout="'left'"></siner-logo>
       <div class="auth__wrapper">
-        <div class="logo auth--logo">
-            <siner-logo :layout="'center'"></siner-logo>
-        </div>
         <div class="auth__wrap--center">
           <div>
             <form class="form form__md form auth--form" @submit.prevent="">

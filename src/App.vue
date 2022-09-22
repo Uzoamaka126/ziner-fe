@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="z--wrapper">
     <router-view/>
   </div>
 </template>

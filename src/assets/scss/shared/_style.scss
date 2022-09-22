@@ -7,8 +7,14 @@ body {
     letter-spacing: 0.4px;
     overflow-x:hidden;
     scroll-behavior: smooth;
-    height: 100vh;
     font-size: 1rem;
+    -webkit-font-smoothing: antialiased;
+    // height: 0;
+}
+
+html{
+    // height: 0;
+    // height: 100%;
 }
 
 html, html a {
@@ -48,6 +54,28 @@ p {
     &.icon--ss {
         height: 18px;
         width: 18px;
+    }
+}
+
+.logo {
+    &--wrap {
+        display: flex;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        background: #f7fafc;
+    }
+
+    &--center {
+        justify-content: center;
+    }
+    
+    &--left {
+        justify-content: flex-start;
+        padding-left: 5rem;
+    }
+
+    &--right {
+        justify-content: flex-end;
     }
 }
 
