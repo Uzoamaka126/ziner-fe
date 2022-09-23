@@ -9,9 +9,7 @@
                </div>
             </template>
             <template v-else>
-                <!-- top header -->
                 <div class="flex align-items-center justify-content-between width-100">
-                    <!-- Client count -->
                     <div class="list--count">
                         <p v-if="this.clientsList.length > 0">{{ this.clientsList.length }} {{ this.clientsList.length > 1  ? 'clients' : 'client'}}</p>
                     </div>
@@ -142,7 +140,6 @@
 <script>
 import { createdWorkspaces } from '../../utils/dummy';
 import clientsList from '../../assets/js/clients.json'
-import { createNewClient, fetchClients } from '../../utils/clients'
 import IconSvg from '../shared/icons/Icon-Svg.vue';
 import Pagination from '../shared/pagination/Index.vue';
 import EmptyPage from '../shared/emptyPage/EmptyPage.vue';

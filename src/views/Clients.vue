@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ClientsLayout from '../components/clients/ClientsLayout.vue'
+import ClientsLayout from '../components/clients/ClientsLayoutTwo.vue'
 export default {
     name: 'ClientsView',
     components: {

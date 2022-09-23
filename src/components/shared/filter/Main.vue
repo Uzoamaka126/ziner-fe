@@ -17,9 +17,7 @@
             <button class="action--btns__run action--btns">Run</button>
         </div>
             <div class="accordion" id="accordionPanelsStayOpenExample">
-                <!-- project title -->
-                <div class="accordion-item">
-                    <!-- checkbox -->
+                <div class="accordion-item" v-if="routeName === 'projects'">
                     <div class="accordion-header width--100 align-items-center" style="display: flex;" id="panelsStayOpen-headingOne">
                         <div class="accordion-button form-check form-check-title" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                             <input 
@@ -40,8 +38,7 @@
                     </div>
                 </div>
                 <!-- client name -->
-                <div class="accordion-item">
-                    <!-- checkbox -->
+                <div class="accordion-item" v-if="routeName === 'clients'">
                     <div class="accordion-header width--100 align-items-center" id="panelsStayOpen-headingTwo">
                         <div class="accordion-button form-check form-check-title" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
                             <input 
@@ -61,7 +58,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- status -->
                 <div class="accordion-item">
                     <div class="accordion-header width--100 align-items-center" id="panelsStayOpen-headingThree">
                         <div class="accordion-button form-check form-check-title" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true" aria-controls="panelsStayOpen-collapseThree">
@@ -102,6 +98,21 @@ export default {
         event: "change",
     },
     props: ['filter'],
+    computed: {
+        routeName() {
+            if (this.$route.path.includes('clients')) {
+                return 'clients'
+            } else if (this.$route.path.includes('projects')) {
+                return 'projects'
+            } else if (this.$route.path.includes('tags')) {
+                return 'tags'
+            } else if (this.$route.path.includes('invoices')) {
+                return 'invoices'
+            } else {
+                return ''
+            }
+        }
+    },
     data () {
        return {
            reactiveTitle: this.filter.title || undefined,
@@ -114,7 +125,6 @@ export default {
     },
     methods: {
         clearSearch() {
-            // clear all custom filter data and close it
             this.clientNameInputCheck = false,
             this.projectTitleInputCheck = false,
             this.projectStatusInputCheck = false
