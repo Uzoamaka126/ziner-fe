@@ -42,6 +42,9 @@ $font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans,
     &--color-dark {
         color: #172B4D;
     }
+    &--color-primary {
+        color: $text-color-purple !important;
+    }
     &--color-warning {
         color: $text-color-warning !important;
     }

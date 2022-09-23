@@ -1,202 +1,240 @@
 [
     {
-       "_id": "146789",
+        "_id": "21232dfxxc",
+         "name": "Uzoamaka",
+         "userId": "3333333",
+         "emails": ["uzo@gmail.com"],
+         "phoneNumber": "+234907234545566",
+         "country": "Nigeria",
+         "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+     },
+    {
+       "_id": "38889000",
         "name": "Flutterwave Design Studio",
         "userId": "3333333",
         "emails": ["flutterwavego@gmail.com"],
-        "phoneNumber": "+234907234545566'",
-        "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos",
-        "organizationType": null
-    },
-        {
-       " _id": "21232dfxxc",
-        "name": "Uzoamaka",
-        "userId": "3333333",
-        "emails": ["uzo@gmail.com"],
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
         "organizationType": null
     },
     {
-       " _id": "38889000",
+       "_id": "146789",
         "name": "Da Design",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+        "organizationType": null
     },
     {
-       " _id": "48889000",
+       "_id": "48889000",
         "name": "Da Design",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+        "organizationType": null
     },
     {
-       " _id": "58889000",
+       "_id": "58889000",
         "name": "Da Design",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "68889000",
+       "_id": "68889000",
         "name": "Da Design",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "78889000",
+       "_id": "78889000",
         "name": "Da Design",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "88889000",
+       "_id": "88889000",
         "name": "Da Design",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "98889000",
+       "_id": "98889000",
         "name": "Da Design",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "108889000",
+       "_id": "108889000",
         "name": "Da Design",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "118889000",
+       "_id": "118889000",
         "name": "Sprite",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "128889000",
+       "_id": "128889000",
         "name": "Igoni",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "138889000",
+       "_id": "138889000",
         "name": "Ark Capital",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "148889000",
+       "_id": "148889000",
         "name": "Twitter",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "158889000",
+       "_id": "158889000",
         "name": "Tesla",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "168889000",
+       "_id": "168889000",
         "name": "National Institue of Development",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "178889000",
+       "_id": "178889000",
         "name": "Movenpick hotel",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "188889000",
+       "_id": "188889000",
         "name": "Cha Cha Group",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "198889000",
+       "_id": "198889000",
         "name": "Da Design",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "208889000",
+       "_id": "208889000",
         "name": "Da Design",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "218889000",
+       "_id": "218889000",
         "name": "Da Design",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     },
     {
-       " _id": "228889000",
+       "_id": "228889000",
         "name": "Da Design",
         "userId": "3333333",
         "emails": ["dadesign@gmail.com"],
-        "phoneNumber": "+234907234545566'",
+        "phoneNumber": "+234907234545566",
         "country": "Nigeria",
-        "address": "22, Boulverad Road, Ikoyi, Lagos"
+        "address": "22, Boulverad Road, Ikoyi, Lagos",
+         "organizationType": null
+
     }
 ]

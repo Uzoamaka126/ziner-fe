@@ -9,18 +9,25 @@
     overflow: hidden;
     -webkit-overflow-scrolling: touch;
     outline: 0;
-    // background-color: rgba(0, 0, 0, 0.5);
     background-color: rgba(159, 163, 177, 0.50);
     background-color: rgba(0, 0, 0, 0.5);
 
     &-title {
         font-size: 16px !important;
+        font-weight: 600;
+    }
+
+    &__action--btns {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
     }
 
     .modal.fade .modal__dialog {
         transition: transform 0.3s ease-out;
         transform: translate(0, -50px);
     }
+
     @media (prefers-reduced-motion: reduce) {
         .modal.fade .modal__dialog {
             transition: none;
@@ -29,7 +36,6 @@
 
     &.show {
         display: block;
-        // width: 100vw;
     }
 
     &-open {
@@ -38,7 +44,6 @@
         .modal.in {
             overflow-x: hidden;
             overflow-y: auto;
-            //display: flex !important;
             height: 100%;
             align-items: center;
         }

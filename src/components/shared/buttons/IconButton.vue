@@ -7,7 +7,6 @@
         :style="{ width: btnSize }" 
         @click="$emit('submit')"
     >
-        {{ label }}
         <template v-if="loading">
             <span class="spinner-border spinner-border-sm" role="status" style="vertical-align: middle;" aria-hidden="true"></span>
         </template>
@@ -19,6 +18,7 @@
                 icon-position="right"
                 :width="iconWidth"
             />  
+            {{ label }}
         </template>
     </button>
 </template>

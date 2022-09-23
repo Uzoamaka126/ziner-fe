@@ -7,40 +7,52 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="flex align-items-center width--100">
-                        <div class="form__item width--100">
-                            <label for="workspaceTitle" class="form__label title">Client name</label>
-                            <input name="title" id="workspaceTitle" class="form__input" v-model="reactiveClientName" :readonly="!isEdit"/>
+                    <div class="modal__action--btns">
+                        <template v-if="!isEdit">
+                            <text-button :classNames="'text--sm text--color-primary'" :btnSize="'fit-content'" @submit="isEdit = true" :label="'Edit'" />
+                        </template>
+                        <template v-else>
+                            <text-button :classNames="'text--sm text--color-primary'" :btnSize="'fit-content'" @submit="isEdit = false" :label="'Save'" />
+                            <text-button :classNames="'text--sm text--color-normal'" :btnSize="'fit-content'" @submit="isEdit = false" :label="'Cancel'" />
+                        </template>
+                    </div>
+                    
+                    <div class="modal__content--wrap">
+                        <!-- name -->
+                        <div class="client__item">
+                            <div class="form__item">
+                                <label for="workspaceTitle" class="form__label title">Client name</label>
+                                <input name="title" id="workspaceTitle" class="form__input" v-model="reactiveClientName" :readonly="!isEdit"/>
+                            </div>
                         </div>
-                        <div class="edit-btns ml--10">
-                           <template v-if="!isEdit">
-                                <span class="action--span" @click="isEdit = true">Edit</span>
-                           </template>
-                           <template v-else>
-                                <span class="action--span mr--10">Save</span>
-                                <span class="action--span secondary" @click="isEdit = false">Cancel</span>
-                           </template>
+                        <div class="client__item">
+                            <div class="form__item">
+                                <label for="workspaceTitle" class="form__label title">Billing email(s)</label>
+                                <input name="title" id="workspaceTitle" class="form__input" v-model="reactiveClientName" :readonly="!isEdit"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mt--20">
-                        <p class="title">Email:</p>
-                        <p class="sub-title">{{ currentClientDetails.email ? currentClientDetails.email : 'N/A' }}</p>
-                    </div>
-                    <div class="mt--20">
-                        <p class="title">Country:</p>
-                        <p class="sub-title">{{ currentClientDetails.country ? currentClientDetails.country : 'N/A' }}</p>
-                    </div>
-                    <div class="mt--20">
-                        <p class="title">Address:</p>
-                        <p class="sub-title">{{ currentClientDetails.address ? currentClientDetails.address : 'N/A' }}</p>
-                    </div>
-                    <div class="mt--20">
-                        <p class="title">No of associated projects:</p>
-                        <p class="sub-title">3 projects</p>
-                    </div>
-                    <div class="mt--20">
-                        <p class="title">Date created</p>
-                        <p class="sub-title">{{ currentClientDetails.createdAt ? computedDateCreated : 'N/A' }}</p>
+                        <div class="client__item">
+                            <div class="form__item">
+                                <label for="workspaceTitle" class="form__label title">Phone number</label>
+                                <input name="title" id="workspaceTitle" class="form__input" v-model="reactiveClientName" :readonly="!isEdit"/>
+                            </div>
+                        </div>
+                        <div class="client__item">
+                            <div class="form__item">
+                                <label for="workspaceTitle" class="form__label title">Address</label>
+                                <input name="title" id="workspaceTitle" class="form__input" v-model="reactiveClientName" :readonly="!isEdit"/>
+                            </div>
+                        </div>
+                        <div class="client__item">
+                            <div class="form__item">
+                                <label for="workspaceTitle" class="form__label title">Industry</label>
+                                <input name="title" id="workspaceTitle" class="form__input" v-model="reactiveClientName" :readonly="!isEdit"/>
+                            </div>
+                        </div>
+                        <div class="mt--20">
+                            <p class="title">Date created</p>
+                            <p class="sub-title">{{ currentClientDetails.createdAt ? computedDateCreated : 'N/A' }}</p>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -53,16 +65,18 @@
 
 <script>
 import { formatDateTime } from '../../../utils/others'
+import TextButton from '../buttons/TextButton.vue'
 
 export default {
     name: 'ViewClient',
     props: {
         currentClientDetails: { type: Object, required: true, default: () => {}},
-        clientName: { type: String, default: undefined || '' },
     }, 
+    components: {
+        TextButton
+    },
     data () {
         return {
-            reactiveClientName: this.clientName,
             isEdit: false
         }
     },
@@ -97,20 +111,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .form__item {
-        max-width: 50%;
-        margin-bottom: 0rem;
-    }
-    .action--span {
-        line-height: 20px;
-        font-size: 14px;
-        color: rgba(99, 91, 255, 1);
-        font-weight: 500;
-        cursor: pointer;
-
-        &.secondary {
-            color: #a3acba;
-        }
+    .client__item {
+       width: 100%;
+       margin-bottom: 1rem;
     }
     .title {
         color: #404452; 
@@ -122,14 +125,11 @@ export default {
         font-weight: normal;
         font-size: 14px;
     }
-    .edit-btns {
-        align-self: flex-end;
-    }
     .form__input {
         font-size: 14px;
     }
     input:read-only {
         cursor: not-allowed;
-        background: #eee;
+        background: #f6f8fa;
     }
 </style>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/Home.vue'
 import ClientsView from '../views/Clients.vue'
+import ClientsDetailsView from '../components/clients/ClientDetails.vue'
 import ProjectsView from '../views/Projects.vue'
 import DashboardView from '../views/Dashboard.vue'
 import ProjectsDetailsView from '../views/ProjectDetails.vue'
@@ -57,9 +58,7 @@ const routes = [
     // beforeEnter: isRouteAuthRequired,
     children:[
       { path:'home', name:'home-view', component: HomeView },
-      
-      { path:'workspaces', name:'workspaces', component: ClientsView },
-      
+            
       { path:'projects', name:'projects-view',  component: ProjectsView },
       
       { path:'projects/:id', name:'project-details', component: ProjectsDetailsView },
@@ -72,7 +71,9 @@ const routes = [
       
       { path: 'invoices/view/:id', name: 'details-invoice-view', component: InvoiceDetailsView },
       
-      { path:'clients', name:'clients-view', component: ClientsView },
+      { path: 'clients', name:'clients-view', component: ClientsView },
+
+      { path:'clients/:id', name:'client-details-view', component: ClientsDetailsView },
       
       { path:'settings', name:'settings-view', component: SettingsView },
     ],

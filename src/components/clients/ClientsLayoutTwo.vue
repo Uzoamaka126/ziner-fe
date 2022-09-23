@@ -10,11 +10,11 @@
             </template>
             <div class="flex align-items-center justify-content-between">
                 <div class="list--count">
-                    <p>{{ clients.length }} clients{{ clients.length > 1 ? 's' : '' }}</p>
+                    <p>{{ clients.length }} client{{ clients.length > 1 ? 's' : '' }}</p>
                 </div>
                 <div class="flex align-items-center">
-                    <main-filter :filter="filter" @filterProjects="filterProjects" />
-                    <sort-filter :filter="displayType" @setType="setDisplayType" />
+                    <main-filter :filter="filter" />
+                    <sort-filter :filter="displayType" />
                 </div>
             </div>
             <!-- Content -->
@@ -29,11 +29,10 @@
                                 <th class="header">Primary email</th>
                                 <th class="header">Address</th>
                                 <th class="header">Industry</th>
-                                <!-- <th class="header">No. of projects</th> -->
                                 <th class="header"></th>
                             </tr>
                         </thead>
-                        <tbody v-for="client in clients" :key="client.id">
+                        <tbody v-for="client in clients" :key="client._id">
                             <span>
                                 <td>{{ client.name }}</td>
                                 <td>{{ client.country }}</td>
@@ -41,7 +40,6 @@
                                 <td>{{ client.emails[0] }}</td>
                                 <td>{{ client.address }}</td>
                                 <td>{{ !client.organizationType ? '-' : client.organizationType }}</td>
-                                <!-- <td>{{ getClientsProjects(client.id).length }}</td> -->
                                 <td aria-expanded="false">
                                     <div data-bs-toggle="dropdown">
                                         <div class="icon cursor-pointer" tabindex="-1" title="More options">
@@ -51,8 +49,16 @@
                                         </div>
                                     </div>
                                     <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="tagActions">
-                                        <li class="cursor-pointer" @click="setClientDetails(item)">
+                                        <!-- <li class="cursor-pointer" @click="setClientDetails(item)">
                                             <p class="dropdown-item block width-100 text--xs">View</p>
+                                        </li> -->
+                                        <li class="cursor-pointer">
+                                            <router-link 
+                                                :to="{ name: 'client-details-view', params:{ id: client._id }}" 
+                                                class="dropdown-item block width-100 text--xs"
+                                            >
+                                                View
+                                            </router-link>
                                         </li>
                                         <li class="cursor-pointer">
                                             <p class="dropdown-item text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteClient">Delete</p>
@@ -88,7 +94,6 @@
         <!-- modal -->
         <create-client-modal @handleAddClient="handleAddClient" :loading="loadingState" />
         <confirm-deletion-modal :type="'client'" :action="handleDeleteClient" :reset="resetCurrentClient" />
-        <client-details-modal :currentClientDetails="currentClient" :clientName="currentClient.name"  @resetCurrentClient="resetCurrentClient" />
     </div>
 </template>
 
@@ -101,7 +106,6 @@ import IconSvg from '../shared/icons/Icon-Svg.vue';
 import Pagination from '../shared/pagination/Index.vue';
 import EmptyPage from '../shared/emptyPage/EmptyPage.vue';
 import CreateClientModal from '../shared/modals/CreateClient.vue';
-import ClientDetailsModal from '../shared/modals/ViewClient.vue';
 import { assembleQueryList, serilaizeQuery } from '../../utils/others';
 
 
@@ -116,7 +120,6 @@ export default {
         IconSvg,
         CreateClientModal,
         ConfirmDeletionModal,
-        ClientDetailsModal,
         EmptyPage,
         Pagination,
         MainFilter,
@@ -147,13 +150,7 @@ export default {
     },
     computed: {
         clients() {
-            // if (this.pageData.currentPage === 1) {
-                 return this.clientsList.slice(0, 10) || []
-            // } else {
-            //     let numToStartSlice = 10 * this.pageData.currentPage - 10 // -10
-            //     let numToEndSlice = 10 * this.pageData.currentPage
-            //     return this.clientsList.slice(numToStartSlice, numToEndSlice) || []
-            // }
+            return this.clientsList.slice(0, 10) || []
         }
     },
     methods: {
@@ -301,7 +298,7 @@ export default {
                 this.sortProjects()
             }
         },
-        '$route': 'checkIfQueryParamsExists'
+        // '$route': 'checkIfQueryParamsExists'
     }
 }
 </script>

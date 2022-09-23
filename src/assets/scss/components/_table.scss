@@ -71,7 +71,11 @@ thead, th {
         td {
             transition: all 0.3s ease-in-out;
             vertical-align: middle;
-            // color: rgba(64, 68, 82, 1);
+            max-width: 197px;
+            overflow-x: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            padding: 0.85rem;
 
             &.first {
                 max-width: 197px;

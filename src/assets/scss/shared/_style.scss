@@ -122,19 +122,21 @@ p {
     width: 100% !important;
 }
 
-.goBack--icon {
-    color: #596DDE;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-
-    &__btn {
-        font-size: 12px;
+.back {
+    &--link {
+        color: #596DDE;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    
+        span {
+            font-size: 12px;
+        }
     }
 
-    &__textSm {
-        font-size: 12px;
-    }
+    &--wrap {
+        background-color: #f2ebff;
+    }    
 }
 
 .dropdown-custom {

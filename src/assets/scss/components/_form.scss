@@ -8,12 +8,25 @@
         font-weight: 500;
         white-space: normal;
         line-height: 20px;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
     &__item {
         display: flex;
         flex-direction: column;
+        margin-bottom: 10px;
+
+        &--lg {
+            width: 100%;
+        }
+
+        &--sm {
+            width: 50%;
+        }
+
+        &--wrap {
+            flex-wrap: wrap;
+        }
         
         &:not(:last-child) {
             margin-bottom: 1.3rem;
