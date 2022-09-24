@@ -132,10 +132,17 @@ p {
         span {
             font-size: 12px;
         }
+
+        svg {
+            fill: #596DDE;
+        }
     }
 
     &--wrap {
         background-color: #f2ebff;
+        width: fit-content;
+        padding: 1px 10px;
+        border-radius: 4px;
     }    
 }
 

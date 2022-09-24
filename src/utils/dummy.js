@@ -37,6 +37,8 @@ export const workspacesTypes = [
     },
 ]
 
+export const industryData = ["Arts", "Fintech", "Sales/CRM", "Software", "UX", "Research", "Marketing", "Operations", "Design"]
+
 export const createdWorkspaces = [
     {
         id: '12234',

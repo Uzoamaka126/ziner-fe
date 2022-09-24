@@ -167,7 +167,7 @@
         border: none;
         background: transparent !important;
         font-size: 14px;
-        box-shadow: none;        cursor: pointer;
+        box-shadow: none;        
 
         &:hover, &:active, &:focus {
             outline: none;
@@ -177,26 +177,33 @@
         }
     }
     &--outline {
-        &__sm {
-            border-radius: 6px;
-            background: #fff;
-            border: 1px solid #ced4da;
-            color: #5e6c84;
-            align-self: flex-end;
-            padding: .25rem .5rem;
-            cursor: pointer;
-            font-size: 12px !important;
+        background: transparent;
+        box-shadow: none !important;
 
-        &.active, &:active, &:focus, &:visited {
+
+        &__primary {
+            border: 1px solid #596DDE !important;
             color: #596DDE !important;
-            border: 1px solid #eee !important;
-            box-shadow: none !important;
-            border-radius: 5px !important;
+
+            &.active, &:active, &:focus, &:visited, &:hover {
+                color: #5752eb !important;
+                border: 1px solid #5752eb !important;
+            }
         }
 
-        &.normal {
-            font-weight: 400 !important;
+        &__sm {
+            padding: .25rem .5rem;
+            font-size: 12px !important;
         }
+
+        &__secondary {
+            border: 1px solid #ced4da !important;
+            color: #5e6c84 !important;
+
+            &.active, &:active, &:focus, &:visited, &:hover {
+                color: #525f74 !important;
+                border: 1px solid #525f74 !important;
+            }
 
             span {
                 font-size: 12px;

@@ -3,11 +3,12 @@
         "_id": "21232dfxxc",
          "name": "Uzoamaka",
          "userId": "3333333",
-         "emails": ["uzo@gmail.com"],
+         "emails": ["uzo@gmail.com", "flutterwavego@gmail.com", "dadesign@gmail.com"],
          "phoneNumber": "+234907234545566",
          "country": "Nigeria",
          "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
      },
     {
        "_id": "38889000",
@@ -17,7 +18,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-        "organizationType": null
+        "organizationType": null,
+        "createdAt": "2022-08-26T13:31:34.062Z"
     },
     {
        "_id": "146789",
@@ -27,7 +29,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-        "organizationType": null
+        "organizationType": null,
+        "createdAt": "2022-08-26T13:31:34.062Z"
     },
     {
        "_id": "48889000",
@@ -37,7 +40,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-        "organizationType": null
+        "organizationType": null,
+        "createdAt": "2022-08-26T13:31:34.062Z"
     },
     {
        "_id": "58889000",
@@ -47,7 +51,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -58,7 +63,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -69,7 +75,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -80,7 +87,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -91,7 +99,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -102,7 +111,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -113,7 +123,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -124,7 +135,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -135,7 +147,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -146,7 +159,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -157,7 +171,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -168,7 +183,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -179,7 +195,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -190,7 +207,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -201,7 +219,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -212,7 +231,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -223,7 +243,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     },
     {
@@ -234,7 +255,8 @@
         "phoneNumber": "+234907234545566",
         "country": "Nigeria",
         "address": "22, Boulverad Road, Ikoyi, Lagos",
-         "organizationType": null
+         "organizationType": null,
+         "createdAt": "2022-08-26T13:31:34.062Z"
 
     }
 ]
