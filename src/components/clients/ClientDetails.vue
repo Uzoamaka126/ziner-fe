@@ -103,7 +103,7 @@
                             </div>
                         </div>
                         <div class="multiple__emails">
-                            <div class="email--item" v-for="item in client.emails" :key="item">
+                            <div class="email--item" v-for="item in billingEmailsCopy" :key="item">
                                 <span class="inlineBlock">{{ item }}</span>
                                 <span @click="removeEmail(item)" class="cursor-pointer inline-block">
                                     <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -125,7 +125,7 @@
 import ConfirmDeletionModal from '../shared/modals/ConfirmDeletion';
 import IconSvg from '../shared/icons/Icon-Svg.vue';
 import clientsList from '../../assets/js/clients.json'
-import { formatDateTime } from '../../utils/others';
+import { formatDateStrings } from '../../utils/others';
 import { industryData } from '../../utils/dummy';
 import OutlineButton from '../../components/shared/buttons/OutlineButton.vue'
 
@@ -166,7 +166,7 @@ export default {
     computed: {
         computedCreatedAtDate() {
             if(this.client.createdAt) {
-                return formatDateTime(this.client.createdAt)
+                return formatDateStrings(this.client.createdAt)
             } else {
                 return 'N/A'
             }
@@ -299,6 +299,7 @@ export default {
         display: flex;
         flex-wrap: wrap;
         width: fit-content;
+        width: 70%;
     }
 
     .input-group-text {

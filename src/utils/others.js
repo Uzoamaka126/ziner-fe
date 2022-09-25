@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { format } from 'date-fns'
 
 /**
  * @param  {Date} date: Mon Feb 27 2017 18:33:38 GMT+0000 (UTC)
@@ -9,11 +10,13 @@ export function formatDateTime(date) {
 }
 
 /**
- * @param  {string} dateString: Mon Feb 27 2017 18:33:38 GMT+0000 (UTC)
+ * @param  {string} dateString: 2022-08-26T13:31:34.062Z
  * @returns {string} 27-Feb-2017
  */
 export function formatDateStrings(dateString) { 
-    return moment(dateString, "DD-MM-YYYY");
+    // return moment(dateString, "DD-MM-YYYY");
+    const date = new Date(dateString)
+    return format(date, "dd-mm-yyyy")
 }
 
 /**
