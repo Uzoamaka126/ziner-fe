@@ -17,7 +17,7 @@
                 <div class="action--btns" v-show="loadingState === 'success'">
                     <template v-if="!isEdit">
                         <outline-button 
-                            :classNames="'text--sm mr--10'" 
+                            :classNames="'text--sm '" 
                             :btnSize="'fit-content'" 
                             @submit="isEdit = true" 
                             :label="'Edit'" 
@@ -26,7 +26,7 @@
                     </template>
                     <template v-else>
                         <outline-button 
-                            :classNames="'text--sm'" 
+                            :classNames="'text--sm mr--10'" 
                             :outlineType="'primary'" 
                             :btnSize="'fit-content'" 
                             @submit="isEdit = false" 
@@ -36,7 +36,7 @@
                             :classNames="'text--sm'" 
                             :outlineType="'secondary'"
                             :btnSize="'fit-content'" 
-                            @submit="isEdit = false" 
+                            @submit="cancelClientUpdate" 
                             :label="'Cancel'" 
                         />
                     </template>
@@ -61,31 +61,31 @@
                     <div class="client__item">
                         <div class="form__item">
                             <label for="workspaceTitle" class="form__label title">Client name</label>
-                            <input name="name" class="form__input" v-model="client.name" :readonly="!isEdit"/>
+                            <input name="name" type="text" class="form__input" v-model="clientForm.name" :readonly="!isEdit"/>
                         </div>
                     </div>
                     <div class="client__item">
                         <div class="form__item">
                             <label for="workspaceTitle" class="form__label title">Phone number</label>
-                            <input name="phoneNumber" class="form__input" v-model="client.phoneNumber" :readonly="!isEdit"/>
+                            <input name="phoneNumber" type="number" class="form__input" v-model="clientForm.phoneNumber" :readonly="!isEdit"/>
                         </div>
                     </div>
                      <div class="client__item">
                         <div class="form__item">
                             <label for="workspaceTitle" class="form__label title">Country</label>
-                            <input name="country" class="form__input" v-model="client.country" :readonly="!isEdit"/>
+                            <input name="country" type="text" class="form__input" v-model="clientForm.country" :readonly="!isEdit"/>
                         </div>
                     </div>
                     <div class="client__item">
                         <div class="form__item">
                             <label for="workspaceTitle" class="form__label title">Address</label>
-                            <input name="address" class="form__input" v-model="client.address" :readonly="!isEdit"/>
+                            <input name="address" type="text" class="form__input" v-model="clientForm.address" :readonly="!isEdit"/>
                         </div>
                     </div>
                     <div class="client__item">
                         <div class="form__item">
                             <label for="industry" class="form__label title">Industry</label>
-                            <select name="industry" class="form-select form__input" v-model="client.organizationType" :readonly="!isEdit">
+                            <select name="industry" class="form-select form__input" v-model="clientForm.organizationType" :readonly="!isEdit">
                                 <option v-for="industry in industries" :value="industry" :key="industry">{{ industry }}</option>
                             </select>
                         </div>
@@ -98,8 +98,8 @@
                         <div class="form__item mb--0">
                             <label for="email" class="form__label title">Billing email(s)</label>
                             <div class="input-group">
-                                <input name="email" class="form__input" v-model="emailToBeAdded" :readonly="!isEdit" aria-describedby="basic-addon2" />
-                                <span class="input-group-text" id="basic-addon2">&#8594;</span>
+                                <input name="email" type="email" class="form__input" v-model="emailToBeAdded" :readonly="!isEdit" aria-describedby="basic-addon2" />
+                                <span class="input-group-text cursor-pointer" @click="addEmail()" id="basic-addon2">&#8594;</span>
                             </div>
                         </div>
                         <div class="multiple__emails">
@@ -133,6 +133,7 @@ export default {
     name: 'ClientLayout',
     created() {
         this.handleFetchClient()
+        this.client.emails.length
     },
     props: {
         user: Object
@@ -145,13 +146,21 @@ export default {
    data() {
         return {
             isMenuItemHover: '',
-            loadingState: 'default',
+            loadingState: 'success',
             client: {},
             isEdit: false,
             clients: clientsList,
             clientId: this.$route.params.id,
             industries: industryData,
-            emailToBeAdded: ''
+            emailToBeAdded: '',
+            billingEmailsCopy: [],
+            clientForm: {
+                name: '',
+                phoneNumber: '',
+                country: '',
+                address: '',
+                industry: '',
+            }
         }
     },
     computed: {
@@ -169,13 +178,17 @@ export default {
         },
 
         handleFetchClient() {
-            this.loadingState = 'loading';
-
-            // setTimeout(() => {
-                this.loadingState = 'success';
-                const currentClient = this.clients.find(client => client._id === this.clientId);
-                this.client = currentClient;
-            // }, 3000)
+            // this.loadingState = 'loading';
+            const currentClient = this.clients.find(client => client._id === this.clientId);
+            this.client = currentClient;
+            this.billingEmailsCopy = [...this.client.emails]
+            this.clientForm = {
+                name: this.client.name || '',
+                phoneNumber: this.client.phoneNumber || '',
+                country: this.client.country || '',
+                address: this.client.address || '',
+                industry: this.client.organizationType || '',
+            }
         },
 
         handleUpdateClient(data) {
@@ -197,12 +210,21 @@ export default {
             this.$route.push({ path: '/dashboard/clients' })
         },
         removeEmail(email) {
-            const updatedEmails = this.client.emails.filter(item => item !== email)
-            this.client.emails = [...updatedEmails]
+            const updatedEmails = this.billingEmailsCopy.filter(item => item !== email)
+            this.billingEmailsCopy = [...updatedEmails]
         },
-        addEmail(email) {
-            const updatedEmails = this.client.emails.push(email)
-            this.client.emails = [...updatedEmails]
+        addEmail() {
+            if (this.emailToBeAdded) {
+                this.billingEmailsCopy.push(this.emailToBeAdded)
+                this.emailToBeAdded = ''
+            } else {
+                return
+            }
+        },
+        cancelClientUpdate() {
+            this.clientForm = this.client
+            this.billingEmailsCopy = this.client.emails
+            this.isEdit = false
         }
     },
     watch: {
@@ -229,6 +251,10 @@ export default {
 
         &:last-of-type {
             width: 100%;
+
+            .form__item {
+                width: 40%;
+            }
         }
     }
     .title {
@@ -252,13 +278,13 @@ export default {
         &--item {
             display: flex;
             align-items: center;
-            flex-grow: 1;
             background: #c7d2f5;
             border-radius: 50px;
-            padding: 3px 12px;
+            padding: 3px 8px;
             justify-content: center;
             font-size: 14px;
             margin-right: 5px;
+            margin-bottom: 10px;
 
             span {
                 &:first-of-type {
@@ -271,8 +297,7 @@ export default {
         margin-left: 2rem;
         max-width: 70%;
         display: flex;
-        /* flex-wrap: wrap; */
-        flex-basis: 206px;
+        flex-wrap: wrap;
         width: fit-content;
     }
 
