@@ -23,11 +23,10 @@
                             <input 
                                 class="form-check-input" 
                                 type="checkbox" 
-                                id="flexCheckCheckedOne" 
-                                v-model="projectTitleInputCheck"
+                                v-model="projectTitle"
                             />
                             <label class="form-check-label text--xs ml--5" for="flexCheckCheckedOne">
-                                Title
+                                Project title
                             </label>
                         </div>
                     </div>
@@ -37,35 +36,146 @@
                         </div>
                     </div>
                 </div>
-                <!-- client name -->
-                <div class="accordion-item" v-if="routeName === 'clients'">
-                    <div class="accordion-header width--100 align-items-center" id="panelsStayOpen-headingTwo">
-                        <div class="accordion-button form-check form-check-title" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
-                            <input 
-                                class="form-check-input" 
-                                type="checkbox" 
-                                id="flexCheckCheckedTwo"
-                                v-model="clientNameInputCheck"
-                            />
-                            <label class="form-check-label text--xs ml--5" for="flexCheckCheckedTwo">
-                                Client name
-                            </label>
+                <!-- clients -->
+                <template v-if="routeName === 'clients'">
+                    <div class="accordion-item">
+                        <div class="accordion-header width--100 align-items-center" id="clientNamePanel">
+                            <div class="accordion-button form-check form-check-title" type="button" data-bs-toggle="collapse" data-bs-target="#clientNamePanelStayOpen-Collapse" aria-expanded="true" aria-controls="clientNamePanelStayOpen-Collapse">
+                                <input 
+                                    class="form-check-input" 
+                                    type="checkbox" 
+                                    id="clientName"
+                                    v-model="clientName"
+                                />
+                                <label class="form-check-label text--xs ml--5" for="clientName">
+                                    Client name
+                                </label>
+                            </div>
+                        </div>
+                        <div id="clientNamePanelStayOpen-Collapse" class="accordion-collapse collapse" aria-labelledby="clientNamePanel">
+                            <div class="accordion-body">
+                                <InputSearch :showIcon="false" />                          
+                            </div>
                         </div>
                     </div>
-                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                        <div class="accordion-body">
-                            <InputSearch :showIcon="false" />                          
+                    <!-- country -->
+                    <div class="accordion-item">
+                        <div class="accordion-header width--100 align-items-center" id="countryPanel">
+                            <div class="accordion-button form-check form-check-title" type="button" data-bs-toggle="collapse" data-bs-target="#countryPanelStayOpen-Collapse" aria-expanded="true" aria-controls="countryPanelStayOpen-Collapse">
+                                <input 
+                                    class="form-check-input" 
+                                    type="checkbox" 
+                                    id="flexCheckCheckedTwo"
+                                    v-model="country"
+                                />
+                                <label class="form-check-label text--xs ml--5" for="flexCheckCheckedTwo">
+                                    Client country
+                                </label>
+                            </div>
+                        </div>
+                        <div id="countryPanelStayOpen-Collapse" class="accordion-collapse collapse" aria-labelledby="countryPanel">
+                            <div class="accordion-body">
+                                <InputSearch :showIcon="false" />                          
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="accordion-item">
+
+                    <!-- industry -->
+                    <div class="accordion-item">
+                        <div class="accordion-header width--100 align-items-center" id="clientIndustryPanel">
+                            <div class="accordion-button form-check form-check-title" type="button" data-bs-toggle="collapse" data-bs-target="#clientIndustryPanelStayOpen-Collapse" aria-expanded="true" aria-controls="clientIndustryPanelStayOpen-Collapse">
+                                <input 
+                                    class="form-check-input" 
+                                    type="checkbox" 
+                                    id="flexCheckCheckedTwo"
+                                    v-model="industry"
+                                />
+                                <label class="form-check-label text--xs ml--5" for="flexCheckCheckedTwo">
+                                    Industry
+                                </label>
+                            </div>
+                        </div>
+                        <div id="clientIndustryPanelStayOpen-Collapse" class="accordion-collapse collapse" aria-labelledby="clientIndustryPanel">
+                            <div class="accordion-body">
+                                <InputSearch :showIcon="false" />                          
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- invoices -->
+                <template v-if="routeName === 'invoices'">
+                    <div class="accordion-item">
+                        <div class="accordion-header width--100 align-items-center" id="panelsStayOpen-headingTwo">
+                            <div class="accordion-button form-check form-check-title" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                                <input 
+                                    class="form-check-input" 
+                                    type="checkbox" 
+                                    v-model="InvoiceTitle"
+                                />
+                                <label class="form-check-label text--xs ml--5" for="flexCheckCheckedTwo">
+                                    Invoice Title
+                                </label>
+                            </div>
+                        </div>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                            <div class="accordion-body">
+                                <InputSearch :showIcon="false" />                          
+                            </div>
+                        </div>
+                    </div>
+                    <!-- country -->
+                    <div class="accordion-item">
+                        <div class="accordion-header width--100 align-items-center" id="panelsStayOpen-headingTwo">
+                            <div class="accordion-button form-check form-check-title" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                                <input 
+                                    class="form-check-input" 
+                                    type="checkbox" 
+                                    v-model="currency"
+                                />
+                                <label class="form-check-label text--xs ml--5" for="flexCheckCheckedTwo">
+                                    Currency
+                                </label>
+                            </div>
+                        </div>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                            <div class="accordion-body">
+                                <InputSearch :showIcon="false" />                          
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- industry -->
+                    <div class="accordion-item">
+                        <div class="accordion-header width--100 align-items-center" id="panelsStayOpen-headingTwo">
+                            <div class="accordion-button form-check form-check-title" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                                <input 
+                                    class="form-check-input" 
+                                    type="checkbox" 
+                                    v-model="invoiceNo"
+                                />
+                                <label class="form-check-label text--xs ml--5" for="flexCheckCheckedTwo">
+                                    Invoice No
+                                </label>
+                            </div>
+                        </div>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                            <div class="accordion-body">
+                                <InputSearch :showIcon="false" />                          
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- status -->
+                <div class="accordion-item" v-if="routeName === 'projects' || routeName === 'invoices'">
                     <div class="accordion-header width--100 align-items-center" id="panelsStayOpen-headingThree">
                         <div class="accordion-button form-check form-check-title" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true" aria-controls="panelsStayOpen-collapseThree">
                             <input 
                                 class="form-check-input" 
                                 type="checkbox" 
                                 id="flexCheckCheckedThree" 
-                                v-model="projectStatusInputCheck"
+                                v-model="status"
                             />
                             <label class="form-check-label text--xs ml--5" for="flexCheckCheckedThree">
                                 Status
@@ -74,7 +184,7 @@
                     </div>
                     <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
                         <div class="accordion-body">
-                          <filter-status />                      
+                          <filter-status :type="routeName" />                      
                         </div>
                     </div>
                 </div>
@@ -85,6 +195,8 @@
 
 <script>
 import InputSearch from './InputSearch'
+import FilterStatus from './Status.vue'
+
 export default {
     name: 'MainFilter',
     created() {
@@ -92,6 +204,7 @@ export default {
     },
     components: {
         InputSearch,
+        FilterStatus
     },
     model: {
         prop: "value",
@@ -111,16 +224,27 @@ export default {
             } else {
                 return ''
             }
-        }
+        },
+        // isFilterBtnDisabled() {
+        //     if (this.filter.country)
+        // }
     },
     data () {
        return {
-           reactiveTitle: this.filter.title || undefined,
-           reactiveClientName: this.filter.client || undefined,
-           reactiveStatus: this.filter.status || undefined,
-           clientNameInputCheck: false,
-           projectTitleInputCheck: false,
-           projectStatusInputCheck: false
+           status: this.filter.status || '',
+
+           projectTitle: this.filter.projectTitle || '',
+           favourite: this.filter.favourite || '',
+           deadline: this.filter.deadline || '',
+
+           clientName: this.filter.clientName || '',
+           industry: this.filter.industry || '',
+           country: this.filter.country || '',
+
+           currency: this.filter.currency || '',
+           datePaid: this.filter.datePaid || '',
+           invoiceNo: this.filter.invoiceNo || '',
+           download: this.filter.download || '',
        }
     },
     methods: {
@@ -134,7 +258,9 @@ export default {
         }
 
     },
-    watch: {}
+    watch: {
+
+    }
 }
 </script>
 

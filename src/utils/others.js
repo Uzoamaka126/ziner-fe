@@ -112,3 +112,35 @@ export function setDataOnLs(key, data) {
 export function clearDataOnLs (key) {
     window.localStorage.removeItem(key)
 }
+
+export function sortList (sortingType, arr, valueToSortBy) {
+    if (sortingType && sortingType === 'A - Z') {
+        arr.sort((a, b) => {
+            var lowerValue = a[valueToSortBy].toLowerCase(); // ignore upper and lowercase
+            var higherValue = b[valueToSortBy].toLowerCase();
+
+            if (lowerValue < higherValue) {
+                return -1;
+            }
+            if (lowerValue > higherValue) {
+                return 1;
+            }
+
+            return 0;
+        }) 
+    } else {
+        arr.sort((a, b) => {
+            var lowerValue = a[valueToSortBy].toLowerCase(); // ignore upper and lowercase
+            var higherValue = b[valueToSortBy].toLowerCase();
+
+            if (lowerValue < higherValue) {
+                return 1;
+            }
+            if (lowerValue > higherValue) {
+                return -1;
+            }
+
+            return 0;
+        }) 
+    }
+}

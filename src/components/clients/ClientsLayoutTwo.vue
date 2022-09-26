@@ -14,7 +14,7 @@
                 </div>
                 <div class="flex align-items-center">
                     <main-filter :filter="filter" />
-                    <sort-filter :filter="displayType" />
+                    <sort-filter :filter="displayType" @setType="setDisplayType" />
                 </div>
             </div>
             <!-- Content -->
@@ -49,13 +49,10 @@
                                         </div>
                                     </div>
                                     <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="tagActions">
-                                        <!-- <li class="cursor-pointer" @click="setClientDetails(item)">
-                                            <p class="dropdown-item block width-100 text--xs">View</p>
-                                        </li> -->
                                         <li class="cursor-pointer">
                                             <router-link 
-                                                :to="{ name: 'client-details-view', params:{ id: client._id }}" 
                                                 class="dropdown-item block width-100 text--xs"
+                                                :to="{ name:'client-details-view', params:{ id: client._id }}"
                                             >
                                                 View
                                             </router-link>
@@ -106,7 +103,7 @@ import IconSvg from '../shared/icons/Icon-Svg.vue';
 import Pagination from '../shared/pagination/Index.vue';
 import EmptyPage from '../shared/emptyPage/EmptyPage.vue';
 import CreateClientModal from '../shared/modals/CreateClient.vue';
-import { assembleQueryList, serilaizeQuery } from '../../utils/others';
+import { assembleQueryList, serilaizeQuery, sortList } from '../../utils/others';
 
 
 export default {
@@ -125,7 +122,7 @@ export default {
         MainFilter,
         SortFilter,
     },
-   data() {
+    data() {
         return {
             isMenuItemHover: '',
             currentClient: {},
@@ -142,10 +139,12 @@ export default {
             },
             isSearched: false,
             filter: {
-                nameQuery: this.$route.query.name || '',
-                download: false
+                clientName: this.$route.query.name || '',
+                industry: this.$route.query.industry || '',
+                industry: this.$route.query.industry || '',
             },
-            clientsList
+            clientsList,
+            displayType: '',
         }
     },
     computed: {
@@ -172,6 +171,10 @@ export default {
         setClientDetails(data) {
             this.currentClient = data;
             $("#clientDetails").modal("show");
+        },
+
+        setDisplayType(val) {
+            this.displayType = val
         },
 
         startDelete(data) {
@@ -290,12 +293,15 @@ export default {
             } else {
                 this.pageData.currentPage = 1
             }
+        },
+        sortClients () {
+            sortList(this.displayType, this.clients, 'name')
         }
     },
     watch: {
         displayType(newType, oldType) {
             if(newType !== oldType) {
-                this.sortProjects()
+                this.sortClients()
             }
         },
         // '$route': 'checkIfQueryParamsExists'

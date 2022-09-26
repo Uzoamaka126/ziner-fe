@@ -1,34 +1,26 @@
 <template>
-        <!-- search list -->
     <div class="col-sm-10">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-            <label class="form-check-label" for="flexCheckChecked">
-                Pending
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-            <label class="form-check-label" for="flexCheckChecked">
-                Due
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-            <label class="form-check-label" for="flexCheckChecked">
-                On-Hold
-            </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-            <label class="form-check-label" for="flexCheckChecked">
-                Completed
-            </label>
-        </div>
+        <template v-if="type === 'projects'">
+            <div class="form-check" v-for="status in projectStatusEnum">
+                <input class="form-check-input" type="checkbox" :value="status" :id="`flexCheckChecked-${status}`">
+                <label class="form-check-label" :for="`flexCheckChecked-${status}`">
+                    {{ status }}
+                </label>
+            </div>
+        </template>
+        <template v-if="type === 'invoices'">
+            <div class="form-check" v-for="status in invoiceStatusEnum">
+                <input class="form-check-input" type="checkbox" :value="status" :id="`flexCheckChecked-${status}`">
+                <label class="form-check-label" :for="`flexCheckChecked-${status}`">
+                    {{ status }}
+                </label>
+            </div>
+        </template>
     </div> 
 </template>
 
 <script>
+import { projectStatusEnum, invoiceStatusEnum} from '../../../utils/dummy.js'
 export default {
     name: 'SearchInput',
     created() {
@@ -39,38 +31,27 @@ export default {
         event: "change",
     },
     props: {
-        status: { type: Object, default: () => {} },
+        type: { type: String, default: () => {} },
     },
     data () {
        return {
-           reactiveOnHoldStatus: this.status.onHold || undefined,
-           reactiveDueStatus: this.status.due || undefined,
-           reactiveCompletedStatus: this.status.completed || undefined,
-           reactivePendingStatus: this.status.pending || undefined
+           projectStatusEnum: projectStatusEnum,
+           invoiceStatusEnum: invoiceStatusEnum,
        }
     },
     methods: {
-        clearStatuses() {
-            this.reactiveOnHoldStatus = undefined;
-            this.reactiveDueStatus = undefined;
-            this.reactiveCompletedStatus = undefined;
-            this.reactivePendingStatus = undefined;
-        },
+        // clearStatuses() {
+        //     this.reactiveOnHoldStatus = undefined;
+        //     this.reactiveDueStatus = undefined;
+        //     this.reactiveCompletedStatus = undefined;
+        //     this.reactivePendingStatus = undefined;
+        // },
 
     },
     watch: {
         reactiveValue( newVal ) {
             this.$emit( "change", newVal )
         },
-        reactiveValue( newVal ) {
-            this.$emit( "change", newVal )
-        },
-        reactiveValue( newVal ) {
-            this.$emit( "change", newVal )
-        },
-        reactiveValue( newVal ) {
-            this.$emit( "change", newVal )
-        }
     }
 }
 </script>

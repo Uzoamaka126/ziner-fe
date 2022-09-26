@@ -144,7 +144,7 @@ export default {
                     color: '#9e5bd9'
                 }
             ],
-            displayType: 'A - Z',
+            displayType: '',
             currentProject: {},
             loadingState: 'default',
             pageData: {

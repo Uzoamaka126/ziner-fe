@@ -5,13 +5,13 @@
                 class="btn text--xs mr--10 filter--btn btn-sm dropdown-toggle" 
                 type="button" 
                 aria-expanded="false"
-                id="viewTag"
+                id="sortFilter"
                 data-bs-toggle="dropdown" 
                 data-bs-auto-close="outside" 
             >
-            {{ filter ? filter : 'Sort by' }}
+            Sort by
             </button>
-            <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="viewTag">
+            <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="sortFilter" id="sortFilterList">
                 <li v-for="(item, index) in displayTypeList" :key="index" class="dropdown-item cursor-pointer text--xs" @click="setDisplayType(item)">{{ item }}</li>
             </ul>
         </div>
@@ -35,6 +35,10 @@ export default {
     methods: {
         setDisplayType(val) {
            this.$emit('setType', val)
+           setTimeout(() => {
+                document.getElementById('sortFilter').classList.remove('show')
+                document.getElementById('sortFilterList').classList.remove('show')
+           }, 100)
         }
     }
 }

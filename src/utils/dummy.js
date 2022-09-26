@@ -243,3 +243,7 @@ export const dummyInvoicesData = [
         title: "Invoice from SmartBands"
     }
 ]
+
+export const projectStatusEnum = ['Blocked', 'Completed', 'In Progress', 'On Hold', 'Paid', 'Pending', 'Requires Fixes']
+
+export const invoiceStatusEnum = ['Blocked', 'Draft', 'Due', 'Paid', 'Pending', 'Rejected']
