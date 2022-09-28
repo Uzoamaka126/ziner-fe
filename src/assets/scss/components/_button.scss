@@ -167,13 +167,29 @@
         border: none;
         background: transparent !important;
         font-size: 14px;
-        box-shadow: none;        
+        box-shadow: none;   
+        opacity: 1; 
+        
+        &__primary {
+            color: #596DDE !important;
+
+            &.active, &:active, &:focus, &:visited, &:hover {
+                color: #5752eb !important;
+            }
+        }
+
+        &__secondary {
+            color: #5e6c84 !important;
+
+            &.active, &:active, &:focus, &:visited, &:hover {
+                color: #525f74 !important;
+            }
+        }
 
         &:hover, &:active, &:focus {
             outline: none;
             border: none;
             box-shadow: none !important;
-            opacity: 1;
         }
     }
     &--outline {

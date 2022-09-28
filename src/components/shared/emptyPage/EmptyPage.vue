@@ -2,9 +2,7 @@
   <!-- Main Body layout -->
     <div>
         <div class="page__empty--wrap">
-            <!-- image -->
             <div class="page__empty--image">
-                <!-- <img :src="imageSrc" :alt="alt" /> -->
                 <svg-asset :name="iconName" :width="width" :height="height" />
             </div>
             <div class="page__empty--text">                        

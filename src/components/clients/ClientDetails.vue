@@ -114,6 +114,76 @@
                         </div>
                     </div>
                 </div>
+                <div class="client__projects mt--20 pl--0">
+                    <div class="card--box pl--0">
+                        <div class="card--content__header">
+                            <p class="text--bold text--md">Associated projects</p>
+                            <span>
+                                <text-button :label="'Add'" :classNames="'btn--ghost__primary'" />
+                            </span>
+                        </div>
+                        <div class="card--content__body">
+                            <template v-if="projects.length > 0">
+                                <div style="display: flex; margin-top: 2.5rem;">
+                                    <table class="table table-hover root">
+                                        <thead>
+                                            <tr>
+                                                <th class="first header">Client name</th>
+                                                <th class="header">Country</th>
+                                                <th class="header">Phone number</th>
+                                                <th class="header">Primary email</th>
+                                                <th class="header">Address</th>
+                                                <th class="header">Industry</th>
+                                                <th class="header"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody v-for="client in clients" :key="client._id">
+                                            <span>
+                                                <td>{{ client.name }}</td>
+                                                <td>{{ client.country }}</td>
+                                                <td>{{ client.phoneNumber }}</td>
+                                                <td>{{ client.emails[0] }}</td>
+                                                <td>{{ client.address }}</td>
+                                                <td>{{ !client.organizationType ? '-' : client.organizationType }}</td>
+                                                <td aria-expanded="false">
+                                                    <div data-bs-toggle="dropdown">
+                                                        <div class="icon cursor-pointer" tabindex="-1" title="More options">
+                                                            <svg class="css-17keszd-EnhancedContextMenuIcon e16olzom2" width="4" height="12" viewBox="0 0 4 16">
+                                                                <path fill="#95899b" fill-rule="evenodd" d="M0 2a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm0 12a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm0-6a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                    <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="tagActions">
+                                                        <li class="cursor-pointer">
+                                                            <router-link 
+                                                                class="dropdown-item block width-100 text--xs"
+                                                                :to="{ name:'client-details-view', params:{ id: client._id }}"
+                                                            >
+                                                                View
+                                                            </router-link>
+                                                        </li>
+                                                        <li class="cursor-pointer">
+                                                            <p class="dropdown-item text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteClient">Delete</p>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </span>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </template>
+                            <template v-else>
+                                 <empty-page 
+                                    :title="'You have not created any projects for this client.'" 
+                                    :subtitle="'Projects will be displayed here when you create them.'" 
+                                    :iconName="'project'"
+                                    :width="'60px'"
+                                    :height="'60px'"
+                                />
+                            </template>
+                        </div>
+                    </div>
+                </div>
             </template>
         </div>
 
@@ -125,15 +195,17 @@
 import ConfirmDeletionModal from '../shared/modals/ConfirmDeletion';
 import IconSvg from '../shared/icons/Icon-Svg.vue';
 import clientsList from '../../assets/js/clients.json'
+import projectsList from '../../assets/js/projects.json'
 import { formatDateStrings } from '../../utils/others';
 import { industryData } from '../../utils/dummy';
 import OutlineButton from '../../components/shared/buttons/OutlineButton.vue'
+import TextButton from '../shared/buttons/TextButton.vue';
+import EmptyPage from '../shared/emptyPage/EmptyPage.vue';
 
 export default {
     name: 'ClientLayout',
     created() {
         this.handleFetchClient()
-        this.client.emails.length
     },
     props: {
         user: Object
@@ -142,6 +214,8 @@ export default {
         IconSvg,
         ConfirmDeletionModal,
         OutlineButton,
+        TextButton,
+        EmptyPage,
     },
    data() {
         return {
@@ -160,7 +234,10 @@ export default {
                 country: '',
                 address: '',
                 industry: '',
-            }
+            },
+            projectsList,
+            projects: [],
+            isProjectLoading: false
         }
     },
     computed: {
@@ -189,6 +266,12 @@ export default {
                 address: this.client.address || '',
                 industry: this.client.organizationType || '',
             }
+        },
+
+        handleFetchClientProjects() {
+            // this.isProjectLoading = true;
+            const projects = this.projectsList.find(project => project.client._id === this.clientId);
+            this.projects = projects;
         },
 
         handleUpdateClient(data) {

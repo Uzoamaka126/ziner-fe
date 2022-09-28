@@ -12,11 +12,6 @@ body {
     // height: 0;
 }
 
-html{
-    // height: 0;
-    // height: 100%;
-}
-
 html, html a {
     -webkit-font-smoothing: antialiased;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
@@ -116,10 +111,6 @@ p {
     //     width: calc(100% - 196px);
     // }
 
-}
-
-.width--100 {
-    width: 100% !important;
 }
 
 .back {
@@ -534,5 +525,28 @@ p {
         margin-block-end: var(--space-64);
         text-align: center;
         padding: 6rem 1rem;
+    }
+}
+
+.card {
+    &--box {
+        padding: 12px 10px;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &--content {
+        &__header {
+            padding: 12px 0px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: inset 0 -1px rgba(235, 238, 241, 1);
+        }
+
+        &__body {
+
+        }
     }
 }
