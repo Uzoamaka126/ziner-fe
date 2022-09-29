@@ -123,28 +123,35 @@
                             </span>
                         </div>
                         <div class="card--content__body">
-                            <template v-if="projects.length > 0">
+                            <template v-if="isProjectLoading && !projects.length">
+                                <div class="flex justify-content-center align-items-center  mt--40 mb--45">
+                                    <div class="spinner-border text-primary" role="status" style="color: #5f76d3 !important">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </template>
+                            <template v-else-if="!isProjectLoading && projects.length > 0">
                                 <div style="display: flex; margin-top: 2.5rem;">
                                     <table class="table table-hover root">
                                         <thead>
                                             <tr>
-                                                <th class="first header">Client name</th>
-                                                <th class="header">Country</th>
-                                                <th class="header">Phone number</th>
-                                                <th class="header">Primary email</th>
-                                                <th class="header">Address</th>
-                                                <th class="header">Industry</th>
+                                                <th class="first header">Title</th>
+                                                <th class="header">Status</th>
+                                                <th class="header">Date created</th>
+                                                <th class="header">Deadline</th>
+                                                <th class="header">No. of tasks</th>
                                                 <th class="header"></th>
                                             </tr>
                                         </thead>
-                                        <tbody v-for="client in clients" :key="client._id">
+                                        <tbody v-for="project in projects" :key="project._id">
                                             <span>
-                                                <td>{{ client.name }}</td>
-                                                <td>{{ client.country }}</td>
-                                                <td>{{ client.phoneNumber }}</td>
-                                                <td>{{ client.emails[0] }}</td>
-                                                <td>{{ client.address }}</td>
-                                                <td>{{ !client.organizationType ? '-' : client.organizationType }}</td>
+                                                <td>{{ project.title }}</td>
+                                                <td>
+                                                    <span class="table__data--main badge tag rounded-pill text--xs text--medium" :class="[tagsMap[project.status]]">{{ project.status }}</span>
+                                                </td>
+                                                <td>{{ formatDate(project.createdAt) }}</td>
+                                                <td>{{ formatDate(project.deadline) }}</td>
+                                                <td>{{ project.tasks.length }}</td>
                                                 <td aria-expanded="false">
                                                     <div data-bs-toggle="dropdown">
                                                         <div class="icon cursor-pointer" tabindex="-1" title="More options">
@@ -206,6 +213,8 @@ export default {
     name: 'ClientLayout',
     created() {
         this.handleFetchClient()
+        // ideally this should get fetched & resolved only when the client details endpoint has been resolved
+        this.handleFetchClientProjects()
     },
     props: {
         user: Object
@@ -237,7 +246,19 @@ export default {
             },
             projectsList,
             projects: [],
-            isProjectLoading: false
+            isProjectLoading: false,
+            /**
+             * Returns the appropriate CSS status tag for each invoice status
+             */
+            tagsMap: {
+                'On Hold': "tag--cornsilk",
+                'Blocked': "tag--red",
+                'Paid': "tag--green",
+                'Completed': "tag--purple",
+                'Pending': "tag--yellow",
+                'Requires Fixes': "tag--grey",
+                'In Progress': "tag--blue",
+            },
         }
     },
     computed: {
@@ -250,6 +271,9 @@ export default {
         },
     },
     methods: {
+        formatDate(date) {
+            return formatDateStrings(date) || 'N/A'
+        },
         resetCurrentClient() {
             this.client = {};
         },
@@ -269,9 +293,12 @@ export default {
         },
 
         handleFetchClientProjects() {
-            // this.isProjectLoading = true;
-            const projects = this.projectsList.find(project => project.client._id === this.clientId);
-            this.projects = projects;
+            this.isProjectLoading = true;
+            setTimeout(() => {
+                this.isProjectLoading = false;
+                const projects = this.projectsList
+                this.projects = projects;
+            }, 2000)
         },
 
         handleUpdateClient(data) {

@@ -14,7 +14,6 @@ export function formatDateTime(date) {
  * @returns {string} 27-Feb-2017
  */
 export function formatDateStrings(dateString) { 
-    // return moment(dateString, "DD-MM-YYYY");
     const date = new Date(dateString)
     return format(date, "dd-mm-yyyy")
 }
