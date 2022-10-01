@@ -162,12 +162,13 @@
                                                     </div>
                                                     <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="tagActions">
                                                         <li class="cursor-pointer">
-                                                            <router-link 
+                                                            <!-- <router-link 
                                                                 class="dropdown-item block width-100 text--xs"
-                                                                :to="{ name:'client-details-view', params:{ id: client._id }}"
+                                                                :to="{ name:'project-details', params:{ id: project._id }}"
                                                             >
                                                                 View
-                                                            </router-link>
+                                                            </router-link> -->
+                                                            <p class="dropdown-item block width-100 text--xs" @click="goToProject(project._id)">View</p>
                                                         </li>
                                                         <li class="cursor-pointer">
                                                             <p class="dropdown-item text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteClient">Delete</p>
@@ -339,6 +340,9 @@ export default {
             this.clientForm = this.client
             this.billingEmailsCopy = this.client.emails
             this.isEdit = false
+        },
+        goToProject(projectId) {
+            this.$router.push({ name: 'project-details', params: { id: projectId }})
         }
     },
     watch: {
