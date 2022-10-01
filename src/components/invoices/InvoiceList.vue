@@ -77,8 +77,8 @@
                             <td class="first">{{ invoice.client_email }}</td>
                             <td>{{ invoice.currency }} {{ formatMoney(invoice.amount) }}</td>
                             <td>{{ invoice.invoice_num }}</td>
-                            <td>{{ formatDateTime(invoice.date_created) }}</td>
-                            <td>{{ formatDateTime(invoice.due_date) }}</td>
+                            <!-- <td>{{ formatDateTime(invoice.date_created) }}</td>
+                            <td>{{ formatDateTime(invoice.due_date) }}</td> -->
                             <td class="dropdown">
                                 <div class=" cursor-pointer" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #95899b;transform: ;msFilter:;">
@@ -245,7 +245,7 @@ export default {
     },
 
     formatDateTime: function (log) {
-      return moment(log, 'YYYY-MM-DD HH:mm:ss').format('Do MMMM YYYY');
+    //   return moment(log, 'YYYY-MM-DD HH:mm:ss').format('Do MMMM YYYY');
     },
 
     formatMoney: function (x) {

@@ -681,7 +681,7 @@ export default {
         currency: this.invoice.currency,
         title: "Invoice from " + window.localStorage.companyName,
         description: this.invoice.meta.invoice_notes[ 0 ].notes_value,
-        due_date: moment( this.invoice.due_date ).format( "YYYY-MM-DD" ),
+        // due_date: moment( this.invoice.due_date ).format( "YYYY-MM-DD" ),
         client_email: this.invoice.client_email,
         client: {
           id: this.invoice.client ? this.invoice.client.id : undefined,
@@ -864,7 +864,7 @@ export default {
       for(let i = 0; i < this.remindersNames.length; i++) {
         this.invoice.meta.reminders.push({
           reminder_name: this.remindersNames[i],
-          reminder_date: moment().format('YYYY-MM-DD HH:mm:ss'),
+          // reminder_date: moment().format('YYYY-MM-DD HH:mm:ss'),
           reminder_note: this.getReminderNote( this.remindersNames[i] ),
         })
       }

@@ -118,7 +118,7 @@
                     <div class="card--box pl--0">
                         <div class="card--content__header">
                             <p class="text--bold text--md">Associated projects</p>
-                            <span>
+                            <span @click="isCreateProjectModalOpen = true">
                                 <text-button :label="'Add'" :classNames="'btn--ghost__primary'" />
                             </span>
                         </div>
@@ -195,11 +195,13 @@
         </div>
 
         <confirm-deletion-modal :type="'client'" :action="handleDeleteClient" :reset="resetCurrentClient" />
+        <create-project-modal :showCreateProjectModal="isCreateProjectModalOpen" @cancel="isCreateProjectModalOpen = false" />
     </div>
 </template>
 
 <script>
 import ConfirmDeletionModal from '../shared/modals/ConfirmDeletion';
+import CreateProjectModal from '../shared/modals/CreateProject.vue';
 import IconSvg from '../shared/icons/Icon-Svg.vue';
 import clientsList from '../../assets/js/clients.json'
 import projectsList from '../../assets/js/projects.json'
@@ -225,6 +227,7 @@ export default {
         OutlineButton,
         TextButton,
         EmptyPage,
+        CreateProjectModal
     },
    data() {
         return {
@@ -259,6 +262,7 @@ export default {
                 'Requires Fixes': "tag--grey",
                 'In Progress': "tag--blue",
             },
+            isCreateProjectModalOpen: false
         }
     },
     computed: {

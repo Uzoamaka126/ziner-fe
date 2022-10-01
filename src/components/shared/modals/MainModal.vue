@@ -14,8 +14,11 @@
                 <div class="modal__content">
                     <!-- Modal Body -->
                     <div class="modal__body modal__body--pad">
-                    <slot></slot>
+                        <slot name="body"></slot>
                     </div>
+                </div>
+                <div class="modal__footer">
+                    <slot name="footer"></slot>
                 </div>
             </div>
         </div>

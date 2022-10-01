@@ -1,4 +1,3 @@
-import moment from 'moment'
 import { format } from 'date-fns'
 
 /**
@@ -6,7 +5,7 @@ import { format } from 'date-fns'
  * @returns {string} 27-Feb-2017
  */
 export function formatDateTime(date) {
-    return moment(date, 'dd/MM/yyyy')
+    return format(new Date(dateString), "dd-mm-yyyy")
 }
 
 /**

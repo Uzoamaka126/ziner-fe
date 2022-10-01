@@ -10,15 +10,14 @@ import { Money3Component } from 'v-money3';
 import VueChartkick from 'vue-chartkick'
 import 'chartkick/chart.js'
 import Vue3Tour from 'vue3-tour'
+import VueMultiselect from 'vue-multiselect'
 import 'vue3-tour/dist/vue3-tour.css';
 import VueToast from 'vue-toast-notification';
-// Import one of the available themes
 import 'vue-toast-notification/dist/theme-default.css';
-// import 'vue-toast-notification/dist/theme-sugar.css';
+import "vue-multiselect/dist/vue-multiselect.css";
 
 import { isUserAuthenticated } from './utils/auth';
 
-window.moment = require('moment');
 // set a navigation guard for protected routes
 router.beforeEach((to, from, next) => {
   const isAuthOrHomePage = to.name !== 'login' && to.name !== 'signup' && to.name !== 'reset';
@@ -33,6 +32,7 @@ createApp(App)
   .use(VueToast)
   .use(Vue3Tour)
   .component('multi-select', Multiselect)
+  .component('vue-multi-select', VueMultiselect)
   .component('money', Money3Component)
   .component('draggable', Draggable)
   .component('popover-row', PopoverRow)
