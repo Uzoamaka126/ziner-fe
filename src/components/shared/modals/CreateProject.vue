@@ -132,6 +132,12 @@ export default {
                 selectedTags: []
             }
             this.$emit( "cancel");
+        },
+        handleCreateProject() {
+            const payload = {
+                ...this.form,
+                clientId: this.$route.params.id
+            }
         }
     }
 }
