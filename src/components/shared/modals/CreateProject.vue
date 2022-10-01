@@ -70,7 +70,7 @@
             </template>
             <template #footer>
                 <div class="width--100">
-                    <button class="btn btn--secondary btn--md form__footer--btnFirst" type="submit" @click="$emit('cancel')">Cancel</button>
+                    <button class="btn btn--secondary btn--md form__footer--btnFirst" type="submit" @click="handleCancel">Cancel</button>
                     <button class="btn btn--primary btn--md" :disabled="!isFormFilled" type="submit">Add project</button>
                 </div>
             </template>
@@ -123,6 +123,16 @@ export default {
             this.tags.push(tag)
             this.form.selectedTags.push(tag)
         },
+        handleCancel() {
+            this.form = {
+                title: '',
+                status: '',
+                deadline: '',
+                isFavourite: false,
+                selectedTags: []
+            }
+            this.$emit( "cancel");
+        }
     }
 }
 </script>
