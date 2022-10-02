@@ -55,7 +55,7 @@
                                     </div>
                                     <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="tagActions">
                                         <li class="cursor-pointer">
-                                            <router-link :to="{name:'project-details', params:{ id:project.id }}" class="dropdown-item block width-100 text--xs">Edit</router-link>
+                                            <router-link :to="{name:'project-details-view', params:{ id:project.id }}" class="dropdown-item block width-100 text--xs">Edit</router-link>
                                         </li>
                                         <li class="cursor-pointer">
                                             <p class="dropdown-item text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteProject">Delete</p>

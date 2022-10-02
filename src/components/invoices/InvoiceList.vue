@@ -56,25 +56,21 @@
                             <td>{{ invoice.invoiceNo }}</td>
                             <td>{{ formatDateTime(invoice.createdAt) }}</td>
                             <td>{{ formatDateTime(invoice.dueDate) }}</td>
-                            <td class="dropdown">
-                                <div class=" cursor-pointer" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #95899b;transform: ;msFilter:;">
-                                        <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
-                                    </svg>
+                            <td aria-expanded="false">
+                                <div data-bs-toggle="dropdown">
+                                    <div class="icon cursor-pointer" tabindex="-1" title="More options">
+                                        <svg class="css-17keszd-EnhancedContextMenuIcon e16olzom2" width="4" height="12" viewBox="0 0 4 16">
+                                            <path fill="#95899b" fill-rule="evenodd" d="M0 2a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm0 12a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm0-6a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                                        </svg>
+                                    </div>
                                 </div>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <router-link 
-                                            class="dropdown-item cursor-pointer text--xs text--link" 
-                                            :to="{ name:'details-invoice-view', params:{ id: invoice._id }}"
-                                            style="display: block;"
-                                        >
-                                            View invoice
-                                        </router-link>
+                                <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="tagActions">
+                                    <li class="cursor-pointer">
+                                        <p class="dropdown-item block width-100 text--xs" @click="viewInvoice(invoice._id)">View</p>
                                     </li>
-                                    <li><p class="dropdown-item cursor-pointer text--xs">Download as PDF</p></li>
-                                    <li v-if="invoice.status === 'draft'"><p class="dropdown-item cursor-pointer text--xs">View invoice</p></li>
-                                    <li><p class="dropdown-item cursor-pointer text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteInvoice">Delete invoice</p></li>
+                                    <li class="cursor-pointer">
+                                        <p class="dropdown-item text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteClient">Delete</p>
+                                    </li>
                                 </ul>
                             </td>
                         </tr>
@@ -286,6 +282,10 @@ export default {
 
         sortInvoices () {
             sortList(this.displayType, this.invoices, 'clientEmail')
+        },
+
+        viewInvoice(id) {
+            this.$router.push({ name:'invoice-details-view', params:{ id: id } })
         }
     },
 

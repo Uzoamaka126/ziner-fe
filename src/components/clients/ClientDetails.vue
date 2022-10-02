@@ -162,12 +162,6 @@
                                                     </div>
                                                     <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="tagActions">
                                                         <li class="cursor-pointer">
-                                                            <!-- <router-link 
-                                                                class="dropdown-item block width-100 text--xs"
-                                                                :to="{ name:'project-details', params:{ id: project._id }}"
-                                                            >
-                                                                View
-                                                            </router-link> -->
                                                             <p class="dropdown-item block width-100 text--xs" @click="goToProject(project._id)">View</p>
                                                         </li>
                                                         <li class="cursor-pointer">
@@ -342,7 +336,7 @@ export default {
             this.isEdit = false
         },
         goToProject(projectId) {
-            this.$router.push({ name: 'project-details', params: { id: projectId }})
+            this.$router.push({ name: 'project-details-view', params: { id: projectId }})
         }
     },
     watch: {

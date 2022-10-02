@@ -1,9 +1,9 @@
 <template>
   <div 
-    class="logo--wrap"
+    class="logo--wrap width--auto"
     :class="[layout, shadow]"
   >
-    <div class="logo auth--logo">
+    <div class="logo auth--logo width--auto">
       <svg xmlns="http://www.w3.org/2000/svg" width="72" height="24" viewBox="0 0 72 24" fill="none">
         <rect y="7" width="16" height="16" fill="#5750EC"/>
         <circle r="1.96438" transform="matrix(1 0 0 -1 9.96438 14.9644)" fill="white"/>
@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       layout: `logo--${layoutObj[this.layout]} logo--${layoutObj[this.layout]}--${this.paddingLeftNum}`,
-      shadow: `shadow-${shadowObj[this.shadowType]}`,
+      shadow: this.shadowType ? `shadow-${shadowObj[this.shadowType]}` : '',
     }
   },
   methods: {

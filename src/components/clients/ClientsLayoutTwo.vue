@@ -164,10 +164,6 @@ export default {
             }
         },
 
-        resetCurrentClient() {
-            this.currentClient = {};
-        },
-
         setClientDetails(data) {
             this.currentClient = data;
             $("#clientDetails").modal("show");
@@ -278,6 +274,7 @@ export default {
 
             this.$router.replace(`${currentRoutePath}?${queryParams}`)
         },
+
         resetFilter() {
             let currentRoutePath = this.$route.path;
 
@@ -286,6 +283,7 @@ export default {
             }
             this.$router.replace({ path: `${currentRoutePath}` })
         },
+
         handlePaginationNumChange(num) {
             if (num) {
                 console.log('num:', num);
@@ -294,6 +292,7 @@ export default {
                 this.pageData.currentPage = 1
             }
         },
+
         sortClients () {
             sortList(this.displayType, this.clients, 'name')
         }

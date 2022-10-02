@@ -61,7 +61,7 @@ const routes = [
             
       { path:'projects', name:'projects-view',  component: ProjectsView },
       
-      { path:'projects/:id', name:'project-details', component: ProjectsDetailsView },
+      { path:'projects/:id', name:'project-details-view', component: ProjectsDetailsView },
       
       { path:'tags',  name:'tags-view', component: TagsView },
       
@@ -69,7 +69,7 @@ const routes = [
       
       { path: 'invoices/create', name: 'create-invoice-view', component: CreateInvoiceView },
       
-      { path: 'invoices/view/:id', name: 'details-invoice-view', component: InvoiceDetailsView },
+      { path: 'invoices/:id', name: 'invoice-details-view', component: InvoiceDetailsView },
       
       { path: 'clients', name:'clients-view', component: ClientsView },
 
