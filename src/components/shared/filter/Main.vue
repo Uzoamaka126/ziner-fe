@@ -111,7 +111,7 @@
                                 <input 
                                     class="form-check-input" 
                                     type="checkbox" 
-                                    v-model="InvoiceTitle"
+                                    v-model="filter.title"
                                 />
                                 <label class="form-check-label text--xs ml--5" for="flexCheckCheckedTwo">
                                     Invoice Title
