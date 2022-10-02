@@ -554,3 +554,10 @@ p {
 .spinner-border {
     border-width: 0.2rem !important;
 }
+
+.filter {
+    &__actions--list {
+        display: flex;
+        align-items: center;
+    }
+}

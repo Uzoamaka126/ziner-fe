@@ -77,10 +77,10 @@ export default {
                 id: 'Invoices',
                 component: 'ProjectInvoice'
             },
-            {   
-                id: 'Files',
-                component: 'ProjectOverview'
-            },
+            // {   
+            //     id: 'Files',
+            //     component: 'ProjectOverview'
+            // },
         ],
         selectedIndex: 0
     }),

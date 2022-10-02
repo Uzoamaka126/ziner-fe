@@ -1,7 +1,7 @@
 <template>
-    <div class="btn-group">
+    <div class="btn--filter btn-group mr--10">
         <button 
-            class="btn text--xs mr--10 filter--btn btn-sm dropdown-toggle" 
+            class="btn text--xs btn-sm dropdown-toggle" 
             type="button" 
             aria-expanded="false"
             id="dropdownMenuClickableInside" 

@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="btn--filter">
         <div class="dropdown">
             <button 
-                class="btn text--xs mr--10 filter--btn btn-sm dropdown-toggle" 
+                class="btn text--xs filter--btn btn-sm dropdown-toggle" 
                 type="button" 
                 aria-expanded="false"
                 id="sortFilter"

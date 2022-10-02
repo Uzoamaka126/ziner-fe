@@ -5,7 +5,7 @@ import { format } from 'date-fns'
  * @returns {string} 27-Feb-2017
  */
 export function formatDateTime(date) {
-    return format(new Date(dateString), "dd-mm-yyyy")
+    return format(new Date(date), "dd-mm-yyyy")
 }
 
 /**
