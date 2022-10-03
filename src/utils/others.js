@@ -1,11 +1,11 @@
-import { format } from 'date-fns'
+import { format, formatDistance, subDays, parse  } from 'date-fns'
 
 /**
  * @param  {Date} date: Mon Feb 27 2017 18:33:38 GMT+0000 (UTC)
  * @returns {string} 27-Feb-2017
  */
 export function formatDateTime(date) {
-    return format(new Date(date), "dd-mm-yyyy")
+    return format(new Date(date), "dd/MM/yyyy")
 }
 
 /**
@@ -14,7 +14,17 @@ export function formatDateTime(date) {
  */
 export function formatDateStrings(dateString) { 
     const date = new Date(dateString)
-    return format(date, "dd-mm-yyyy")
+    // const formatDate = parse(new Date(date), "dd MMMM yyyy", new Date(), { weekStartsOn: 0 })
+    // console.log({ formatDate });
+    return format(new Date(date), "dd MMMM yyyy")
+}
+
+/**
+ * @param  {string} dateString: 2022-08-26T13:31:34.062Z
+ * @returns {string} 27-Feb-2017
+ */
+ export function formatDateToDays(dateString) { 
+    return formatDistance(subDays(new Date(dateString), 3), new Date(), { addSuffix: true })
 }
 
 /**
@@ -142,3 +152,7 @@ export function sortList (sortingType, arr, valueToSortBy) {
         }) 
     }
 }
+
+export function formatAmount (x) {
+    return x && typeof x === 'number' ? x.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0;
+};

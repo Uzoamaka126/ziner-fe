@@ -128,7 +128,8 @@ export const dummyInvoicesData = [
         amount: 223.51000000000002,
         currency: "NGN",
         clientEmail: "uzoamakaanyanwu26@gmail.com",
-        createdAt: "2021-12-15T22:31:15.000Z",
+        clientid: "21232dfxxc",
+        createdAt: "2021-11-30T22:31:15.000Z",
         datePaid: null,
         memo: "Another test note",
         dueDate: "2021-12-26T00:00:00.000Z",
@@ -146,14 +147,14 @@ export const dummyInvoicesData = [
             ],
             items: [
                 {
-                    item_description: null,
+                    itemDescription: null,
                     itemName: "Test item 1",
                     itemPrice: 200,
                     itemQuantity: 1,
                     itemUnit: 200
                 },
                 {
-                    item_description: null,
+                    itemDescription: null,
                     itemName: "Test Item 2",
                     itemPrice: 23.4,
                     itemQuantity: 1,
@@ -170,14 +171,15 @@ export const dummyInvoicesData = [
                 }
             ]
         },
-        invoiceNo: "910207475280",
-        status: "draft",
+        invoiceNo: "910207",
+        status: "Draft",
         title: "Invoice from SmartBands"
     },
     {
         amount: 223.51000000000002,
         currency: "NGN",
         clientEmail: "dusan@tradecore.com",
+        clientid: "21232dfxxc",
         createdAt: "2021-12-15T22:31:15.000Z",
         datePaid: null,
         memo: "Another test note",
@@ -205,17 +207,17 @@ export const dummyInvoicesData = [
             ],
             items: [
                 {
-                    item_description: null,
+                    itemDescription: null,
                     itemName: "Test item 1",
                     itemPrice: 200,
                     itemQuantity: 1,
                     itemUnit: 200
                 },
                 {
-                    item_description: null,
+                    itemDescription: null,
                     itemName: "Test Item 2",
                     itemPrice: 23.4,
-                    itemQuantity: 1,
+                    itemQuantity: 3,
                     itemUnit: 23.4
                 }
             ],
@@ -226,11 +228,17 @@ export const dummyInvoicesData = [
                     taxName: "vat",
                     taxType: "percentage",
                     taxValue: 0.11
+                },
+                {
+                    taxDescription: null,
+                    taxName: "vat",
+                    taxType: "flat",
+                    taxValue: 0.23
                 }
             ]
         },
-        invoiceNo: "910207475280",
-        status: "issued",
+        invoiceNo: "910207",
+        status: "Issued",
         title: "Invoice from SmartBands"
     }
 ]

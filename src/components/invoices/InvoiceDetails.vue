@@ -4,22 +4,22 @@
             <div class="panel">    
                 <div class="panel__content">
                   <div style="margin-top: 1rem; padding-bottom: 3rem;">
-                    <div class="row hidden-xs" style="padding-bottom: 1rem; padding-top: 0.8rem;">  
+                    <div class="page__row--header">  
                         <div class="row__left">
                             <div class="row__item flex align-items-center">
-                                <div style="color: #57584e;" class="text--bold">Invoice #43542</div>
-                                <span class="badge rounded-pill btn--danger ml--20">Not paid</span>
+                                <div style="color: #57584e;" class="text--bold">Invoice #{{ invoice.invoiceNo }}</div>
+                                <span class="badge rounded-pill btn--danger ml--20" :class="[statusMap[invoice.status]]">{{ invoice.status }}</span>
                             </div>
                         </div>
                         <!-- invoice button actions -->
                         <div class="row__right invoice__single--btns">
-                            <div class="row__item positionRelative">
+                            <div class="row__item positionRelative" v-if="invoice.status === 'Draft'">
                                 <button class="btn btn--secondary btn--sm">Edit</button>
                             </div>
-                            <div class="row__item positionRelative">
+                            <div class="row__item positionRelative" v-if="invoice.status !== 'Draft'">
                                 <button class="btn btn--primary btn--sm" data-bs-toggle="modal" data-bs-target="#markInvoiceAsPaid">Mark as paid</button>
                             </div>
-                            <div class="row__item positionRelative">
+                            <div class="row__item positionRelative" v-if="invoice.status !== 'Draft'">
                                 <button class="btn btn--secondary btn--sm" @click="duplicateInvoice()">Duplicate</button>
                             </div>
                             <div class="row__item positionRelative">
@@ -28,80 +28,128 @@
                         </div>
                     </div>
 
-                    <!-- Amount info -->
-                    <div class="row invoice__row block">
-                        <div class="form__row__left">
-                           <div class="invoice__client">
-                                <div class="invoice__client--bio">
-                                    <p class="title">Amount</p>
-                                    <p class="sub-title">NGN 200.000</p>
-                                </div>
-                                <div class="invoice__client--bio">
-                                    <p class="title">Date Sent</p>
-                                    <p class="sub-title">2nd November 2021</p>
-                                </div>
-                                <div class="invoice__client--bio">
-                                    <p class="title">Due date</p>
-                                    <p class="sub-title">26th December 2021</p>
-                                </div>
-                           </div>
+                    <!-- Payment info -->
+                     <div class="row invoice__section--item">
+                        <div class="col-12 mb--5">
+                            <p class="text--bold text--color-dark">Payment Info</p>
                         </div>
-                    </div>
+                        <div class="col-12">
+                            <div class="invoice__row invoice__item">
+                                <div class="form__row__left invoice__item--payment">
+                                <div class="invoice__client">
+                                        <div class="invoice__client--bio">
+                                            <p class="title">Amount</p>
+                                            <p class="invoice__details--text text--medium">{{ invoice.currency}} {{ formatMoney(invoice.amount)}}</p>
+                                        </div>
+                                        <div class="invoice__client--bio">
+                                            <p class="title">Date Sent</p>
+                                            <p class="invoice__details--text">{{ formatDate(invoice.createdAt)}}</p>
+                                        </div>
+                                        <div class="invoice__client--bio">
+                                            <p class="title">Date Created</p>
+                                            <p class="invoice__details--text">{{ formatDate(invoice.createdAt)}}</p>
+                                        </div>
+                                        <div class="invoice__client--bio">
+                                            <p class="title">Due date</p>
+                                            <p class="invoice__details--text">{{ formatDate(invoice.dueDate) }}</p>
+                                        </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
 
                     <!-- Client info -->
-                    <div class="row invoice__row block">
-                        <div class="form__row__left">
-                            <div class="invoice__client">
-                                <div class="invoice__client--bio">
-                                    <p class="title">Client Name</p>
-                                    <p class="sub-title">Client X</p>
+                    <div class="row invoice__section--item">
+                        <div class="col-12 mb--5">
+                            <p class="text--bold text--color-dark">Client Info</p>
+                        </div>
+                        <div class="col-12">
+                            <div class="invoice__row invoice__item ">
+                                <div v-if="isClientLoading && !client" class="col-12 mb--5">
+                                    <p class="text-faded text--sm">Loading client information...</p>
                                 </div>
-                                <div class="invoice__client--bio">
-                                    <p class="title">Phone Number</p>
-                                    <p class="sub-title">090000000000</p>
+                                <div v-else-if="!isClientLoading && !client" class="col-12 mb--5">
+                                    <p class="text--sm">No client information is available for this invoice</p>
                                 </div>
-                                <div class="invoice__client--bio">
-                                    <p class="title">Email</p>
-                                    <p class="sub-title">amaka@gmail.com</p>
+                                <div v-else class="form__row__left">
+                                    <div class="invoice__client">
+                                        <div class="invoice__client--bio">
+                                            <p class="title">Client Name</p>
+                                            <p class="invoice__details--text">{{ client.name }}</p>
+                                        </div>
+                                        <div class="invoice__client--bio">
+                                            <p class="title">Phone Number</p>
+                                            <p class="invoice__details--text">{{ client.phoneNumber }}</p>
+                                        </div>
+                                        <div class="invoice__client--bio">
+                                            <p class="title">Email</p>
+                                            <p class="invoice__details--text">{{ invoice.clientEmail }}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row invoice__row block">
-                        <div class="invoice__details--item">
-                          <div class="invoice__details--text">
-                              Test Item 1
-                          </div>
-                          <div class="invoice__details--text">
-                              <span>NGN 200.00</span>
-                              <span style="color: #a4a59a;"> x1</span>
-                          </div>
+                    <!-- Item info -->
+                      <div class="row invoice__section--item">
+                        <div class="col-12 mb--5">
+                            <p class="text--bold text--color-dark">Invoice items Info</p>
+                        </div>
+                        <div class="col-12">
+                            <div class="invoice__row invoice__item">
+                                <div class="invoice__details--item mb--10" v-for="item in items">
+                                    <div class="invoice__details--text">
+                                        {{ item.itemName }}
+                                    </div>
+                                    <div class="invoice__details--text">
+                                        <span class="text--medium">{{ invoice.currency}} {{ formatMoney(item.itemPrice)}}</span>
+                                        <span style="color: #a4a59a;"> x{{ item.itemQuantity }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+
+                    <!-- Others -->
+                    <div class="row invoice__section--item">
+                        <div class="col-12 mb--5">
+                            <p class="text--bold text--color-dark">Others</p>
+                        </div>
+                        <div class="col-12">
+                            <div class="invoice__row invoice__item">
+                                <div class="flex align-items-center form__row width--100">
+                                    <div class="form__row__right width--100">
+                                        <div class="invoice__details--item mt--10 mb--10 flex align-items-center">
+                                            <div class="invoice__compile--label">Subtotal:</div>
+                                            <div class="invoice__compile--value ml--20 text--medium">{{ invoice.currency}} {{ formatMoney(computedSubTotal) }}</div>
+                                        </div>
+                                        <div class="invoice__details--item">
+                                            <div class="invoice__compile--label">Tax:</div>
+                                            <div class="invoice__compile--value ml--20 text--medium">{{ formatMoney(computedTaxes) }}%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Add Item + computation -->
-                    <div class="row invoice__row block">
-                        <div class="flex align-items-center form__row width--100">
-                            <div class="form__row__right width--100">
-                                <div class="invoice__details--item mt--10 mb--10 flex align-items-center">
-                                    <div class="invoice__compile--label">Subtotal:</div>
-                                    <div class="invoice__compile--value ml--20">NGN 0.00</div>
-                                </div>
+                    <!-- Total -->
+                    <div class="row invoice__section--item">
+                        <div class="col-12 mb--5">
+                            <p class="text--bold text--color-dark">Total</p>
+                        </div>
+                        <div class="col-12">
+                            <div class="invoice__row invoice__item">
                                 <div class="invoice__details--item">
-                                    <div class="invoice__compile--label">Tax:</div>
-                                    <div class="invoice__compile--value ml--20">NGN 0.00</div>
+                                    <div class="invoice__details--text">
+                                        Total
+                                    </div>
+                                    <div class="invoice__details--text">
+                                        <span class="text--medium">{{ invoice.currency}} {{ computedTotal }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row invoice__row block">
-                        <div class="invoice__details--item">
-                            <div class="invoice__details--text">
-                                Total
-                            </div>
-                            <div class="invoice__details--text">
-                                <span>NGN 200.00</span>
                             </div>
                         </div>
                     </div>
@@ -114,7 +162,6 @@
         <confirm-deletion-modal :type="'invoice'" :action="deleteInvoice" :reset="resetCurrentInvoice" />
         <mark-invoice-as-paid  @markInvoiceAsPaid="markInvoiceAsPaid" />
         <toast-el />
-        <!-- <toast-el :message="'Unable to duplicate invoice'" :type="'error'" :headingTitle="'An error occurred'" /> -->
     </div>
 </template>
 
@@ -123,6 +170,10 @@ import ConfirmDeletionModal from '../shared/modals/ConfirmDeletion.vue';
 import MarkInvoiceAsPaid from '../shared/modals/MarkInvoiceAsPaid.vue';
 import ToastEl from '../shared/toast/index.vue';
 import { myToast } from '../../utils/toast'
+import { dummyInvoicesData } from '../../utils/dummy';
+import clientsList from '../../assets/js/clients.json'
+import { formatDateStrings, formatAmount } from '../../utils/others';
+
 
 export default {
     name: 'InvoiceDetails',
@@ -130,6 +181,9 @@ export default {
         ConfirmDeletionModal,
         MarkInvoiceAsPaid,
         ToastEl
+    },
+    created() {
+        this.fetchInvoice(this.$route.params.id)
     },
 
     data() {
@@ -156,7 +210,21 @@ export default {
                     masked: false
                 },
             },
-            invoice: {}  
+            invoice: null,
+            invoices: dummyInvoicesData,
+            client: null,
+            clientsList: clientsList,
+            isClientLoading: false,
+            items: [],
+            statusMap: {
+                'Draft': "tag--cornsilk",
+                'Blocked': "tag--purple",
+                'Paid': "tag--green",
+                'Due': "tag--red",
+                'Issued': "tag--yellow",
+                'Rejected': "tag--grey",
+            },
+            tax: []
         }
     },
 
@@ -171,9 +239,39 @@ export default {
                 masked: false,
             }
         },
+        computedSubTotal() {
+            if (this.items.length > 0) {
+                const transformArr = this.items.map(item => item.itemPrice * item.itemQuantity)
+               const sumItemsArr = transformArr.reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+                return sumItemsArr
+            } else {
+                return 0
+            }
+        },
+        computedTaxes() {
+            let taxCount = 0;
+            if (this.tax.length > 0) {
+                for (var i = 0; i < this.tax.length; i++) {
+                    if (this.tax[i].taxValue) {
+                        taxCount = this.tax[i].taxValue + taxCount
+                    }
+                }
+            }
+            return taxCount
+        },
+        computedTotal () {
+            console.log((this.computedTaxes * this.computedSubTotal) + this.computedSubTotal);
+            return this.formatMoney((this.computedTaxes * this.computedSubTotal) + this.computedSubTotal);
+        }
     },
 
     methods: {
+        formatDate(date) {
+            return formatDateStrings(date) || 'N/A'
+        },
+        formatMoney: function (x) {
+            return formatAmount(x)
+        },
         deleteInvoice() {
             this.requestIsDisabled = true;
             this.$http.post( `v2/invoices/${ this.invoice.id }/delete` )
@@ -191,18 +289,38 @@ export default {
             });
         },
 
-        fetchInvoice() {
-            const queryString = `v2/invoices/${ this.refNo }/?include_customer=1`;
-            this.$http.get(queryString).then(({ ok, data }) => {
-                if (ok !== true) return;
-                this.invoice = data.data;
-                if( this.invoice.status === 'paid' ) return this.$router.push({ name: "not-found" });
-                this.loading = false;
-            })
-            .catch( error => {
-                console.log( error.data.message );
-                this.$router.push({ name: "not-found" })
-            })
+        fetchInvoice(id) {
+            // const queryString = `v2/invoices/${ this.refNo }/?include_customer=1`;
+            // this.$http.get(queryString).then(({ ok, data }) => {
+            //     if (ok !== true) return;
+            //     this.invoice = data.data;
+            //     if( this.invoice.status === 'paid' ) return this.$router.push({ name: "not-found" });
+            //     this.loading = false;
+            // })
+            // .catch( error => {
+            //     console.log( error.data.message );
+            //     this.$router.push({ name: "not-found" })
+            // })
+            const filteredInvoice = this.invoices.find(item => item._id === id)
+            this.invoice = !filteredInvoice ? null : filteredInvoice;
+            this.items = filteredInvoice.meta.items
+            this.tax = filteredInvoice.meta.tax
+
+            this.fetchClientInfo()
+        },
+
+        fetchClientInfo() {
+            this.isClientLoading = true
+            console.log('this.invoice.clientId', this.invoice.clientId);
+            setTimeout(() => {
+                if (this.invoice.clientId) {
+                    console.log('this.invoice.clientId', this.invoice.clientId);
+                    const client = this.clientsList.find(item => item._id === this.invoice.clientId)
+                    console.log({ client }, this.invoice.clientId);
+                    this.client = !client ? null : client
+                }
+                this.isClientLoading = false
+            }, 2000)
         },
 
         resetCurrentInvoice() {
@@ -217,46 +335,23 @@ export default {
 
         editInvoice() {}
     },
-
-    created() {},
-
     watch: {}
 }
 </script>
 
 <style lang="scss" scoped>
-    .row>* {
-    width: auto;
-    }
     .row.hidden-xs {
-    border-bottom: 1px solid #f5f5f5;
-    margin-bottom: 2rem;
+        border-bottom: 1px solid #f5f5f5;
+        margin-bottom: 2rem;
     }
+
     .form__row__left {
-    max-width: 500px;
+        max-width: 500px;
     }
-    .row.invoice__row  {
-    border-bottom: 1px solid #f5f5f5;
-    margin-bottom: 1rem;
-    padding-bottom: 1.5rem;
-    }
+
     .invoice__single--btns {
         .row__item {
             padding-right: 0px !important;
-        }
-    }
-    .invoice {
-        &__details {
-            &--item {
-                display: flex;
-                justify-content: space-between;
-                max-width: 80%;
-                width: 80%;
-
-                .invoice__compile--label {
-                    color: #57584e;
-                }
-            }
         }
     }
 </style>

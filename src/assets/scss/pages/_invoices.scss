@@ -1,10 +1,47 @@
 .invoice {
+    &__row  {
+        border-top: 1px solid #f5f5f5;
+        margin-bottom: 1rem;
+    } 
+
+    &__section--item {
+        margin-bottom: 20px;
+    }
+
+    &__item  {
+        padding-top: 10px;
+        display: block;
+
+        &--payment {
+            max-width: 60% !important;
+        }
+    } 
+
+    &__details {
+        &--item {
+            display: flex;
+            justify-content: space-between;
+            max-width: 80%;
+            width: 80%;
+
+            .invoice__compile--label {
+                color: #57584e;
+            }
+        }
+
+        &--text {
+            font-size: 0.875rem;
+        }
+    }
+
     &__price {
         flex-grow: 1;
     }
+
     &__amount {
         min-width: 70px;
     }
+
     &__calculate {
         &--row {
             display: flex;
@@ -40,6 +77,7 @@
             }
         }
     }
+
     &__compile {
         &--row {
             display: flex;
@@ -78,6 +116,7 @@
             }
         }
     }
+
     &__tax {
         &--item {
             &:hover {

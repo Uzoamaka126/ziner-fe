@@ -197,7 +197,6 @@ p {
                     display: flex;
                     box-sizing: border-box;
                     user-select: none;
-                    display: flex;
                     min-height: 24px;
                     -webkit-align-items: center;
                     -webkit-box-align: center;
@@ -560,4 +559,20 @@ p {
         display: flex;
         align-items: center;
     }
+}
+
+.page__row--header {
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    padding-right: 30px;
+    max-width: 1800px;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: calc(-1 * 0);
+    margin-right: calc(-.5 * 1rem);
+    margin-left: calc(-.5 * 1rem);
+    flex-wrap: wrap;
+    padding-bottom: 1rem; 
+    padding-top: 0.8rem;
 }

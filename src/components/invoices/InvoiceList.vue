@@ -100,7 +100,7 @@
 import EmptyPage from '../shared/emptyPage/EmptyPage.vue'
 import { dummyInvoicesData } from '../../utils/dummy';
 import ConfirmDeletionModal from '../shared/modals/ConfirmDeletion.vue';
-import { formatDateStrings, sortList } from '../../utils/others';
+import { formatDateStrings, sortList, formatAmount } from '../../utils/others';
 import MainFilter from '../shared/filter/Main';
 import SortFilter from '../shared/filter/Sort';
 
@@ -228,11 +228,11 @@ export default {
         },
 
         formatDateTime (date) {
-        return formatDateStrings(date)
+            return formatDateStrings(date)
         },
 
         formatMoney: function (x) {
-            return (x) ? x.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : x;
+            return formatAmount(x)
         },
         filterInvoices() {
         //   const params = {
