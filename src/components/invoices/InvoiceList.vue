@@ -139,10 +139,12 @@ export default {
              * Returns the appropriate CSS status tag for each invoice status
              */
             invoiceTagMap: {
-                draft: "tag--cornsilk",
-                due: "tag--red",
-                paid: "tag--green",
-                issued: "tag--blue",
+                'Draft': "tag--blue",
+                'Blocked': "tag--purple",
+                'Paid': "tag--green",
+                'Due': "tag--red",
+                'Issued': "tag--yellow",
+                'Rejected': "tag--grey",
             },
             downloadButtonIsClicked: false,
             page: {

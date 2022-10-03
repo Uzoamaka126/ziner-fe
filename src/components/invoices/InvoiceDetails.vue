@@ -39,7 +39,7 @@
                                 <div class="invoice__client">
                                         <div class="invoice__client--bio">
                                             <p class="title">Amount</p>
-                                            <p class="invoice__details--text text--medium">{{ invoice.currency}} {{ formatMoney(invoice.amount)}}</p>
+                                            <p class="invoice__details--text">{{ invoice.currency}} {{ computedTotal }}</p>
                                         </div>
                                         <div class="invoice__client--bio">
                                             <p class="title">Date Sent</p>
@@ -105,7 +105,7 @@
                                     </div>
                                     <div class="invoice__details--text">
                                         <span class="text--medium">{{ invoice.currency}} {{ formatMoney(item.itemPrice)}}</span>
-                                        <span style="color: #a4a59a;"> x{{ item.itemQuantity }}</span>
+                                        <span style="color: #687385;"> x{{ item.itemQuantity }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -217,7 +217,7 @@ export default {
             isClientLoading: false,
             items: [],
             statusMap: {
-                'Draft': "tag--cornsilk",
+                'Draft': "tag--blue",
                 'Blocked': "tag--purple",
                 'Paid': "tag--green",
                 'Due': "tag--red",
@@ -260,7 +260,6 @@ export default {
             return taxCount
         },
         computedTotal () {
-            console.log((this.computedTaxes * this.computedSubTotal) + this.computedSubTotal);
             return this.formatMoney((this.computedTaxes * this.computedSubTotal) + this.computedSubTotal);
         }
     },
