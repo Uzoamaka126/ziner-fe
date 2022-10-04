@@ -300,7 +300,7 @@ export default {
             //     console.log( error.data.message );
             //     this.$router.push({ name: "not-found" })
             // })
-            const filteredInvoice = this.invoices.find(item => item._id === id)
+            const filteredInvoice = this.invoices.find(item => item.invoiceNo === id)
             this.invoice = !filteredInvoice ? null : filteredInvoice;
             this.items = filteredInvoice.meta.items
             this.tax = filteredInvoice.meta.tax

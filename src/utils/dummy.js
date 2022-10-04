@@ -136,7 +136,7 @@ export const dummyInvoicesData = [
         _id: '4354222344',
         meta: {
             PBFPubKey: "FLWPUBK-bf457c347b29cfb06ef14b9dcd608188-X",
-            cc_emails: "",
+            ccEmails: "",
             invoice_interval: [
                 {
                     interval_description: null,
@@ -187,7 +187,7 @@ export const dummyInvoicesData = [
         _id: '43545',
         meta: {
             PBFPubKey: "FLWPUBK-bf457c347b29cfb06ef14b9dcd608188-X",
-            cc_emails: "",
+            ccEmails: "",
             invoice_interval: [
                 {
                     interval_description: null,

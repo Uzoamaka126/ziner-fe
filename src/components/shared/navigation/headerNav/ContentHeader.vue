@@ -126,7 +126,7 @@ export default {
             return routeName && typeof routeName === 'string' ? this.routeNameMap[routeName] : ''
         },
         showBackArrowBtn() {
-            return !this.$route.params.id ? false : true
+            return this.$route.params.id || this.$route.name === 'create-invoice-view' ? true : false
         },
     },
     

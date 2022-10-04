@@ -66,7 +66,7 @@
                                 </div>
                                 <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="tagActions">
                                     <li class="cursor-pointer">
-                                        <p class="dropdown-item block width-100 text--xs" @click="viewInvoice(invoice._id)">View</p>
+                                        <p class="dropdown-item block width-100 text--xs" @click="viewInvoice(invoice.invoiceNo0)">View</p>
                                     </li>
                                     <li class="cursor-pointer">
                                         <p class="dropdown-item text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteClient">Delete</p>

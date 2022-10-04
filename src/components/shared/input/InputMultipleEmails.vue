@@ -50,7 +50,6 @@ export default {
             enteredEmailList: this.selected,
             existingEmailList: this.dropdownFields,
             singleEmailValue: "",
-            emailListLimit: 3,
             reactiveSelected: this.selected,
             reactiveDropdownFields: this.dropdownFields,
             typedInput: undefined,
@@ -59,7 +58,7 @@ export default {
 
     computed: {
        isEmailListLimitReached() {
-            return this.enteredEmailList.length >= this.emailListLimit;
+            return this.enteredEmailList.length >= 3;
         },
         isArray() {
             return this.dropdownFields instanceof Array;
@@ -89,37 +88,38 @@ export default {
 
     methods: {
         preventKeys (event) {
-        if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 190 || event.keyCode == 37 || event.keyCode == 39) {
-            } else {
-                return event.preventDefault();
-            }
+            if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 190 || event.keyCode == 37 || event.keyCode == 39) {
+                } else {
+                    return event.preventDefault();
+                }
         },
         resetEmailInput() {
             this.singleEmailValue = '';
         },
         removeSingleEmail(idx) {
-            // let's do this removal by index instead
+            // removal by index
             this.enteredEmailList = this.enteredEmailList.filter((item, index) => index !== idx);
+            this.$emit("updateCCEmails", this.enteredEmailList)
         },
+
         addCurrentEmailOnBlur() {
             const getCurrentlyTypedEmail = this.singleEmailValue.trim();
             if (getCurrentlyTypedEmail.length === 0) return;
 
             this.enteredEmailList.push(getCurrentlyTypedEmail);
+            this.$emit("updateCCEmails", this.enteredEmailList)
             this.resetEmailInput();
         },
+
         validateTextLength(val) {
             const input = val || "";
             if (input.length >= 100) return false;
             else return true;
         },
-        handleEmailKeyDown(e) {
-            // console.log(e);
 
+        handleEmailKeyDown(e) {
             const getEmailTextTrimmed = this.singleEmailValue.trim();
             this.$emit( "typing", getEmailTextTrimmed);
-
-            // console.log(getEmailTextTrimmed);
             /* 
                 We want to be able to add a newly typed email when a user hits any of the following keys: space, enter or  a comma key
                 So, we are going to store a list of keys that holds the key code of each of the above keys
@@ -139,7 +139,6 @@ export default {
             /* We also want to set a limit for the number of client emails to be entered */
             const emailLengthIsValid = this.validateTextLength(getEmailTextTrimmed);
             if(!emailLengthIsValid && !filteredAllowedKeyCodes && !isBackSpaceKey) {
-                // console.log("!emailLengthIsValid && !filteredAllowedKeyCodes && !isBackSpaceKey", true);
                 return e.preventDefault();
             }
 
@@ -150,12 +149,13 @@ export default {
 
             else if(filteredAllowedKeyCodes) { 
                 e.preventDefault();
-                // console.log("filteredAllowedKeyCodes", filteredAllowedKeyCodes);
                 this.enteredEmailList.push(getEmailTextTrimmed);
+                this.$emit("updateCCEmails", this.enteredEmailList)
                 this.$emit("select", getEmailTextTrimmed);
                 this.resetEmailInput();
             }
         },
+
         handlePasteInput(e) {
             const clipboardData = e.clipboardData || window.clipboardData;
             const value = clipboardData.getData('Text');

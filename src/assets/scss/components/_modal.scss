@@ -347,12 +347,8 @@
         bottom:0;
     }
 }
-.modal__attachment-block{
-    &__title{
-        margin-top: 12px;
-        margin-bottom: 12px;
-    }
-    &__body{
-        max-width:60%;
-    }
+
+.modal__wrapper--onboarding {
+    padding-left: 32px;
+    padding-right: 32px;
 }

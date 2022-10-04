@@ -8,8 +8,8 @@
                 <div class="row hidden-xs">  
                   <div class="row__left">
                       <div class="row__item">
-                          <div v-if="refNo" class="page-title__text">INVOICE #{{ refNo }}</div>
-                          <div v-else class="bold">Create Invoice</div>
+                          <div v-if="invoiceNo" class="page-title__text text--bold">INVOICE #{{ invoiceNo }}</div>
+                          <div v-else class="text--bold">Create Invoice</div>
                       </div>
                   </div>
                   <!-- invoice button actions -->
@@ -23,67 +23,91 @@
                       <div class="row__item positionRelative">
                           <button :disabled="requestIsDisabled" style="padding-left: 5px; padding-right: 5px;" @click="sendInvoice()" class="btn btn--primary btn--sm">Send Invoice</button>
                       </div>
-                      <div class="row__item positionRelative" v-show="refNo">
+                      <div class="row__item positionRelative" v-show="invoiceNo">
                           <button :disabled="requestIsDisabled" style="padding-left: 5px; padding-right: 5px;" @click="deleteInvoice()" class="btn btn--danger btn--sm">Delete Invoice</button>
                       </div>
                   </div>
                 </div>
 
-                <div class="row invoice__row block">
-                  <div class="form__row">
-                    <div class="form__row__left">
-                      <div class="align-items-center justify-content-between mb-2" style="display: flex">
-                          <span class="invoice__compile--memo--label">Client info</span>
-                          <span data-bs-toggle="modal" data-bs-target="#createClient" class="link text--sm">+ New Client</span>
-                      </div>
-                      <search-client-input v-model="selectedClient" :disabled="invoice.status !== 'draft'" />
+                <!-- Client info -->
+                 <div class="row invoice__section--item">
+                    <div class="col-12 mb--5">
+                      <p class="text--bold text--color-dark">Client info</p>
                     </div>
-                    <div v-if="showMultipleEmailsField" @click="toggleOtherEmail = false" class="link text--sm mt--10">- Don't mail to other clients</div>
-                    <div v-else @click="toggleOtherEmail = true" class="link text--sm mt-2">+ Mail to more than one client</div>
-                  </div>
+                    <div class="col-12">
+                      <div class="invoice__row invoice__item">
+                        <div class="invoice__details--item mt--10">
+                          <div class="flex align-items-center mt--10">
+                            <div style="min-width: 400px;">
+                              <div v-if="showMultipleEmailsField" @click="toggleOtherEmail = false" class="link text--xs">- Use only one email address</div>
+                              <div v-else @click="toggleOtherEmail = true" class="link text--xs">+ Mail to more than one email address</div>
+                            </div>
+                            <outline-button :outlineType="'secondary'" :classNames="'text--xs w--fit'" :label="'+ New Client'" @click="isClientModalOpen = true" />
+                            <!-- <span  class="link text--sm">+ New Client</span> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                 </div>
+                <!-- <search-client-input v-model="selectedClient" :disabled="invoice.status !== 'draft'" /> -->
 
                 <!-- other emails -->
-                <div v-if="showMultipleEmailsField" class="row invoice__row block">
-                  <div class="form__row">
-                    <div class="">
-                      <label for class="positionRelative block">
-                        Send to other emails
-                      </label>
-                      <input-multiple-emails
-                        v-model="otherClientEmails"
-                        placeholder="enter a client's email"
-                        :dropdown-fields="otherclientsSearched" 
-                        @typing="searchClients" 
-                      />
+                <div v-if="showMultipleEmailsField" class="row invoice__section--item">
+                    <div class="col-12 mb--5">
+                      <p class="text--bold text--color-dark">Send to other emails</p>
                     </div>
-                  </div>
+                    <div class="col-12">
+                      <div class="invoice__row invoice__item">
+                        <div class="invoice__details--item mt--10">
+                          <input-multiple-emails
+                            v-model="otherClientEmails"
+                            placeholder="enter a client's email"
+                            :dropdown-fields="otherclientsSearched" 
+                            @typing="searchClients"
+                          />
+                          <!-- @updateCCEmails="modifyEmails" -->
+                        </div>
+                      </div>
+                    </div>
                 </div>
 
                 <!-- Currency -->
-                <div class="row invoice__row" style="margin-top: 1rem;">
-                  <div class="form__row__left" style="width: 100%;">
-                    <label for class="mb-2 invoice__compile--memo--label">Currency</label>
-                    <div class="select visible--xs">
-                      <select class="form-select" v-model="invoice.currency">
-                          <option :key="currency" v-for="currency in currencies" :value="currency">{{ currency }}</option>
-                      </select>
+                <div class="row invoice__section--item">
+                  <div class="col-12 mb--5">
+                    <p class="text--bold text--color-dark">Currency</p>
+                  </div>
+                  <div class="col-12">
+                    <div class="invoice__row invoice__item">
+                      <div class="invoice__details--item mt--10">
+                        <div class="select visible--xs width--100">
+                          <select class="form-select" v-model="invoice.currency">
+                            <option :key="currency" v-for="currency in currencies" :value="currency">{{ currency }}</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <!-- Project -->
-                <div class="row invoice__row" style="margin-top: 1rem;">
-                  <div class="form__row__left" style="width: 100%;">
-                    <label for class="mb-2 invoice__compile--memo--label">Project</label>
-                    <div class="select visible--xs">
-                      <select class="form-select" v-model="invoice.currency">
-                          <option :key="currency" v-for="currency in currencies" :value="currency">{{ currency }}</option>
-                      </select>
+                <div class="row invoice__section--item">
+                  <div class="col-12 mb--5">
+                    <p class="text--bold text--color-dark">Project</p>
+                  </div>
+                  <div class="col-12">
+                    <div class="invoice__row invoice__item">
+                      <div class="invoice__details--item mt--10">
+                        <div class="select visible--xs width--100">
+                          <select class="form-select" v-model="invoice.currency">
+                            <option :key="currency" v-for="currency in currencies" :value="currency">{{ currency }}</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
+                <!-- Add Item + computation -->
                 <div class="row invoice__row block">
                     <div class="invoice__calculate--wrap">
                       <div class="form__row__left" style="max-width: unset">
@@ -148,76 +172,92 @@
                     </div>
                 </div>
 
-                <!-- Add Item + computation -->
-                <div class="row block">
-                    <div class="flex align-items-center form__row" style="width: 100%; justify-content: space-between;">
-                      <div class="form__row__left">
-                          <span :class="isInvoiceEmpty === true ? 'disabled' : ''" @click="addAnotherInvoiceItem" class="link" >+ Add Item</span>
-                      </div>
-                      <div class="form__row__right invoice-compile">
-                          <div class="invoice__compile--row">
-                              <div class="invoice__compile--label">Subtotal</div>
-                              <div class="invoice__compile--value ml--10">NGN 0.00</div>
-                          </div>
-                          <div>
-                            <div class="invoice__compile--row">
-                              <div class="dropdown">
-                                <div class="invoice__compile--btn cursor-pointer" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Add Tax</div>
-                                <ul class="dropdown-menu invoice__tax--item" aria-labelledby="dropdownMenuButton1">
-                                  <li style="margin-top: 14px">
-                                    <div class="dropdown-item invoice__tax--item">
-                                      <select class="form-select form-select-sm invoice__compile--select" aria-label="Default select example">
-                                        <option selected>Tax Type</option>
-                                        <option value="percentage">Percentage</option>
-                                        <option value="flat">Flat</option>
-                                      </select>
-                                    </div>
-                                    </li>
-                                  <li>
-                                    <div class="dropdown-item invoice__tax--item" style="margin-top: 10px">
-                                      <input value="money" class="form-control" />
-                                    </div>
-                                  </li>
-                                  <li>
-                                    <div class="invoice__tax--item last dropdown-item">
-                                      <button type="button" class="btn btn--secondary btn--sm text--xs">Cancel</button>
-                                      <button type="button" class="btn btn--primary btn--sm text--xs">Add</button>
-                                    </div>
-                                  </li>
-                                </ul>
-                              </div>
-                              <div class="invoice__compile--value">NGN 0.00</div>
-                            </div>
-                          </div>
-                          <div class="invoice__compile--row invoice__row__total">
-                              <div class="invoice-computation__label bold">Total</div>
-                              <div class="invoice-computation__action"></div>
-                              <div class="invoice-computation__item bold">{{ invoice.currency }}</div>
-                          </div>
-                      </div>
-                    </div>
+                <!-- Subtotal -->
+                <div class="row invoice__section--item">
+                  <div class="col-12 mb--5">
+                    <p class="text--bold text--color-dark">Others</p>
                   </div>
-
-                <!-- Memo -->
-                <div class="row">
-                  <div class="invoice__compile--row invoice__compile--memo">
-                    <div class="">
-                      <label for="exampleFormControlTextarea1" class="mb-3 invoice__compile--memo--label">Memo</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                  <div class="col-12">
+                    <div class="invoice__row invoice__item">
+                      <div class="invoice__details--item mt--10 flex-column" >
+                        <div class="invoice__compile--row">
+                          <div class="invoice__compile--label">Subtotal</div>
+                          <div class="invoice__compile--value ml--10">NGN 0.00</div>
+                        </div>
+                        <div>
+                          <div class="invoice__compile--row">
+                            <div class="dropdown">
+                              <div class="invoice__compile--btn cursor-pointer" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Add Tax</div>
+                              <ul class="dropdown-menu invoice__tax--item" aria-labelledby="dropdownMenuButton1">
+                                <li style="margin-top: 14px">
+                                  <div class="dropdown-item invoice__tax--item">
+                                    <select class="form-select form-select-sm invoice__compile--select" aria-label="Default select example">
+                                      <option selected>Tax Type</option>
+                                      <option value="percentage">Percentage</option>
+                                      <option value="flat">Flat</option>
+                                    </select>
+                                  </div>
+                                  </li>
+                                <li>
+                                  <div class="dropdown-item invoice__tax--item" style="margin-top: 10px">
+                                    <input value="money" class="form-control" />
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="invoice__tax--item last dropdown-item">
+                                    <button type="button" class="btn btn--secondary btn--sm text--xs">Cancel</button>
+                                    <button type="button" class="btn btn--primary btn--sm text--xs">Add</button>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="invoice__compile--value">NGN 0.00</div>
+                          </div>
+                        </div>
+                        <div class="invoice__compile--row invoice__row__total">
+                          <div class="invoice-computation__label bold">Total</div>
+                          <div class="invoice-computation__action"></div>
+                          <div class="invoice-computation__item bold">{{ invoice.currency }}</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                  <!-- Due date -->
-                <div class="row">
-                  <div class="invoice__compile--row invoice__compile--memo">
-                    <div class="">
-                      <p class="mb-3 invoice__compile--memo--label">Reminder <span class="mb-2 text--xs" style="color: #687383; font-weight: 400;">(Due date)</span></p>
-                      <v-date-picker v-model="invoice.due_date">
-                        <template #default="{ inputValue, inputEvents }">
-                            <input class="px-3 py-1 border rounded due_date form-control" :value="inputValue" v-on="inputEvents" />
-                        </template>
-                      </v-date-picker>
+                <!--  Memo -->
+                <div class="row invoice__section--item">
+                  <div class="col-12 mb--5">
+                    <p class="text--bold text--color-dark">Memo</p>
+                  </div>
+                
+                  <div class="col-12">
+                    <div class="invoice__row invoice__item">
+                      <div class="invoice__details--item mt--10">
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                 <!-- Due date -->
+                <div class="row invoice__section--item">
+                  <div class="col-12 mb--5">
+                    <p class="text--bold text--color-dark">Reminder
+                      <span class="mb-2 text--xs" style="color: #687383; font-weight: 400;">(Due date)</span>                    
+                    </p>
+                  </div>
+                
+                  <div class="col-12">
+                    <div class="invoice__row invoice__item">
+                      <div class="invoice__details--item mt--10">
+                        <div class="">
+                          <v-date-picker v-model="invoice.due_date">
+                            <template #default="{ inputValue, inputEvents }">
+                                <input class="px-3 py-1 border rounded due_date form-control" :value="inputValue" v-on="inputEvents" />
+                            </template>
+                          </v-date-picker>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -228,49 +268,7 @@
     </div>
 
       <!-- add new client modal -->
-    <div class="modal fade" id="createClient" tabindex="-1" aria-labelledby="createClientLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="createClientLabel">Add client</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form @submit.prevent="" class="form--workspace__create mb--20">
-            <!-- client name -->
-            <div class="form__item">
-              <label for="name" class="form-label">Client Name</label>
-              <input type="text" class="form-control form-control-sm" v-model="newClient.name" id="name" placeholder="X design agency">
-            </div>
-            <!-- email address -->
-            <div class="form__item">
-              <label for="name" class="form-label">Email address</label>
-              <input type="text" class="form-control form-control-sm" v-model="newClient.email" id="email">
-            </div>
-            <!-- phone number -->
-            <div class="form__item">
-              <label for="name" class="form-label">Phone number</label>
-              <input type="text" class="form-control form-control-sm" v-model="newClient.phoneNumber" id="phoneNumber">
-            </div>
-            <!-- address -->
-            <div class="form__item">
-                <label for="name" class="form-label">Address</label>
-                <input type="text" class="form-control form-control-sm" v-model="newClient.address" id="address">
-            </div>
-            <!-- country -->
-            <div class="form__item">
-              <label for="name" class="form-label">Country</label>
-              <input type="text" class="form-control form-control-sm" v-model="newClient.country" id="country">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn--secondary mr--10 btn--sm" data-bs-dismiss="modal" aria-label="Close" @click="resetCreateClientData()">Cancel</button>
-            <button type="button" class="btn btn--primary btn--sm" :disabled="checkIfNewClientValuesAreValid" @click="createNewClient()">Create</button>
-        </div>
-        </div>
-      </div>
-    </div>
+      <create-client-modal :loading="isNewClientCreateLoading" :showModal="isClientModalOpen" @cancel="isClientModalOpen = false" />
 
     <!-- preview invoice off-canvas -->
     <preview-invoice :items="invoice.meta.items" />
@@ -284,6 +282,8 @@
 import SearchClientInput from "./helperComponents/SearchClientInput.vue";
 import PreviewInvoice from "./helperComponents/PreviewInvoice.vue";
 import InputMultipleEmails from '../shared/input/InputMultipleEmails'
+import CreateClientModal from '../shared/modals/CreateClient.vue'
+import OutlineButton from '../shared/buttons/OutlineButton'
 // import { createQueryString } from '../../../functions/request';
 // import { debounce, arrayToObject } from "../../../functions/utils";
 // import InputNumber from "@/ui/input-number.vue";
@@ -293,7 +293,9 @@ export default {
   components: {
     SearchClientInput,
     InputMultipleEmails,
-    PreviewInvoice
+    PreviewInvoice,
+    CreateClientModal,
+    OutlineButton
   },
 
   created() {
@@ -307,19 +309,19 @@ export default {
         newInvoice: false,
         existingInvoice: false,
       },
-      refNo: undefined,
+      invoiceNo: undefined,
       invoice: {
         amount: 0,
         currency: 'NGN',
         client: undefined,
-        client_email: "",
+        clientEmail: "",
         date_created: new Date(),
         date_paid: new Date(),
         description: "",
         due_date: new Date(),
         id: 0,
         meta: {
-          cc_emails: [],
+          ccEmails: [],
           tax: [{ tax_description: null, tax_name: "vat", tax_type: "flat", tax_value: 0 }],
           invoice_interval: [{ interval_description: null, interval_name: "invoice_interval", interval_type: "One Time", interval_value: "One Time" }],
           invoice_notes: [{ notes_description: null, notes_name: "invoice_notes", notes_type: "invoice_notes_1", notes_value: "" }],
@@ -391,22 +393,24 @@ export default {
       // have a state to keep track of whether the invoice being sent to the backend is valid
       isNewInvoiceDataValid: false,
       isClientEmailsEmpty: false  ,
-      firstItemIsEmpty: false 
+      firstItemIsEmpty: false,
+      isClientModalOpen: false,
+      isNewClientCreateLoading: false 
     }
   },
 
-  // beforeRouteEnter( to, from, next ) {
-  //   next( vm => {
-  //     if( to.name === "edit-invoice") { 
-  //       vm.refNo = vm.$route.params.id;
-  //       vm.fetchInvoice();
-  //       vm.type.existingInvoice = true;
-  //     }
-  //     else vm.type.newInvoice = true;
+  beforeRouteEnter( to, from, next ) {
+    next( vm => {
+      if(to.name === "edit-invoice-view") { 
+        vm.invoiceNo = vm.$route.params.id;
+        vm.fetchInvoice();
+        vm.type.existingInvoice = true;
+      }
+      else vm.type.newInvoice = true;
 
-  //     next();
-  //   })
-  // },
+      next();
+    })
+  },
 
   computed: {
     showMultipleEmailsField() {
@@ -440,13 +444,13 @@ export default {
     selectedClient: {
       get() {
         return {
-          email: this.invoice.client_email,
+          email: this.invoice.clientEmail,
           client: this.invoice.client,
         }
       },
 
       set( newVal ) {
-        this.invoice.email = newVal.client_email;
+        this.invoice.email = newVal.clientEmail;
         this.invoice.client = newVal.client;
       }
     },
@@ -456,13 +460,18 @@ export default {
        * @returns { [] }
       */
       get() {
-        const ccEmails = this.invoice.meta && this.invoice.meta.cc_emails;
+        const ccEmails = this.invoice.meta && this.invoice.meta.ccEmails; // if the user is editing
         if(!ccEmails || ccEmails.length <= 0 ) return [];
         else return ccEmails.split( "," );
       },
-       set(arr = []) {
-        this.invoice.meta.cc_emails = arr.join( "," )
+      set(arr = []) {
+        console.log({ arr });
+        this.invoice.meta.ccEmails = arr.join( "," )
       }
+    },
+
+    modifyEmails (arr = []) {
+      this.invoice.meta.ccEmails = arr.join( "," )
     },
 
     sendViaWhatsapp: {
@@ -521,6 +530,7 @@ export default {
         ) - parseFloat(this.invoiceDiscount)
       )
     },
+
     checkIfNewClientValuesAreValid() {
       if (this.newClient.name.length < 1) {
         return true
@@ -536,8 +546,9 @@ export default {
         return false
       }
     },
+
     checkIfCurrentClientEmails() {
-     if(!this.invoice.meta.cc || this.invoice.client_email.trim() === "") {
+     if(!this.invoice.meta.cc || this.invoice.clientEmail.trim() === "") {
         return true
      }
     }
@@ -552,6 +563,7 @@ export default {
       this.invoice.meta.items[i].item_unit = price;
       return typeof price === 'number' ? price.toFixed(3) : 0;
     },
+
     addAnotherInvoiceItem() {
       const isEmptyCheck = this.checkIfInvoiceItemIsEmpty();
 
@@ -569,6 +581,7 @@ export default {
         }]
       }
     },
+
     checkIfInvoiceItemIsEmpty() {
       let isAnItemEmpty = false;
 
@@ -596,6 +609,7 @@ export default {
       }
       return isAnItemEmpty
     },
+
     removeInvoiceItem( index = this.invoice.meta.items.length - 1 ) {
       /**
        * This will remove an invoice item from the list of items based on the index.
@@ -603,6 +617,7 @@ export default {
        */
       this.$delete( this.invoice.meta.items, index );
     },
+
     fetchCountries () {
       this.$http.get('i/v1/extras/countries?view_group=2').then( res => {
         this.countries = res.body.data
@@ -611,8 +626,10 @@ export default {
         console.error(err)
       })
     },
+
     createNewClient() {
-      this.newClient.clickedCreateBtn = true;
+      this.isNewClientCreateLoading = true
+
       const clientPayload = {
         client_name: this.newClient.name,
         email: this.newClient.email,
@@ -626,14 +643,14 @@ export default {
       //   if( ok !== true ) return console.error( "Couldn't create new client" );
       //   const client = data.data;
 
-        // this.invoice.client_email = client.client_email;
+        // this.invoice.clientEmail = client.clientEmail;
         // this.invoice.client = client;
 
-        this.invoice.client_email = this.newClient.email;
+        this.invoice.clientEmail = this.newClient.email;
         this.invoice.client = this.newClient;
         this.client.isEmpty = false;
         // this.resetCreateClientData();
-        $('#createClient').modal('hide');
+        this.isClientModalOpen = false
 
       //   toast.green( "Successfully added new client" )
       //   // close modal
@@ -650,7 +667,7 @@ export default {
       const $this = this;
 
       // validate client email
-      if(!this.invoice.client_email || this.invoice.client_email.trim() === "") {
+      if(!this.invoice.clientEmail || this.invoice.clientEmail.trim() === "") {
         this.client.isEmpty = true;
         isValid = false;
       } else {
@@ -682,12 +699,12 @@ export default {
         title: "Invoice from " + window.localStorage.companyName,
         description: this.invoice.meta.invoice_notes[ 0 ].notes_value,
         // due_date: moment( this.invoice.due_date ).format( "YYYY-MM-DD" ),
-        client_email: this.invoice.client_email,
+        clientEmail: this.invoice.clientEmail,
         client: {
           id: this.invoice.client ? this.invoice.client.id : undefined,
           fullname: this.invoice.client ? this.invoice.client.client_fullname : undefined,
-          phonenumber: this.invoice.client ? this.invoice.client.phonenumber : undefined,
-          email: this.invoice.client ? this.invoice.client.client_email : this.invoice.client_email,
+          phoneNumber: this.invoice.client ? this.invoice.client.phoneNumber : undefined,
+          email: this.invoice.client ? this.invoice.client.clientEmail : this.invoice.clientEmail,
           meta: this.invoice.client ? this.invoice.client.meta : undefined,
         }, 
         meta: this.invoice.meta
@@ -810,8 +827,8 @@ export default {
       });
     },
 
-    fetchInvoice() {
-      const queryString = `v2/invoices/${ this.refNo }/?include_client=1`;
+    fetchInvoice() { // for draft invoices
+      const queryString = `v2/invoices/${ this.invoiceNo }/?include_client=1`;
       this.$http.get(queryString).then(({ ok, data }) => {
         if (ok !== true) return;
         this.invoice = data.data;
@@ -831,7 +848,7 @@ export default {
       //   const url = transformQueryToString( "v2/clients/query", { q: query });
       //   this.$http.get( url ).then(({ ok, data }) => {
       //     const clients = data.data.clients;
-      //     this.otherclientsSearched = arrayToObject( clients, "client_email", "client_fullname" );
+      //     this.otherclientsSearched = arrayToObject( clients, "clientEmail", "client_fullname" );
       //   });
       // })
     },
@@ -881,9 +898,11 @@ export default {
         default: return "N/A"
       }
     },
+
     showAddTaxView() {
       this.isShowAddTax = !this.isShowAddTax
     },
+
     resetCreateClientData() {
       this.newClient.name = "";
       this.newClient.email = "";
@@ -917,26 +936,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.row>* {
-  width: auto;
-}
-.row.hidden-xs {
-  border-bottom: 1px solid #f5f5f5;
-  margin-bottom: 2rem;
-}
-.form__row__left {
-  max-width: 500px;
-}
-.row.invoice__row  {
-  border-bottom: 1px solid #f5f5f5;
-  margin-bottom: 1rem;
-  padding-bottom: 1.5rem;
-}
-
 .invoice__form__close-item {
   position: absolute;
   top: 5px;
   right: -40px;
   z-index: 9000;
+}
+.form-select {
+  font-size: 0.875rem;
+}
+.invoice__details--item {
+  max-width: 500px;
 }
 </style>

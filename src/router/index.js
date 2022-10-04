@@ -68,6 +68,8 @@ const routes = [
       { path: 'invoices', name: 'invoices-view', component: InvoicesView },
       
       { path: 'invoices/create', name: 'create-invoice-view', component: CreateInvoiceView },
+
+      { path: 'invoices/edit', name: 'edit-invoice-view', component: CreateInvoiceView },
       
       { path: 'invoices/:id', name: 'invoice-details-view', component: InvoiceDetailsView },
       

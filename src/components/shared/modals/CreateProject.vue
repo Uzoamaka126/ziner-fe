@@ -142,10 +142,3 @@ export default {
     }
 }
 </script>
-
-<style scoped lang="scss">
-    .modal__wrapper--onboarding {
-        padding-left: 32px;
-        padding-right: 32px;
-    }
-</style>

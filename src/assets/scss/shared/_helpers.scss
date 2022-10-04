@@ -64,7 +64,10 @@
         width: 100% !important;
     }
     &--auto{
-        width:auto;
+        width: auto;
+    }
+    &--fit{
+        width: fit-content !important;
     }
 }
 
