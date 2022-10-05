@@ -18,13 +18,13 @@
                           <button class="btn btn--secondary btn--sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Preview Invoice</button>
                       </div>
                       <div class="row__item positionRelative" style="padding-left: 5px; padding-right: 5px;">
-                          <button :disabled="requestIsDisabled" style="padding-left: 5px; padding-right: 5px;" @click="saveInvoice()" class="btn btn--secondary btn--sm">Save Invoice</button>
+                          <button :disabled="requestIsDisabled" @click="saveInvoice()" class="btn btn--secondary btn--sm">Save Invoice</button>
                       </div>
-                      <div class="row__item positionRelative">
-                          <button :disabled="requestIsDisabled" style="padding-left: 5px; padding-right: 5px;" @click="sendInvoice()" class="btn btn--primary btn--sm">Send Invoice</button>
+                      <div class="row__item positionRelative" style="padding-left: 5px; padding-right: 5px;">
+                          <button :disabled="requestIsDisabled" @click="sendInvoice()" class="btn btn--primary btn--sm">Send Invoice</button>
                       </div>
-                      <div class="row__item positionRelative" v-show="invoiceNo">
-                          <button :disabled="requestIsDisabled" style="padding-left: 5px; padding-right: 5px;" @click="deleteInvoice()" class="btn btn--danger btn--sm">Delete Invoice</button>
+                      <div class="row__item positionRelative" v-show="invoiceNo" style="padding-left: 5px; padding-right: 5px;">
+                          <button :disabled="requestIsDisabled" @click="deleteInvoice()" class="btn btn--danger btn--sm">Delete Invoice</button>
                       </div>
                   </div>
                 </div>
@@ -54,18 +54,21 @@
                 <!-- other emails -->
                 <div v-if="showMultipleEmailsField" class="row invoice__section--item">
                     <div class="col-12 mb--5">
-                      <p class="text--bold text--color-dark">Send to other emails</p>
+                      <p class="text--bold text--color-dark">Send to other emails 
+                        <span class="mb-2 text--xs" style="color: #687383; font-weight: 400;">(You can add only {{ getCCEmailsCount }} emails)</span>   
+                      </p>
                     </div>
                     <div class="col-12">
                       <div class="invoice__row invoice__item">
                         <div class="invoice__details--item mt--10">
                           <input-multiple-emails
-                            v-model="otherClientEmails"
                             placeholder="enter a client's email"
                             :dropdown-fields="otherclientsSearched" 
                             @typing="searchClients"
+                            @update="modifyEmails"
+                            :limit="3"
                           />
-                          <!-- @updateCCEmails="modifyEmails" -->
+                            <!-- v-model="otherClientEmails" -->
                         </div>
                       </div>
                     </div>
@@ -377,7 +380,7 @@ export default {
           masked: false
         },
       },
-      toggleOtherEmail: 'default',
+      toggleOtherEmail: false,
       requestIsDisabled: false,
       invoiceTaxType: {
         /**
@@ -414,20 +417,7 @@ export default {
 
   computed: {
     showMultipleEmailsField() {
-      /**
-       * On initial state If there are other clients shown, show those other clients.
-       * and if there are no clients don't show the other clients
-       * 
-       * After the initial state the toggle buttons will either set `toggleOtherEmails` to
-       * true or false, In that case we just use that to determine the display.
-       */
-      if(this.toggleOtherEmail === "default" && this.otherClientEmails.length > 0 ) {
-        return true;
-      }
-      else if(this.toggleOtherEmail === "default" && this.otherClientEmails.length <= 0 ) {
-        return false;
-      }
-      else return this.toggleOtherEmail;
+      return this.toggleOtherEmail ? true : false
     },
     
     moneyConfig() {
@@ -455,24 +445,20 @@ export default {
       }
     },
 
-    otherClientEmails: {
-      /**  
-       * @returns { [] }
-      */
-      get() {
-        const ccEmails = this.invoice.meta && this.invoice.meta.ccEmails; // if the user is editing
-        if(!ccEmails || ccEmails.length <= 0 ) return [];
-        else return ccEmails.split( "," );
-      },
-      set(arr = []) {
-        console.log({ arr });
-        this.invoice.meta.ccEmails = arr.join( "," )
-      }
-    },
-
-    modifyEmails (arr = []) {
-      this.invoice.meta.ccEmails = arr.join( "," )
-    },
+    // otherClientEmails: {
+    //   /**  
+    //    * @returns { [] }
+    //   */
+    //   get() {
+    //     const ccEmails = this.invoice.meta && this.invoice.meta.ccEmails; // if the user is editing
+    //     if(!ccEmails || ccEmails.length <= 0 ) return [];
+    //     else return ccEmails.split( "," );
+    //   },
+    //   set(arr = []) {
+    //     console.log({ arr });
+    //     this.invoice.meta.ccEmails = arr.join( "," )
+    //   }
+    // },
 
     sendViaWhatsapp: {
       get: function() {
@@ -551,10 +537,17 @@ export default {
      if(!this.invoice.meta.cc || this.invoice.clientEmail.trim() === "") {
         return true
      }
+    },
+    getCCEmailsCount() {
+      return 3 - (this.invoice.meta.ccEmails.length)
     }
   },
 
   methods: {
+    modifyEmails (arr = []) {
+      console.log({ arr }, 'hit here');
+      this.invoice.meta.ccEmails = arr
+    },
     itemAmount( i ) {
       const item = this.invoice.meta.items[ i ]
       const quantity = item.item_quantity;

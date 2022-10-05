@@ -58,8 +58,9 @@ export default {
 
     computed: {
        isEmailListLimitReached() {
-            return this.enteredEmailList.length >= 3;
+            return this.enteredEmailList.length >= this.limit;
         },
+
         isArray() {
             return this.dropdownFields instanceof Array;
         },
@@ -99,7 +100,8 @@ export default {
         removeSingleEmail(idx) {
             // removal by index
             this.enteredEmailList = this.enteredEmailList.filter((item, index) => index !== idx);
-            this.$emit("updateCCEmails", this.enteredEmailList)
+            this.$emit("update", this.enteredEmailList)
+            console.log({ enteredEmailList: this.enteredEmailList }, 'removeSingleEmail');
         },
 
         addCurrentEmailOnBlur() {
@@ -107,7 +109,8 @@ export default {
             if (getCurrentlyTypedEmail.length === 0) return;
 
             this.enteredEmailList.push(getCurrentlyTypedEmail);
-            this.$emit("updateCCEmails", this.enteredEmailList)
+            this.$emit("update", this.enteredEmailList)
+            console.log({ enteredEmailList: this.enteredEmailList }, 'addCurrentEmailOnBlur');
             this.resetEmailInput();
         },
 
@@ -150,8 +153,10 @@ export default {
             else if(filteredAllowedKeyCodes) { 
                 e.preventDefault();
                 this.enteredEmailList.push(getEmailTextTrimmed);
-                this.$emit("updateCCEmails", this.enteredEmailList)
+
                 this.$emit("select", getEmailTextTrimmed);
+                this.$emit("update", this.enteredEmailList)
+                console.log({ enteredEmailList: this.enteredEmailList }, 'handleEmailKeyDown');
                 this.resetEmailInput();
             }
         },
