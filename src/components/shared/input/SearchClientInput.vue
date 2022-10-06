@@ -13,24 +13,34 @@
     </div>
     <div class="input__dropdown" v-show="dropDownIsShown">
       <div class="input__dropdown__items">
+        <div class="flex justify-content-center  mt--10 mb--10">
+            <outline-button 
+                :outlineType="'secondary'" 
+                :classNames="'text--xs w--fit'" 
+                :label="btnLabel" 
+                :isDisabled="loading"
+                @click="addNewItem" 
+            />
+        </div>
         <div v-if="loading">
             <div style="display: flex; justify-content: center; padding-top: 1rem; padding-bottom: 1rem">
                 <div class="spinner-border text-primary" role="status" style="color: #596dde !important;">
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-        </div>  
-        <div v-else-if="!loading && list.length > 0">
-            <p class="text--color-dark text--capitalize">All {{ listType }}s</p>
-            <div @click="selectItem(item)" :key="item.id" v-for="item in list" class="input__dropdown__item">
-                <span v-if="listType === 'client'" style="color: #1a1f36">{{ item.name }} </span> - <span style="color: #697386">{{ item.email }}</span>
-                <span v-if="listType === 'project'" style="color: #697386">{{ item.title }}</span>
+        </div>
+        <div v-else-if="!loading && list.length > 0" class="search__wrap">
+            <p class="text--color-dark text--upper text--medium text--xs mb--10 mt--20">All {{ listType }}s</p>
+            <div class="search__list">
+                <div @click="selectItem(item)" :key="item.id" v-for="item in list" class="input__dropdown__item text--xs">
+                    <span v-if="listType === 'client'" class="text--medium text--color item--title">{{ item.name }} </span> - <span style="color: #697386">{{ item.emails[0] }}</span>
+                    <span v-if="listType === 'project'" class="item--subtitle">{{ item.title }}</span>
+                </div>
             </div>
         </div>
         <div v-else>
-            <div class="no__clients">
-                <p>No {{ listType }}s found</p>
-                <outline-button :outlineType="'secondary'" :classNames="'text--xs w--fit mt--10 mb--10'" :label="btnLabel" @click="addNewItem" />
+            <div class="no__clients mb--10">
+                <p class="text--xs">No {{ listType }}s found</p>
             </div>
         </div>
       </div>
@@ -223,6 +233,18 @@ export default {
         position: relative;
     }
 
+    .search  {
+        &__wrap {
+            padding-left: 15px;
+            padding-right: 5px;
+        }
+        &__list{
+            height: 200px;
+            scroll-behavior: smooth;
+            overflow-y: scroll;
+        }
+    }
+
   .input__dropdown {
     width: 100%;
     margin-top: 5px;
@@ -238,21 +260,9 @@ export default {
   }
 
   .input__dropdown__item {
-    padding: 5px 10px;
+    padding: 7px 0px;
     cursor: pointer;
   }
-  .add__client--email {
-       padding: 5px;
-        
-        &.no_client {
-            background-color: #596dde;
-            color: #f2f2f2;
-        }
-        &.client {
-            background-color: transparent;
-            color: #1a1f36;
-        }
-    }
     .no__clients {
         display: flex;
         justify-content: center;
@@ -266,6 +276,14 @@ export default {
                 cursor: pointer;
                 font-weight: 500;
             }
+        }
+    }
+    .item {
+        &--title {
+            color: #1a1f36;
+        }
+        &--subtitle {
+            color: #697386;
         }
     }
 </style>

@@ -44,7 +44,8 @@
                                 :disabled="invoice.status !== 'draft'" 
                                 :placeholder="'Add or select a client'" 
                                 :listType="'client'" 
-                                :btnLabel="'+ Add new Client'"
+                                :btnLabel="'+ Add new client'"
+                                :list="clients"
                                 @addItem="isClientModalOpen = true"
                               />
                             </div>
@@ -62,7 +63,7 @@
                               <div v-if="showMultipleEmailsField" @click="toggleOtherEmail = false" class="link text--xs">- Use only one email address</div>
                               <div v-else @click="toggleOtherEmail = true" class="link text--xs">+ Mail to more than one email address</div>
                             </div>
-                            <outline-button :outlineType="'secondary'" :classNames="'text--xs w--fit'" :label="'+ New Client'" @click="isClientModalOpen = true" />
+                            <!-- <outline-button :outlineType="'secondary'" :classNames="'text--xs w--fit'" :label="'+ New Client'" @click="isClientModalOpen = true" /> -->
                           </div>
                         </div>
                       </div>
@@ -128,7 +129,7 @@
                               :disabled="invoice.status !== 'draft'" 
                               :placeholder="'Add or select a project'" 
                               :listType="'project'" 
-                              :btnLabel="'+ Add new Project'"
+                              :btnLabel="'+ Add new project'"
                               @addItem="isProjectModalOpen = true"
                             />
                             </div>
@@ -312,15 +313,15 @@
 </template>
 
 <script>
-// import { userCountry, paymentLinkSupportedCountries } from "../../../functions/countries"
-// import toast from "@/functions/toast";
-// TO DO
 import SearchClientInput from "../shared/input/SearchClientInput.vue";
 import PreviewInvoice from "./helperComponents/PreviewInvoice.vue";
 import InputMultipleEmails from '../shared/input/InputMultipleEmails'
 import CreateClientModal from '../shared/modals/CreateClient.vue'
 import CreateProjectModal from '../shared/modals/CreateProject.vue'
-import OutlineButton from '../shared/buttons/OutlineButton'
+import OutlineButton from '../shared/buttons/OutlineButton';
+import clientsList from '../../assets/js/clients.json'
+import projectsList from '../../assets/js/projects.json'
+
 // import { createQueryString } from '../../../functions/request';
 // import { debounce, arrayToObject } from "../../../functions/utils";
 // import InputNumber from "@/ui/input-number.vue";
@@ -399,7 +400,6 @@ export default {
         address: "",
         clickedCreateBtn: false,
       },
-      countries: [],
       otherclientsSearched: [],
       currencies: ['NGN', 'USD', 'EUR', 'GHS', 'GBP'],
       config: {
@@ -453,7 +453,9 @@ export default {
       isClientModalOpen: false,
       isNewClientCreateLoading: false,
       isCreateProjectLoading: false,
-      isProjectModalOpen: false
+      isProjectModalOpen: false,
+      projects: projectsList || [],
+      clients: clientsList || []
     }
   },
 

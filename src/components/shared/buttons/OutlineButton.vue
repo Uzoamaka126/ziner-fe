@@ -3,7 +3,7 @@
         class="btn" 
         type="button" 
         :class="[classNames, type]" 
-        :disabled="isBtnDisabled" 
+        :disabled="isDisabled" 
         :style="{ width: btnSize }" 
         @click="$emit('submit')"
     >
@@ -23,7 +23,7 @@ export default {
     },
     props: {
         loading: { type: Boolean, default: false },
-        isBtnDisabled: { type: Boolean, default: false },
+        isDisabled: { type: Boolean, default: false },
         btnSize: { type: String, default: '' },
         classNames: { type: String, default: '' },
         outlineType: { type: String, default: '' },
