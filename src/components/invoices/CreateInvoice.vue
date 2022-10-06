@@ -5,11 +5,11 @@
         <div class="panel">    
             <div class="panel__content">
               <div style="margin-top: 1rem; padding-bottom: 3rem;">
-                <div class="row hidden-xs">  
-                  <div class="row__left">
+                <div class="row hidden-xs mb--20 header">  
+                  <div class="row__left mb--20">
                       <div class="row__item">
                           <div v-if="invoiceNo" class="page-title__text text--bold">INVOICE #{{ invoiceNo }}</div>
-                          <div v-else class="text--bold">Create Invoice</div>
+                          <div v-else class="text--bold text--md">Create Invoice</div>
                       </div>
                   </div>
                   <!-- invoice button actions -->
@@ -18,13 +18,13 @@
                           <button class="btn btn--secondary btn--sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Preview Invoice</button>
                       </div>
                       <div class="row__item positionRelative" style="padding-left: 5px; padding-right: 5px;">
-                          <button :disabled="requestIsDisabled" @click="saveInvoice()" class="btn btn--secondary btn--sm">Save Invoice</button>
+                          <button :disabled="isSaveBtnDisabled" @click="saveInvoice()" class="btn btn--secondary btn--sm">Save Invoice</button>
                       </div>
                       <div class="row__item positionRelative" style="padding-left: 5px; padding-right: 5px;">
-                          <button :disabled="requestIsDisabled" @click="sendInvoice()" class="btn btn--primary btn--sm">Send Invoice</button>
+                          <button :disabled="isSaveBtnDisabled" @click="sendInvoice()" class="btn btn--primary btn--sm">Send Invoice</button>
                       </div>
                       <div class="row__item positionRelative" v-show="invoiceNo" style="padding-left: 5px; padding-right: 5px;">
-                          <button :disabled="requestIsDisabled" @click="deleteInvoice()" class="btn btn--danger btn--sm">Delete Invoice</button>
+                          <button @click="deleteInvoice()" class="btn btn--danger btn--sm">Delete Invoice</button>
                       </div>
                   </div>
                 </div>
@@ -34,22 +34,40 @@
                     <div class="col-12 mb--5">
                       <p class="text--bold text--color-dark">Client info</p>
                     </div>
-                    <div class="col-12">
-                      <div class="invoice__row invoice__item">
+                    <div class="invoice__row invoice__item">
+                      <div class="col-12">
+                        <div class="invoice__details--item mt--10 m-w-100">
+                          <div class="flex align-items-center mt--10 width--100">
+                            <div v-if="!client.name" class="col-6">
+                              <search-client-input 
+                                v-model="selectedClient" 
+                                :disabled="invoice.status !== 'draft'" 
+                                :placeholder="'Add or select a client'" 
+                                :listType="'client'" 
+                                :btnLabel="'+ Add new Client'"
+                                @addItem="isClientModalOpen = true"
+                              />
+                            </div>
+                            <div v-else>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="col-12 mt--40">
                         <div class="invoice__details--item mt--10">
                           <div class="flex align-items-center mt--10">
-                            <div style="min-width: 400px;">
+                             <div style="min-width: 400px;">
                               <div v-if="showMultipleEmailsField" @click="toggleOtherEmail = false" class="link text--xs">- Use only one email address</div>
                               <div v-else @click="toggleOtherEmail = true" class="link text--xs">+ Mail to more than one email address</div>
                             </div>
                             <outline-button :outlineType="'secondary'" :classNames="'text--xs w--fit'" :label="'+ New Client'" @click="isClientModalOpen = true" />
-                            <!-- <span  class="link text--sm">+ New Client</span> -->
                           </div>
                         </div>
                       </div>
                     </div>
                 </div>
-                <!-- <search-client-input v-model="selectedClient" :disabled="invoice.status !== 'draft'" /> -->
 
                 <!-- other emails -->
                 <div v-if="showMultipleEmailsField" class="row invoice__section--item">
@@ -80,15 +98,18 @@
                     <p class="text--bold text--color-dark">Currency</p>
                   </div>
                   <div class="col-12">
-                    <div class="invoice__row invoice__item">
-                      <div class="invoice__details--item mt--10">
-                        <div class="select visible--xs width--100">
-                          <select class="form-select" v-model="invoice.currency">
-                            <option :key="currency" v-for="currency in currencies" :value="currency">{{ currency }}</option>
-                          </select>
+                    <div class="col-6">
+                      <div class="invoice__row invoice__item">
+                        <div class="invoice__details--item mt--10">
+                          <div class="select visible--xs width--100">
+                            <select class="form-select" v-model="invoice.currency">
+                              <option :key="currency" v-for="currency in currencies" :value="currency">{{ currency }}</option>
+                            </select>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <div class="col-6"></div>
                   </div>
                 </div>
 
@@ -101,9 +122,20 @@
                     <div class="invoice__row invoice__item">
                       <div class="invoice__details--item mt--10">
                         <div class="select visible--xs width--100">
-                          <select class="form-select" v-model="invoice.currency">
-                            <option :key="currency" v-for="currency in currencies" :value="currency">{{ currency }}</option>
-                          </select>
+                          <div v-if="!project.title">
+                            <search-client-input 
+                              v-model="selectedClient" 
+                              :disabled="invoice.status !== 'draft'" 
+                              :placeholder="'Add or select a project'" 
+                              :listType="'project'" 
+                              :btnLabel="'+ Add new Project'"
+                              @addItem="isProjectModalOpen = true"
+                            />
+                            </div>
+                            <div v-else>
+
+                            </div>
+                         
                         </div>
                       </div>
                     </div>
@@ -272,6 +304,7 @@
 
       <!-- add new client modal -->
       <create-client-modal :loading="isNewClientCreateLoading" :showModal="isClientModalOpen" @cancel="isClientModalOpen = false" />
+      <create-project-modal :loading="isCreateProjectLoading" :showModal="isProjectModalOpen" @cancel="isProjectModalOpen = false" />
 
     <!-- preview invoice off-canvas -->
     <preview-invoice :items="invoice.meta.items" />
@@ -282,10 +315,11 @@
 // import { userCountry, paymentLinkSupportedCountries } from "../../../functions/countries"
 // import toast from "@/functions/toast";
 // TO DO
-import SearchClientInput from "./helperComponents/SearchClientInput.vue";
+import SearchClientInput from "../shared/input/SearchClientInput.vue";
 import PreviewInvoice from "./helperComponents/PreviewInvoice.vue";
 import InputMultipleEmails from '../shared/input/InputMultipleEmails'
 import CreateClientModal from '../shared/modals/CreateClient.vue'
+import CreateProjectModal from '../shared/modals/CreateProject.vue'
 import OutlineButton from '../shared/buttons/OutlineButton'
 // import { createQueryString } from '../../../functions/request';
 // import { debounce, arrayToObject } from "../../../functions/utils";
@@ -298,7 +332,8 @@ export default {
     InputMultipleEmails,
     PreviewInvoice,
     CreateClientModal,
-    OutlineButton
+    OutlineButton,
+    CreateProjectModal
   },
 
   created() {
@@ -316,7 +351,7 @@ export default {
       invoice: {
         amount: 0,
         currency: 'NGN',
-        client: undefined,
+        clientId: '',
         clientEmail: "",
         date_created: new Date(),
         date_paid: new Date(),
@@ -336,6 +371,24 @@ export default {
       },
       client: {
         isEmpty: false,
+        _id: '',
+        name: '',
+        phoneNumber: '',
+        emails: [],
+        country: '',
+        address: '',
+        organizationType: '',
+      },
+      project: {
+        isEmpty: false,
+        _id: '',
+        title: '',
+        status: '',
+        tags: [],
+        isFavourite: false,
+        deadline: undefined,
+        invoices: [],
+        tags: [],
       },
       itemErrors: [],
       newClient: {
@@ -398,21 +451,10 @@ export default {
       isClientEmailsEmpty: false  ,
       firstItemIsEmpty: false,
       isClientModalOpen: false,
-      isNewClientCreateLoading: false 
+      isNewClientCreateLoading: false,
+      isCreateProjectLoading: false,
+      isProjectModalOpen: false
     }
-  },
-
-  beforeRouteEnter( to, from, next ) {
-    next( vm => {
-      if(to.name === "edit-invoice-view") { 
-        vm.invoiceNo = vm.$route.params.id;
-        vm.fetchInvoice();
-        vm.type.existingInvoice = true;
-      }
-      else vm.type.newInvoice = true;
-
-      next();
-    })
   },
 
   computed: {
@@ -435,12 +477,12 @@ export default {
       get() {
         return {
           email: this.invoice.clientEmail,
-          client: this.invoice.client,
+          client: this.client,
         }
       },
 
       set( newVal ) {
-        this.invoice.email = newVal.clientEmail;
+        this.invoice.clientEmail = newVal.clientEmail;
         this.invoice.client = newVal.client;
       }
     },
@@ -540,6 +582,21 @@ export default {
     },
     getCCEmailsCount() {
       return 3 - (this.invoice.meta.ccEmails.length)
+    },
+    
+    isSaveBtnDisabled () {
+      if (
+        !this.invoice.amount || 
+        !this.invoice.currency || 
+        !this.client.isEmpty || 
+        !this.project.isEmpty || 
+        !this.invoice.meta.items.length || 
+        !this.invoice.title
+      ) {
+        return true
+      } else {
+        return false
+      }
     }
   },
 
@@ -924,11 +981,34 @@ export default {
       if( this.invoiceSubTotal <= 0 ) return;
       this.invoiceTax = parseFloat( (newVal / 100 ) * this.invoiceSubTotal ).toFixed(2);
     },
-  }
+  },
+
+   beforeRouteEnter( to, from, next ) {
+    next( vm => {
+      if(to.name === "edit-invoice-view") { 
+        vm.invoiceNo = vm.$route.params.id;
+        vm.fetchInvoice();
+        vm.type.existingInvoice = true;
+      }
+      else vm.type.newInvoice = true;
+
+      next();
+    })
+  },
 }
 </script>
 
 <style lang="scss" scoped>
+.row  {
+  &.header {
+    justify-content: space-between;
+  }
+
+  .row__left, .row__right {
+    width: fit-content;
+    max-width: fit-content;
+  }
+}
 .invoice__form__close-item {
   position: absolute;
   top: 5px;

@@ -1,7 +1,7 @@
 <template>
     <div>
         <main-modal 
-            :showModal="showCreateProjectModal" 
+            :showModal="showModal" 
             :isCloseButton=false 
             :modalSize="'modal__dialog--lg'"
             :width="'620px'"
@@ -87,7 +87,7 @@ export default {
     components: {
         'main-modal': MainModal,
     },
-    props: ["showCreateProjectModal", "toggleCreateProjectModal"],
+    props: ["showModal", "toggleCreateProjectModal"],
     data: () => ({
        statuses: PROJECT_STATUSES,
        form: {
