@@ -6,10 +6,11 @@
             v-model="getClientEmail" 
             @click="showDropdown" 
             @keyup="waitTillTypingIsDone" 
+            @change="$emit('update:selection', $event.target.value)"
             type="email" 
             :placeholder="placeholder" 
             class="form-control form-control-sm"
-        >  
+        />  
     </div>
     <div class="input__dropdown" v-show="dropDownIsShown">
       <div class="input__dropdown__items">
@@ -30,10 +31,10 @@
             </div>
         </div>
         <div v-else-if="!loading && list.length > 0" class="search__wrap">
-            <p class="text--color-dark text--upper text--medium text--xs mb--10 mt--20">All {{ listType }}s</p>
+            <p class="text--color-dark text--upper text--bold text--xs mb--10 mt--20">All {{ listType }}s</p>
             <div class="search__list">
                 <div @click="selectItem(item)" :key="item.id" v-for="item in list" class="input__dropdown__item text--xs">
-                    <span v-if="listType === 'client'" class="text--medium text--color item--title">{{ item.name }} </span> - <span style="color: #697386">{{ item.emails[0] }}</span>
+                    <span v-if="listType === 'client'" class="text--medium text--color item--title">{{ item.name }} </span> - <span style="color: #697386">{{ item.email }}</span>
                     <span v-if="listType === 'project'" class="item--subtitle">{{ item.title }}</span>
                 </div>
             </div>
@@ -103,9 +104,8 @@ export default {
             },
 
             set (value) {
-                // remove whitespaces.
                 if (this.listType === 'client') {
-                    email = value.trim();
+                    value = value.trim();
                     // If no email was entered, set the customer to undefined.
                     if (value.length === 0 ) {
                         this.reactiveSelection.email = "";
@@ -115,43 +115,42 @@ export default {
                     }
     
                     // Update the reactive customer based on the email.
-                    const getClient = this.clients.find(client => client.email === value);
+                    const getClient = this.list.find(client => client.email === value);
                     
                     // If the email is not found while searching, let the user add that email as a new email
-                    if (getClient === undefined ) {
-                        this.reactiveSelection.email = value;
+                    if (!getClient) {
+                        this.reactiveSelection.email = "";
                         this.reactiveSelection.customer = undefined;
-                        this.$emit("change", this.reactiveSelection);
-                    }
-    
-                    else {
+                        // this.$emit("change", this.reactiveSelection);
+                        return
+                    } else {
                         this.reactiveSelection.email = getClient.email;
-                        this.reactiveSelection.customer = getClient;
+                        this.reactiveSelection.client = getClient;
                         this.$emit("change", this.reactiveSelection );
                     }
-                } else if (this.listType === 'client') {
+                }
+                
+                if (this.listType === 'project') {
                     email = value.trim();
                     // If no email was entered, set the customer to undefined.
-                    if (value.length === 0 ) {
-                        this.reactiveSelection.email = "";
-                        this.reactiveSelection.client = undefined;
-                        this.$emit("change", this.reactiveSelection);
+                    if (!value.length) {
+                        this.reactiveSelection.title = "";
+                        this.reactiveSelection.project = undefined;
+                        // this.$emit("change", this.reactiveSelection);
                         return;
                     }
     
                     // Update the reactive customer based on the email.
-                    const getClient = this.clients.find(client => client.email === value);
+                    const getProject = this.list.find(item => item.title === value);
                     
-                    // If the email is not found while searching, let the user add that email as a new email
-                    if (getClient === undefined ) {
-                        this.reactiveSelection.email = value;
-                        this.reactiveSelection.customer = undefined;
-                        this.$emit("change", this.reactiveSelection);
-                    }
-    
-                    else {
-                        this.reactiveSelection.email = getClient.email;
-                        this.reactiveSelection.customer = getClient;
+                    if (!getProject) {
+                        this.reactiveSelection.title = undefined;
+                        this.reactiveSelection.project = undefined;
+                        return;
+                        // this.$emit("change", this.reactiveSelection);
+                    } else {
+                        this.reactiveSelection.title = getProject.title;
+                        this.reactiveSelection.project = getProject;
                         this.$emit("change", this.reactiveSelection );
                     }
                 }
@@ -163,23 +162,21 @@ export default {
         selection(newVal) {
             this.reactiveSelection = newVal;
         },
-        reactiveSelection( newVal ) {
-            this.$emit( "change", newVal )
-            this.$emit('input', newVal)
-        }
     },
 
     methods: {
         selectItem(item) {
             if (this.listType === 'client') {
-                this.reactiveSelection.client = client;
+                this.reactiveSelection.client = item;
                 this.reactiveSelection.email = item.email;
                 this.$emit("change", this.reactiveSelection)
+                this.$emit("setItem", this.reactiveSelection?.client)
             }
             if (this.listType === 'project') {
-                this.reactiveSelection.project = project;
+                this.reactiveSelection.project = item;
                 this.reactiveSelection.title = item.title;
                 this.$emit("change", this.reactiveSelection)
+                this.$emit("setItem", this.reactiveSelection?.project)
             }
             this.hideDropdown();
         },
@@ -210,12 +207,15 @@ export default {
         },
 
         hideDropdown() {
+            this.$emit('none')
             this.dropDownIsShown = false;
         },
 
         showDropdown() {
+            this.$emit('setType')
             this.dropDownIsShown = true;
         },
+
         addNewItem() {
             // switch(itemType) {
             //     case 'client':

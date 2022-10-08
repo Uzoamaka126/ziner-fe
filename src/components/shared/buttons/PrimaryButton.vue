@@ -23,7 +23,7 @@ export default {
     props: {
         loading: { type: Boolean, default: false },
         isBtnDisabled: { type: Boolean, default: false },
-        btnSize: { type: String, default: '100%' },
+        btnSize: { type: String, default: '' },
         classNames: { type: String, default: '' },
     },
 }

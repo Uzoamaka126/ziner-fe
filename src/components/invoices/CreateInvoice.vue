@@ -31,26 +31,50 @@
 
                 <!-- Client info -->
                  <div class="row invoice__section--item">
-                    <div class="col-12 mb--5">
-                      <p class="text--bold text--color-dark">Client info</p>
+                    <div class="col-12 mb--5 flex align-items-center">
+                      <span class="text--bold text--color-dark">Client info</span>
+                      <span v-show="this.client.name" class="text--bold text--xs text--color-primary ml--5 cursor-pointer" @click="toggleClientView()">(Switch view)</span>
                     </div>
                     <div class="invoice__row invoice__item">
                       <div class="col-12">
                         <div class="invoice__details--item mt--10 m-w-100">
                           <div class="flex align-items-center mt--10 width--100">
-                            <div v-if="!client.name" class="col-6">
+                            <div v-if="!showClientInfoView" class="col-6">
                               <search-client-input 
-                                v-model="selectedClient" 
+                                v-model:selection="selectedClient" 
                                 :disabled="invoice.status !== 'draft'" 
                                 :placeholder="'Add or select a client'" 
-                                :listType="'client'" 
+                                :listType="searchInputType" 
                                 :btnLabel="'+ Add new client'"
                                 :list="clients"
-                                @addItem="isClientModalOpen = true"
+                                @addItem="toggleModalActionType('client', 'add')"
+                                @setItem="setSelectedItem"
+                                @setType="searchInputType = 'client'"
                               />
                             </div>
-                            <div v-else>
-
+                            <div class="width--100 flex" v-else>
+                              <div class="mr--35">
+                                <p class="text--medium text-color-dark mb--5 text--sm">Name: <span class="text--color-normal">{{ client.name || 'N/A' }}</span></p>
+                                <p class="text--medium text-color-dark mb--5 text--sm">Email address: <span class="text--color-normal">{{ client.email || 'N/A' }}</span></p>
+                                <p class="text--medium text-color-dark mb--5 text--sm">Phone number: <span class="text--color-normal">{{ client.phoneNumber || 'N/A' }}</span></p>
+                                <p class="text--medium text-color-dark mb--5 text--sm">Country: <span class="text--color-normal">{{ client.country || 'N/A' }}</span></p>
+                                <p class="text--medium text-color-dark mb--5 text--sm">Address: <span class="text--color-normal">{{ client.address || 'N/A' }}</span></p>
+                                <p class="text--medium text-color-dark mb--5 text--sm">Industry: <span class="text--color-normal">{{ client.organizationType || 'N/A' }}</span></p>
+                              </div>
+                              <div class="client__btn--actions">
+                                <div data-bs-toggle="dropdown">
+                                    <div class="icon cursor-pointer" tabindex="-1" title="More options">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #95899b;transform: ;msFilter:;">
+                                          <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="tagActions">
+                                    <li class="cursor-pointer" @click="toggleModalActionType('client', 'edit')">
+                                        <p class="dropdown-item block width-100 text--xs">Edit client info</p>
+                                    </li>
+                                </ul>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -63,7 +87,6 @@
                               <div v-if="showMultipleEmailsField" @click="toggleOtherEmail = false" class="link text--xs">- Use only one email address</div>
                               <div v-else @click="toggleOtherEmail = true" class="link text--xs">+ Mail to more than one email address</div>
                             </div>
-                            <!-- <outline-button :outlineType="'secondary'" :classNames="'text--xs w--fit'" :label="'+ New Client'" @click="isClientModalOpen = true" /> -->
                           </div>
                         </div>
                       </div>
@@ -125,12 +148,15 @@
                         <div class="select visible--xs width--100">
                           <div v-if="!project.title">
                             <search-client-input 
-                              v-model="selectedClient" 
+                              v-model:selection="selectedClient" 
                               :disabled="invoice.status !== 'draft'" 
                               :placeholder="'Add or select a project'" 
-                              :listType="'project'" 
                               :btnLabel="'+ Add new project'"
-                              @addItem="isProjectModalOpen = true"
+                              :listType="searchInputType" 
+                              :list="projects"
+                              @addItem="toggleModalActionType('project', 'add')"
+                              @setItem="setSelectedItem"
+                              @setType="searchInputType = 'project'"
                             />
                             </div>
                             <div v-else>
@@ -304,8 +330,19 @@
     </div>
 
       <!-- add new client modal -->
-      <create-client-modal :loading="isNewClientCreateLoading" :showModal="isClientModalOpen" @cancel="isClientModalOpen = false" />
-      <create-project-modal :loading="isCreateProjectLoading" :showModal="isProjectModalOpen" @cancel="isProjectModalOpen = false" />
+      <create-client-modal 
+        :loading="isSaveClientLoading" 
+        :showModal="isClientModalOpen" 
+        @cancel="isClientModalOpen = false; searchInputType = 'none'" 
+        @addClient="createNewClient" 
+        :actionType="clientModalActionType"
+        :clientData="client"
+      />
+      <create-project-modal 
+        :loading="isCreateProjectLoading" 
+        :showModal="isProjectModalOpen" 
+        @cancel="isProjectModalOpen = false; searchInputType = 'none'" 
+      />
 
     <!-- preview invoice off-canvas -->
     <preview-invoice :items="invoice.meta.items" />
@@ -375,10 +412,11 @@ export default {
         _id: '',
         name: '',
         phoneNumber: '',
-        emails: [],
+        email: '',
         country: '',
         address: '',
         organizationType: '',
+        ccEmails: []
       },
       project: {
         isEmpty: false,
@@ -392,14 +430,6 @@ export default {
         tags: [],
       },
       itemErrors: [],
-      newClient: {
-        name: "",
-        email: "",
-        phoneNumber: "",
-        country: "",
-        address: "",
-        clickedCreateBtn: false,
-      },
       otherclientsSearched: [],
       currencies: ['NGN', 'USD', 'EUR', 'GHS', 'GBP'],
       config: {
@@ -446,16 +476,20 @@ export default {
       reminderIsSet: false,
       isShowAddTax: false,
       isInvoiceEmpty: false,
-      // have a state to keep track of whether the invoice being sent to the backend is valid
       isNewInvoiceDataValid: false,
       isClientEmailsEmpty: false  ,
-      firstItemIsEmpty: false,
       isClientModalOpen: false,
-      isNewClientCreateLoading: false,
+      isSaveClientLoading: false,
+      clients: clientsList || [],
+      isShowClientInfoView: false,
+      clientModalActionType: 'add',
+      firstItemIsEmpty: false,
+      searchInputType: 'none',
       isCreateProjectLoading: false,
       isProjectModalOpen: false,
       projects: projectsList || [],
-      clients: clientsList || []
+      isShowProjectInfoView: false,
+      projectModalActionType: 'add',
     }
   },
 
@@ -476,33 +510,27 @@ export default {
     },
 
     selectedClient: {
-      get() {
+      get: function() {
         return {
-          email: this.invoice.clientEmail,
+          email: this.client.email,
           client: this.client,
         }
       },
 
-      set( newVal ) {
-        this.invoice.clientEmail = newVal.clientEmail;
-        this.invoice.client = newVal.client;
+      set: function(newVal) {
+        console.log({ newVal });
+        this.client.email = newVal.clientEmail;
+        this.client = newVal.client;
       }
     },
 
-    // otherClientEmails: {
-    //   /**  
-    //    * @returns { [] }
-    //   */
-    //   get() {
-    //     const ccEmails = this.invoice.meta && this.invoice.meta.ccEmails; // if the user is editing
-    //     if(!ccEmails || ccEmails.length <= 0 ) return [];
-    //     else return ccEmails.split( "," );
-    //   },
-    //   set(arr = []) {
-    //     console.log({ arr });
-    //     this.invoice.meta.ccEmails = arr.join( "," )
-    //   }
-    // },
+    showClientInfoView() {
+      if (this.client.name && this.isShowClientInfoView) {
+        return true
+      } else {
+        return false
+      }
+    },
 
     sendViaWhatsapp: {
       get: function() {
@@ -561,22 +589,6 @@ export default {
       )
     },
 
-    checkIfNewClientValuesAreValid() {
-      if (this.newClient.name.length < 1) {
-        return true
-      } else if(this.newClient.email.length < 5) {
-        return true
-      } else if (this.newClient.phoneNumber.length < 10) {
-        return true
-      } else if (this.newClient.address.length < 5) {
-        return true
-      } else if(this.newClient.country.length < 1) {
-        return true
-      } else {
-        return false
-      }
-    },
-
     checkIfCurrentClientEmails() {
      if(!this.invoice.meta.cc || this.invoice.clientEmail.trim() === "") {
         return true
@@ -604,9 +616,9 @@ export default {
 
   methods: {
     modifyEmails (arr = []) {
-      console.log({ arr }, 'hit here');
       this.invoice.meta.ccEmails = arr
     },
+
     itemAmount( i ) {
       const item = this.invoice.meta.items[ i ]
       const quantity = item.item_quantity;
@@ -614,6 +626,22 @@ export default {
       const price = parseFloat(quantity) * parseFloat(unit);
       this.invoice.meta.items[i].item_unit = price;
       return typeof price === 'number' ? price.toFixed(3) : 0;
+    },
+    
+    toggleClientView () {
+      this.isShowClientInfoView = !this.isShowClientInfoView
+    },
+
+    toggleModalActionType(type, action) {
+      if (type === 'client') {
+        this.clientModalActionType = action
+        this.isClientModalOpen = true
+      }
+
+      if (type === 'project') {
+        this.projectModalActionType = action
+        this.isProjectModalOpen = true
+      }
     },
 
     addAnotherInvoiceItem() {
@@ -679,39 +707,67 @@ export default {
       })
     },
 
-    createNewClient() {
-      this.isNewClientCreateLoading = true
+    createNewClient(data) {
+      this.isSaveClientLoading = true
 
       const clientPayload = {
-        client_name: this.newClient.name,
-        email: this.newClient.email,
-        phoneNumber: this.newClient.phone,
-        country: this.newClient.country,
-        address: this.newClient.address,
-        // user_id: user.id
+        ...data,
+        _id: '3e8o9i12qwouhdihqe',
+        ccEmails: this.invoice.meta.ccEmails ? this.invoice.meta.ccEmails : [],
       }
-      // make api call here
-      // this.$http.post( "v2/clients/create", clientData ).then(({ ok, data }) => {
-      //   if( ok !== true ) return console.error( "Couldn't create new client" );
-      //   const client = data.data;
 
-        // this.invoice.clientEmail = client.clientEmail;
-        // this.invoice.client = client;
+      // mock http post request
+      setTimeout(() => {
+        this.client = {
+          isEmpty: true,
+          _id: clientPayload._id,
+          name: clientPayload.name,
+          phoneNumber: clientPayload.phoneNumber,
+          email: clientPayload.email,
+          country: clientPayload.country,
+          address: clientPayload.address,
+          organizationType: clientPayload.organizationType,
+          ccEmails: this.invoice.meta.ccEmails
+        }
 
-        this.invoice.clientEmail = this.newClient.email;
-        this.invoice.client = this.newClient;
+        this.isSaveClientLoading = false
+        this.clients.push(clientPayload)
+        this.invoice.clientId = clientPayload._id
         this.client.isEmpty = false;
-        // this.resetCreateClientData();
         this.isClientModalOpen = false
+        this.isShowClientInfoView = true
+      }, 3500)
+    },
 
-      //   toast.green( "Successfully added new client" )
-      //   // close modal
-      //   $('#invoice__add-new-client-modal').modal('hide');
-      // })
-      // .catch( error => {
-      //   toast.red( error.data.message );
-      //   console.log( error.data.message );
-      // })
+    editClient(data) {
+      this.isSaveClientLoading = true
+
+      const clientPayload = {
+        ...data,
+        ccEmails: this.invoice.meta.ccEmails ? this.invoice.meta.ccEmails : [],
+      }
+
+      // mock http post request
+      setTimeout(() => {
+        this.client = {
+          isEmpty: true,
+          _id: clientPayload._id,
+          name: clientPayload.name,
+          phoneNumber: clientPayload.phoneNumber,
+          email: clientPayload.email,
+          country: clientPayload.country,
+          address: clientPayload.address,
+          organizationType: clientPayload.organizationType,
+          ccEmails: this.invoice.meta.ccEmails
+        }
+
+        this.isSaveClientLoading = false
+        this.clients.push(clientPayload)
+        this.invoice.clientId = clientPayload._id
+        this.client.isEmpty = false;
+        this.isClientModalOpen = false
+        this.isShowClientInfoView = true
+      }, 3500)
     },
 
     validateInvoiceItems() {
@@ -719,7 +775,7 @@ export default {
       const $this = this;
 
       // validate client email
-      if(!this.invoice.clientEmail || this.invoice.clientEmail.trim() === "") {
+      if(!this.client.email) {
         this.client.isEmpty = true;
         isValid = false;
       } else {
@@ -745,22 +801,16 @@ export default {
     },
 
     createInvoicePayload() {
-      return {
+      const payload = {
         amount: this.invoiceTotal,
         currency: this.invoice.currency,
-        title: "Invoice from " + window.localStorage.companyName,
-        description: this.invoice.meta.invoice_notes[ 0 ].notes_value,
-        // due_date: moment( this.invoice.due_date ).format( "YYYY-MM-DD" ),
-        clientEmail: this.invoice.clientEmail,
-        client: {
-          id: this.invoice.client ? this.invoice.client.id : undefined,
-          fullname: this.invoice.client ? this.invoice.client.client_fullname : undefined,
-          phoneNumber: this.invoice.client ? this.invoice.client.phoneNumber : undefined,
-          email: this.invoice.client ? this.invoice.client.clientEmail : this.invoice.clientEmail,
-          meta: this.invoice.client ? this.invoice.client.meta : undefined,
-        }, 
+        title: "Invoice from " + this.invoice.title,
+        description: this.invoice.meta.invoice_notes[ 0].notes_value,
+        // dueDate: moment( this.invoice.due_date ).format( "YYYY-MM-DD" ),
+        clientId: this.client._id,
         meta: this.invoice.meta
-      };
+      }
+      return payload
     },
 
     saveExistingInvoice( payload ) {
@@ -955,13 +1005,15 @@ export default {
       this.isShowAddTax = !this.isShowAddTax
     },
 
-    resetCreateClientData() {
-      this.newClient.name = "";
-      this.newClient.email = "";
-      this.newClient.phoneNumber = "";
-      this.newClient.country = "";
-      this.newClient.address = '';
-      this.newClient.clickedCreateBtn = false;
+    setSelectedItem(data) {
+      if (this.searchInputType === 'client') {
+        this.client = data
+        this.isShowClientInfoView = true
+      }
+      if (this.searchInputType === 'project') {
+        this.project = data
+        this.isShowProjectInfoView = true
+      }
     }
   },
 
