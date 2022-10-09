@@ -5,7 +5,7 @@
                 <div class="collapse--content"></div>
                 <template  v-if="!showBackArrowBtn">
                     <div class="back--wrap">
-                        <span class="back--link">
+                        <span class="back--link cursor-text">
                             <span>{{ computeHeaderTitle }}</span>
                         </span>
                     </div>
@@ -104,8 +104,9 @@ export default {
             currentWorkspaceName: '',
             routeNameMap: {
                 'home-view': 'Home',
-                'projects-view': 'pProjects',
+                'projects-view': 'Projects',
                 'clients-view': 'Clients',
+                'client-details-view': 'Clients',
                 'settings-view': 'Settings',
                 'tags-view': 'Tags',
                 'invoices-view': 'Invoices',
@@ -119,7 +120,7 @@ export default {
     computed: {
         computeRouteName() {
             const routeName = this.$route.name || '';
-            return routeName && typeof routeName === 'string' ? this.routeNameMap[routeName].toLowerCase() : ''
+            return routeName && typeof routeName === 'string' ? this.routeNameMap[routeName]?.toLowerCase() : ''
         },
         computeHeaderTitle() {
             const routeName = this.$route.name || '';
@@ -166,38 +167,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    ul.breadcrumb {
-        list-style: none;
-    }
-    ul.breadcrumb li {
-        display: inline;
-    }
-    ul.breadcrumb li+li:before {
-        padding: 0px 3px 0px 8px;
-        color: black;
-        content: "/\00a0";
-    }
-    ul.breadcrumb li a, ul.breadcrumb li span {
-        text-decoration: none;
-        // color: #6B778C !important;
-        color: rgb(23, 43, 77);
-        height: auto;
-        line-height: inherit;
-        padding: 0;
-        vertical-align: baseline;
-        width: auto;
-        font-size: 0.8rem;
-    }
-    ul.breadcrumb li a:hover {
-        color: #0275d8;
-        text-decoration: underline;
-    }
     .back--wrap {
-        background: transparent;
-
         span, a, svg {
             font-weight: 600;
-            font-size: 14px;
+            font-size: 0.75rem;
         }
     }
 </style>

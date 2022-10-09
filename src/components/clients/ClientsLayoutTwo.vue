@@ -37,14 +37,14 @@
                                 <td>{{ client.name }}</td>
                                 <td>{{ client.country }}</td>
                                 <td>{{ client.phoneNumber }}</td>
-                                <td>{{ client.emails[0] }}</td>
+                                <td>{{ client.email }}</td>
                                 <td>{{ client.address }}</td>
                                 <td>{{ !client.organizationType ? '-' : client.organizationType }}</td>
                                 <td aria-expanded="false">
                                     <div data-bs-toggle="dropdown">
                                         <div class="icon cursor-pointer" tabindex="-1" title="More options">
-                                            <svg class="css-17keszd-EnhancedContextMenuIcon e16olzom2" width="4" height="12" viewBox="0 0 4 16">
-                                                <path fill="#95899b" fill-rule="evenodd" d="M0 2a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm0 12a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm0-6a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #95899b;transform: ;msFilter:;">
+                                                <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
                                             </svg>
                                         </div>
                                     </div>

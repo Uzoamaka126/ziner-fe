@@ -2,7 +2,7 @@
     <div>
         <div style="height: 100%; padding-right: 25px; padding-left: 3rem; padding-top: 2rem">
             <div class="flex align-items-center justify-content-between">
-                <div class="back--wrap">
+                <!-- <div class="back--wrap">
                     <router-link class="back--link" to="/dashboard/clients">
                         <icon-svg 
                             class="nav__icon mr--0" 
@@ -13,7 +13,7 @@
                         /> 
                         <span>Back to clients</span>
                     </router-link>
-                </div>
+                </div> -->
                 <div class="action--btns" v-show="loadingState === 'success'">
                     <template v-if="!isEdit">
                         <outline-button 
@@ -94,22 +94,24 @@
                         <p class="title">Date created</p>
                         <p class="sub-title">{{ client.createdAt ? computedCreatedAtDate : 'N/A' }}</p>
                     </div>
-                    <div class="client__item flex align-items-center mb--0 email">
-                        <div class="form__item mb--0">
-                            <label for="email" class="form__label title">Billing email(s)</label>
-                            <div class="input-group">
-                                <input name="email" type="email" class="form__input" v-model="emailToBeAdded" :readonly="!isEdit" aria-describedby="basic-addon2" />
-                                <span class="input-group-text cursor-pointer" @click="addEmail()" id="basic-addon2">&#8594;</span>
+                    <div class="client__item mb--0 email">
+                        <label for="email" class="form__label title">Billing email(s)</label>
+                        <div class="flex align-items-center">
+                            <div class="form__item mb--0 mr--10" v-show="billingEmailsCopy.length < 3">
+                                <div class="input-group" >
+                                    <input name="email" type="email" class="form__input" v-model="emailToBeAdded" :readonly="!isEdit" aria-describedby="basic-addon2" />
+                                    <span class="input-group-text cursor-pointer" :class="{ 'disabled':  isEmailBtnDisabled }" @click="addEmail()" id="basic-addon2">&#8594;</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="multiple__emails">
-                            <div class="email--item" v-for="item in billingEmailsCopy" :key="item">
-                                <span class="inlineBlock">{{ item }}</span>
-                                <span @click="removeEmail(item)" class="cursor-pointer inline-block">
-                                    <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M4.25837 4.02991L1.08967 0.861205C0.892799 0.664505 0.892799 0.345351 1.08967 0.14865C1.28654 -0.0482175 1.60535 -0.0482175 1.80222 0.14865L4.97092 3.31735L8.13979 0.14865C8.33666 -0.0482175 8.65548 -0.0482175 8.85235 0.14865C9.04922 0.345351 9.04922 0.664505 8.85235 0.861205L5.68348 4.02991L8.85235 7.19861C9.04922 7.39531 9.04922 7.71446 8.85235 7.91116C8.75391 8.00943 8.62491 8.05865 8.49607 8.05865C8.36723 8.05865 8.23823 8.00943 8.13979 7.911L4.97092 4.74229L1.80222 7.911C1.70379 8.00943 1.57478 8.05865 1.44594 8.05865C1.31711 8.05865 1.1881 8.00943 1.08967 7.911C0.892799 7.7143 0.892799 7.39514 1.08967 7.19844L4.25837 4.02991Z" fill="#696969"/>
-                                    </svg>
-                                </span>
+                            <div class="multiple__emails ml--0 mt--5">
+                                <div class="email--item" v-for="item in billingEmailsCopy" :key="item">
+                                    <span class="inlineBlock">{{ item }}</span>
+                                    <span @click="removeEmail(item)" class="cursor-pointer inline-block">
+                                        <svg width="9" height="9" viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4.25837 4.02991L1.08967 0.861205C0.892799 0.664505 0.892799 0.345351 1.08967 0.14865C1.28654 -0.0482175 1.60535 -0.0482175 1.80222 0.14865L4.97092 3.31735L8.13979 0.14865C8.33666 -0.0482175 8.65548 -0.0482175 8.85235 0.14865C9.04922 0.345351 9.04922 0.664505 8.85235 0.861205L5.68348 4.02991L8.85235 7.19861C9.04922 7.39531 9.04922 7.71446 8.85235 7.91116C8.75391 8.00943 8.62491 8.05865 8.49607 8.05865C8.36723 8.05865 8.23823 8.00943 8.13979 7.911L4.97092 4.74229L1.80222 7.911C1.70379 8.00943 1.57478 8.05865 1.44594 8.05865C1.31711 8.05865 1.1881 8.00943 1.08967 7.911C0.892799 7.7143 0.892799 7.39514 1.08967 7.19844L4.25837 4.02991Z" fill="#696969"/>
+                                        </svg>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -200,7 +202,7 @@ import CreateProjectModal from '../shared/modals/CreateProject.vue';
 import IconSvg from '../shared/icons/Icon-Svg.vue';
 import clientsList from '../../assets/js/clients.json'
 import projectsList from '../../assets/js/projects.json'
-import { formatDateStrings } from '../../utils/others';
+import { formatDateStrings, formatPhoneNumber } from '../../utils/others';
 import { industryData } from '../../utils/dummy';
 import OutlineButton from '../../components/shared/buttons/OutlineButton.vue'
 import TextButton from '../shared/buttons/TextButton.vue';
@@ -268,6 +270,13 @@ export default {
                 return 'N/A'
             }
         },
+        isEmailBtnDisabled() {
+            if (this.billingEmailsCopy.length <= 3 && !this.isEdit) {
+                return true
+            } else {
+                return false
+            }
+        }
     },
     methods: {
         formatDate(date) {
@@ -281,11 +290,12 @@ export default {
             // this.loadingState = 'loading';
             const currentClient = this.clients.find(client => client._id === this.clientId);
             this.client = currentClient;
-            this.billingEmailsCopy = [...this.client.emails]
+            this.billingEmailsCopy = [...this.client.ccEmails]
             this.clientForm = {
                 name: this.client.name || '',
-                phoneNumber: this.client.phoneNumber || '',
+                phoneNumber: formatPhoneNumber(this.client.phoneNumber),
                 country: this.client.country || '',
+                email: this.client.email || '',
                 address: this.client.address || '',
                 industry: this.client.organizationType || '',
             }

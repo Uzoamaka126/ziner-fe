@@ -156,3 +156,12 @@ export function sortList (sortingType, arr, valueToSortBy) {
 export function formatAmount (x) {
     return x && typeof x === 'number' ? x.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0;
 };
+
+
+export function formatPhoneNumber(str) {
+    if (str && typeof str === 'string') {
+        return str.slice(1, str.length)
+    } else {
+        return ''
+    }
+}

@@ -235,17 +235,14 @@
                               </div>
                               <!-- Price -->
                               <div class="invoice__price">
-                                  <money v-model="item.item_price" @keydown.native="preventKeys" v-bind="moneyConfig" class="form-control" style="width: 80%" spellcheck="false"></money>                                                                    
+                                <money v-model="item.item_price" @keydown.native="preventKeys" v-bind="moneyConfig" class="form-control" style="width: 80%" spellcheck="false"></money>                                                                    
                               </div>
                               <div class="invoice__amount">
-                                  <div class="p-t-10 m-b-30 textRight text--sm">{{ invoice.currency }} {{ itemAmount(i) }}</div>
+                                <div class="p-t-10 m-b-30 textRight text--sm">{{ invoice.currency }} {{ itemAmount(i) }}</div>
                               </div>
                             </div>
                         </div>
-                         <!-- 
-                           The close button not displayed for the first invoice item
-                           The first invoice item can't be removed because at least one item has to be on the invoice list
-                          -->
+                         <!-- The close button doesn't show for the first invoice item because at least one invoice item has to be on the invoice list -->
                         <div class="invoice__form__close-item" @click="removeInvoiceItem(i)" v-show="i > 0">
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <rect width="24" height="24" rx="12" fill="#B9B9B9"/>
@@ -334,7 +331,7 @@
                   <div class="col-12">
                     <div class="invoice__row invoice__item">
                       <div class="invoice__details--item mt--10">
-                        <div class="">
+                        <div class="width--100">
                           <v-date-picker v-model="invoice.due_date">
                             <template #default="{ inputValue, inputEvents }">
                                 <input class="px-3 py-1 border rounded due_date form-control" :value="inputValue" v-on="inputEvents" />
