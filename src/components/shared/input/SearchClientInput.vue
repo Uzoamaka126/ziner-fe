@@ -171,8 +171,7 @@ export default {
                 this.reactiveSelection.email = item.email;
                 this.$emit("change", this.reactiveSelection)
                 this.$emit("setItem", this.reactiveSelection?.client)
-            }
-            if (this.listType === 'project') {
+            } else if (this.listType === 'project') {
                 this.reactiveSelection.project = item;
                 this.reactiveSelection.title = item.title;
                 this.$emit("change", this.reactiveSelection)

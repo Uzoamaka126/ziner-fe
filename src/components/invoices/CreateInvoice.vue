@@ -33,7 +33,7 @@
                  <div class="row invoice__section--item">
                     <div class="col-12 mb--5 flex align-items-center">
                       <span class="text--bold text--color-dark">Client info</span>
-                      <span v-show="this.client.name" class="text--bold text--xs text--color-primary ml--5 cursor-pointer" @click="toggleClientView()">(Switch view)</span>
+                      <span v-show="client.name" class="text--bold text--xs text--color-primary ml--5 cursor-pointer" @click="toggleClientView()">(Switch view)</span>
                     </div>
                     <div class="invoice__row invoice__item">
                       <div class="col-12">
@@ -97,12 +97,12 @@
                 <div v-if="showMultipleEmailsField" class="row invoice__section--item">
                     <div class="col-12 mb--5">
                       <p class="text--bold text--color-dark">Send to other emails 
-                        <span class="mb-2 text--xs" style="color: #687383; font-weight: 400;">(You can add only {{ getCCEmailsCount }} emails)</span>   
+                        <span class="mb-2 text--xs" style="color: #687383; font-weight: 400;">(You have add only <span class="text--bold">{{ getCCEmailsCount }}</span> emails)</span>   
                       </p>
                     </div>
                     <div class="col-12">
                       <div class="invoice__row invoice__item">
-                        <div class="invoice__details--item mt--10">
+                        <div class="invoice__details--item mt--10 m-w-100">
                           <input-multiple-emails
                             placeholder="enter a client's email"
                             :dropdown-fields="otherclientsSearched" 
@@ -110,7 +110,6 @@
                             @update="modifyEmails"
                             :limit="3"
                           />
-                            <!-- v-model="otherClientEmails" -->
                         </div>
                       </div>
                     </div>
@@ -139,16 +138,22 @@
 
                 <!-- Project -->
                 <div class="row invoice__section--item">
-                  <div class="col-12 mb--5">
-                    <p class="text--bold text--color-dark">Project</p>
+                  <div class="col-12 mb--5 flex align-items-center">
+                    <span class="text--bold text--color-dark">Project info</span>
+                    <span 
+                      v-show="project.title" 
+                      class="text--bold text--xs text--color-primary ml--5 cursor-pointer"
+                       @click="toggleProjectView()">
+                       (Switch view)
+                    </span>
                   </div>
                   <div class="col-12">
                     <div class="invoice__row invoice__item">
                       <div class="invoice__details--item mt--10">
                         <div class="select visible--xs width--100">
-                          <div v-if="!project.title">
+                          <div v-if="!showProjectInfoView">
                             <search-client-input 
-                              v-model:selection="selectedClient" 
+                              v-model:selection="selectedProject" 
                               :disabled="invoice.status !== 'draft'" 
                               :placeholder="'Add or select a project'" 
                               :btnLabel="'+ Add new project'"
@@ -159,10 +164,27 @@
                               @setType="searchInputType = 'project'"
                             />
                             </div>
-                            <div v-else>
-
+                            <div class="width--100 flex" v-else>
+                              <div class="mr--35">
+                                <p class="text--medium text-color-dark mb--5 text--sm">Title: <span class="text--color-normal">{{ project.title || 'N/A' }}</span></p>
+                                <p class="text--medium text-color-dark mb--5 text--sm">Status <span class="text--color-normal">{{ project.status || 'N/A' }}</span></p>
+                                <p class="text--medium text-color-dark mb--5 text--sm">Deadline: <span class="text--color-normal">{{ project.deadline || 'N/A' }}</span></p>
+                              </div>
+                              <div class="client__btn--actions">
+                                <div data-bs-toggle="dropdown">
+                                  <div class="icon cursor-pointer" tabindex="-1" title="More options">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #95899b;transform: ;msFilter:;">
+                                      <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+                                    </svg>
+                                  </div>
+                                </div>
+                                <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="tagActions">
+                                    <li class="cursor-pointer" @click="toggleModalActionType('project', 'edit')">
+                                      <p class="dropdown-item block width-100 text--xs">Edit project</p>
+                                    </li>
+                                </ul>
+                              </div>
                             </div>
-                         
                         </div>
                       </div>
                     </div>
@@ -332,11 +354,12 @@
       <!-- add new client modal -->
       <create-client-modal 
         :loading="isSaveClientLoading" 
-        :showModal="isClientModalOpen" 
-        @cancel="isClientModalOpen = false; searchInputType = 'none'" 
+        :showModal="isClientModalShow" 
+        @cancel="isClientModalShow = false; searchInputType = 'none'" 
         @addClient="createNewClient" 
         :actionType="clientModalActionType"
         :clientData="client"
+        @editClient="editClient"
       />
       <create-project-modal 
         :loading="isCreateProjectLoading" 
@@ -478,7 +501,7 @@ export default {
       isInvoiceEmpty: false,
       isNewInvoiceDataValid: false,
       isClientEmailsEmpty: false  ,
-      isClientModalOpen: false,
+      isClientModalShow: false,
       isSaveClientLoading: false,
       clients: clientsList || [],
       isShowClientInfoView: false,
@@ -511,21 +534,64 @@ export default {
 
     selectedClient: {
       get: function() {
-        return {
-          email: this.client.email,
-          client: this.client,
+        if (this.searchInputType === 'client') {
+          return {
+            email: this.client.email,
+            client: this.client,
+          }
+        } else {
+          return {
+            email: '',
+            client: '',
+          }
         }
       },
 
       set: function(newVal) {
-        console.log({ newVal });
-        this.client.email = newVal.clientEmail;
-        this.client = newVal.client;
+        if (this.searchInputType === 'client') {
+          this.client.email = newVal.clientEmail;
+          this.client = newVal.client;
+        } else {
+          return 
+        }
+      }
+    },
+
+    selectedProject: {
+      get: function() {
+        if (this.searchInputType === 'project') {
+          return {
+            title: this.project.title,
+            project: this.project,
+          }
+        } else {
+          return {
+            title: '',
+            project: '',
+          }
+        }
+      },
+
+      set: function(newVal) {
+        if (this.searchInputType === 'project') {
+          this.project.title = newVal.title;
+          this.project = newVal.project;
+        } else {
+          return 
+        }
       }
     },
 
     showClientInfoView() {
       if (this.client.name && this.isShowClientInfoView) {
+        return true
+      } else {
+        return false
+      }
+    },
+
+    showProjectInfoView() {
+      if (this.project.title && this.isShowProjectInfoView) {
         return true
       } else {
         return false
@@ -632,10 +698,14 @@ export default {
       this.isShowClientInfoView = !this.isShowClientInfoView
     },
 
+    toggleProjectView () {
+      this.isShowProjectInfoView = !this.isShowProjectInfoView
+    },
+
     toggleModalActionType(type, action) {
       if (type === 'client') {
         this.clientModalActionType = action
-        this.isClientModalOpen = true
+        this.isClientModalShow = true
       }
 
       if (type === 'project') {
@@ -734,12 +804,12 @@ export default {
         this.clients.push(clientPayload)
         this.invoice.clientId = clientPayload._id
         this.client.isEmpty = false;
-        this.isClientModalOpen = false
+        this.isClientModalShow = false
         this.isShowClientInfoView = true
       }, 3500)
     },
 
-    editClient(data) {
+    editClient(data, callback) {
       this.isSaveClientLoading = true
 
       const clientPayload = {
@@ -765,8 +835,10 @@ export default {
         this.clients.push(clientPayload)
         this.invoice.clientId = clientPayload._id
         this.client.isEmpty = false;
-        this.isClientModalOpen = false
+        this.isClientModalShow = false
         this.isShowClientInfoView = true
+
+        callback()
       }, 3500)
     },
 

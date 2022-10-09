@@ -19,7 +19,7 @@
                     v-model="singleEmailValue"
                     @keydown="handleEmailKeyDown" 
                     :class="[ enteredEmailList.length === 0 ? 'editable-text--fat-padding' : 'editable-text--narrow-padding'  ]" 
-                    class="form-control editable-text" 
+                    class="form-control editable-text text--sm" 
                     maxlength="100" 
                     @paste="handlePasteInput" 
                     rows="1"

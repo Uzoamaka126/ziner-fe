@@ -7,7 +7,7 @@
             :width="'620px'"
             :position="'center'"
             :isShowHeader="true"
-            :title="'Add a new client'"
+            :title="actionType === 'add' ? 'Add a new client' : 'Edit client'"
             :headerSize="'16px'"
         >
             <template #body>
@@ -65,7 +65,7 @@
                       :classNames="'btn--md'"
                       @submit="submitForm"
                   >
-                    {{actionType ? 'Add client' : 'Save'}}
+                    {{actionType === 'add' ? 'Add client' : 'Save'}}
                   </primary-button>
                 </div>
             </template>
@@ -90,17 +90,18 @@ export default {
         return {
             countryList: countryList,
             form: {
-                _id: this.clientData._id || '',
-                clientName: this.clientData.name || '',
-                email: this.clientData.email || '',
-                phoneNumber: this.clientData.phoneNumber || '',
-                country: this.clientData.country || '',
-                address: this.clientData.address || '',
-                industry: this.clientData.organizationType || ''
+                _id: '',
+                clientName: '',
+                email: '',
+                phoneNumber: '',
+                country: '',
+                address: '',
+                industry: ''
             },
             industries: industryData     
         }
     },
+
     computed: {
         isBtnDisabled() {
             if(!this.form.clientName || !this.form.email) {
@@ -113,7 +114,20 @@ export default {
             }
         },
     },
+
     methods: {
+        prefillForm() {
+            this.form = {
+                _id: this.clientData._id || '',
+                clientName: this.clientData.name || '',
+                email: this.clientData.email || '',
+                phoneNumber: this.clientData.phoneNumber || '',
+                country: this.clientData.country || '',
+                address: this.clientData.address || '',
+                industry: this.clientData.organizationType || ''
+            };
+        },
+
         closeModal() {
             this.form = {
                 clientName: '',
@@ -124,6 +138,17 @@ export default {
                 industry: ''
             }
             this.$emit("cancel");
+        },
+
+        resetForm () {
+            this.form = {
+                clientName: '',
+                email: '',
+                phoneNumber: '',
+                country: '',
+                address: '',
+                industry: ''
+            }
         },
 
         submitForm() {
@@ -166,16 +191,12 @@ export default {
                 organizationType: this.form.industry
             }
 
-            this.$emit("editClient", payload)
-            this.form = {
-                clientName: '',
-                email: '',
-                phoneNumber: '',
-                country: '',
-                address: '',
-                industry: ''
-            }
+            this.$emit("editClient", payload, this.resetForm());
         }
-    }
+    },
+
+    watch: {
+        clientData: "prefillForm"
+    },
 }
 </script>
