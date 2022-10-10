@@ -1,84 +1,87 @@
 <template>
     <div style="height: 100%">
         <div>
-            <!-- title -->
-           <div class="project__overview--item">
-               <span class="text--color-dark text--medium text--sm">Title:</span>
-                <template v-if="!overviewActions.isEditableTitle">
-                    <span>
-                        <span class="ml--10 text--sm">Test Title</span>
-                        <span class="ml--10 text--xs text--link text-faded cursor-pointer" @click="startEditProjectDetails('isEditableTitle')">(Edit)</span>
-                    </span>
-                </template>
-                <template v-else>
-                    <span class="ml--10">
-                        <span class="bd-search position-relative cursor-pointer">
-                            <input 
-                                type="text" 
-                                class="form__input form__input--lg" 
-                                v-model="title"
-                                style="position: relative; vertical-align: top; font-size: 14px; padding-left: 10px; padding-top: 3px; padding-right: 3px;"
-                            >
-                            <span>
-                                <span class="ml--10 text--xs text-faded cursor-pointer" @click="cancelEditProjectDetails('isEditableTitle')">Cancel</span>
-                                <span class="ml--10 text--xs text--link cursor-pointer" :class="!title ? 'text--disabled' : '' " @click="handleEditProjectDetails('isEditableTitle')">Save</span>
+            <template v-if="loadingState === 'loading'">
+                <div class="flex justify-content-center align-items-center  mt--40 mb--45">
+                    <div class="spinner-border text-primary" role="status" style="color: #5f76d3 !important">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </template>
+            <template v-if="loadingState === 'success'">
+                <div class="action--btns flex justify-content-end">
+                    <template v-if="!isEditable">
+                        <outline-button 
+                            :classNames="'text--sm '" 
+                            :btnSize="'fit-content'" 
+                            @submit="showEdit" 
+                            :label="'Edit'" 
+                            :outlineType="'primary'"
+                        />
+                    </template>
+                    <template v-else>
+                        <outline-button 
+                            :classNames="'text--sm mr--10'" 
+                            :outlineType="'primary'" 
+                            :btnSize="'fit-content'" 
+                            @submit="isEditable = false" 
+                            :label="'Save'" 
+                        />
+                        <outline-button 
+                            :classNames="'text--sm'" 
+                            :outlineType="'secondary'"
+                            :btnSize="'fit-content'" 
+                            @submit="cancelUpdate" 
+                            :label="'Cancel'" 
+                        />
+                    </template>
+                </div>
+                <div class="project__overview--item flex">
+                    <span class="text--color-dark text--medium text--sm">Title:</span>
+                        <template v-if="!isEditable">
+                            <span class="ml--10 text--sm">{{ currentProject.title }}</span>
+                        </template>
+                        <template v-else>
+                            <span class="ml--10" style="min-width: 340px;">
+                                <input 
+                                    type="text" 
+                                    class="text--sm form-control px-2 py-1" 
+                                    v-model="currentProject.title"
+                                />
                             </span>
-                        </span>
-                    </span>
-                </template>
-           </div>
-           <div class="project__overview--item align-items-center" style="display: flex;">
-               <span class="text--color-dark text--medium text--sm">Status:</span>
-                <template v-if="!overviewActions.isEditableStatus">
-                    <span>
-                        <span class="ml--10 text--sm">{{ projectDetails.status }}</span>
-                        <span class="ml--10 text--xs text--link text-faded cursor-pointer" @click="startEditProjectDetails('isEditableStatus')">(Edit)</span>
-                    </span>
-                </template>
-                <template v-else>
-                    <span class="ml--10 align-items-center" style="display: flex; font-size: 12px;">
-                        <span>
-                            <select class="form-select form-select-sm" style="width: fit-content" aria-label=".form-select-sm example" v-model="projectDetails.status">
-                                <option selected>Open this select menu</option>
-                                <option value="pending">Pending</option>
-                                <option value="completed">Completed</option>
-                                <option value="onHold">On-hold</option>
-                                <option value="inReview">In Review</option>
-                            </select>
-                        </span>
-                        <span>
-                            <span class="ml--10 text--xs text--link text-faded cursor-pointer" @click="cancelEditProjectDetails('isEditableStatus')">Cancel</span>
-                            <span class="ml--10 text--xs text--link text-faded cursor-pointer" @click="handleEditProjectDetails('isEditableStatus')" :class="!projectDetails.status ? 'text--disabled' : '' ">Save</span>
-                        </span>
-                    </span>
-                </template>
-           </div>
-            <div class="project__overview--item align-items-center" style="display: flex;">
-               <span class="text--color-dark text--medium text--sm">Deadline:</span>
-                <template v-if="!overviewActions.isEditableDeadline">
-                    <span>
-                        <span class="ml--10 text--sm">{{ computedDeadlineDate }}</span>
-                        <span class="ml--10 text--xs text--link text-faded cursor-pointer" @click="startEditProjectDetails('isEditableDeadline')">(Edit)</span>
-                    </span>
-                </template>
-                <template v-else>
-                   <span class="flex align-items-center ml--10">
-                        <v-date-picker v-model="deadline">
-                            <template #default="{ inputValue, inputEvents }">
-                                <input class="px-3 py-1 border rounded" :value="inputValue" v-on="inputEvents" required />
-                            </template>
-                        </v-date-picker>
-                        <span>
-                            <span class="ml--10 text--xs text-faded cursor-pointer" @click="cancelEditProjectDetails('isEditableDeadline')">Cancel</span>
-                            <span class="ml--10 text--xs text--link cursor-pointer" :class="!title ? 'text--disabled' : '' " @click="handleEditProjectDetails('isEditableDeadline')">Save</span>
-                        </span>
-                   </span>
-                </template>
-           </div>
-            <div class="project__overview--item">
-               <span class="text--color-dark text--medium text--sm">Tags:</span>
-                <span class="ml--10 text--sm">1</span>
-           </div>
+                        </template>
+                </div>
+                <div class="project__overview--item flex align-items-center flex">
+                    <span class="text--color-dark text--medium text--sm">Status:</span>
+                        <template v-if="!isEditable">
+                            <span class="ml--10 text--sm">{{ currentProject.status }}</span>
+                        </template>
+                        <template v-else>
+                            <span class="ml--10" style="min-width: 340px;">
+                                <select class="form-select form-select-sm form-control text--sm" v-model="currentProject.status">
+                                    <option selected>Open this select menu</option>
+                                </select>
+                            </span>
+                        </template>
+                </div>
+                    <div class="project__overview--item flex align-items-center" style="display: flex;">
+                        <span class="text--color-dark text--medium text--sm">Deadline:</span>
+                        <template v-if="!isEditable">
+                            <span class="ml--10 text--sm">{{ computedDeadlineDate }}</span>
+                        </template>
+                        <template v-else>
+                            <v-date-picker v-model="currentProject.deadline" class="ml--10" style="min-width: 340px;">
+                                <template #default="{ inputValue, inputEvents }">
+                                    <input class="px-2 text--sm py-1 border rounded form-control" :value="inputValue" v-on="inputEvents" required />
+                                </template>
+                            </v-date-picker>
+                        </template>
+                    </div>
+                    <div class="project__overview--item flex">
+                        <span class="text--color-dark text--medium text--sm">Tags:</span>
+                        <span class="ml--10 text--sm ml--10">1</span>
+                    </div>
+            </template>
     </div>
  </div>
 </template>
@@ -86,57 +89,106 @@
 <script>
 import IconSvg from '../../shared/icons/Icon-Svg.vue';
 import { formatDateTime } from '../../../utils/others'
+import projects from '../../../assets/js/projects.json'
+import OutlineButton from '../../../components/shared/buttons/OutlineButton.vue'
+import TextButton from '../../shared/buttons/TextButton.vue';
+
 
 export default {
     name: 'ProjectOverview',
     created() {
+        this.handleFetchProject()
     },
     components: {
-        IconSvg
+        IconSvg,
+        OutlineButton,
+        TextButton
     },
     props: {
         user: Object
     },
     data(){
         return {
-            title: '',
-            projectDetails: {
+            projects: projects,
+            currentProject: {
                 title: '',
-                status: 'pending',
-                deadline: new Date('Thu Mar 10 2022 21:25:37 GMT+0100 (West Africa Standard Time)'),
-                tags: []
+                status: '',
+                deadline: '',
+                tags: [],
+                tasks: [],
+                invoices: []
             },
-            overviewActions: {
-                isEditableTitle: false,
-                isEditableStatus: false,
-                isEditableDeadline: false
-            }
+            isEditable: false,
+            isProjectLoading: false,
+            loadingState: 'default',
+            form: {
+                title: '',
+                status: '',
+                deadline: '',
+                tags: [],
+            },
         }
     },
     computed: {
         computedDeadlineDate() {
-            if(this.projectDetails.deadline) {
-                return formatDateTime(this.projectDetails.deadline)
+            if(this.currentProject.deadline) {
+                return formatDateTime(this.currentProject.deadline)
             } else {
                 return 'None'
             }
         }
     },
     methods: {
-        startEditProjectDetails (actionVal) {
-            this.overviewActions[actionVal] = true;
+        handleFetchProject() {
+            this.loadingState = 'loading';
+            const id = this.$route.params.id;
+            
+            const project = this.projects.find(item => item._id === id);
+            
+            setTimeout(() => {
+                this.currentProject = {
+                    title: project.title || '',
+                    status: project.status || '',
+                    deadline: project.deadline || '',
+                    tags: project.tags || [],
+                    tasks: project.tasks || [],
+                    invoices: project.invoices || []
+                }
+                
+                this.loadingState = 'success';
+            }, 2000)
         },
-        cancelEditProjectDetails (actionVal) {
-            this.overviewActions[actionVal] = false;
+
+        cancelUpdate() {
+            this.isEditable = false;
+            this.form = {
+                title: this.currentProject.title || '',
+                status: this.currentProject.status || '',
+                deadline: this.currentProject.deadline || '',
+                tags: this.currentProject.tags || [],
+            }
         },
+
+        showEdit () {
+            this.form =  {
+                title: this.currentProject.title || '',
+                status: this.currentProject.status || '',
+                deadline: this.currentProject.deadline || '',
+                tags: this.currentProject.tags || [],
+            }
+            this.isEditable = true;
+        },
+
         handleEditProjectDetails(actionVal) {
             const payload = {
                 ...this.projectDetails
             }
 
-            // if successful
             this.overviewActions[actionVal] = false;
         }
+    },
+    watch: {
+        '$route': 'handleFetchProject'
     }
 }
 </script>

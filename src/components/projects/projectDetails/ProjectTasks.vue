@@ -2,73 +2,36 @@
     <div>
         <div>
             <div class="align-items-center justify-content-between" style="display: flex;">
-            <div class="list--count">
-                <p>{{ tasks.length }} {{ tasks.length > 1 ? 'tasks' : 'task' }}</p>
-            </div>
-            <!-- Add new task -->
-            <div class="flex align-items-center justify-content-between" v-if="tasks.length > 0">
-                <!-- filter -->
-                <div 
-                    class="btn--outline__sm align-items-center mr--10" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#createTask" 
-                    style="display: flex; padding: .375rem .75rem;"
-                >
-                    <span class="flex ">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: #5e6c84;transform: ;msFilter:;">
-                            <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
-                        </svg>
-                    </span>
-                        <span>Add task</span>
+                <div class="list--count">
+                    <p>{{ tasks.length }} {{ tasks.length > 1 ? 'tasks' : 'task' }}</p>
                 </div>
-                <!-- filter  -->
-                <div class="btn-group mr--10" role="group" aria-label="Basic example">
-                    <button 
-                        v-for="item in tasksViewType.types" 
-                        :key="item" 
-                        type="button" 
-                        class="btn btn--outline__sm normal" 
-                        :class="{'active' : tasksViewType.default === item }"
-                        @click="setTasksView(item)"
+                <div class="flex align-items-center justify-content-between" v-if="tasks.length > 0">
+                    <outline-button 
+                        :classNames="'text--sm'" 
+                        :outlineType="'secondary'"
+                        :btnSize="'fit-content'" 
+                        @submit="cancelUpdate" 
+                        :label="'Add task'" 
                     >
-                        {{ item }}
-                    </button>
-                </div>
-                    <!-- search list -->
-                <div class="filter__actions--list">
-                    <form class="bd-search position-relative" style="margin-right: 0.5rem;">
-                        <span class="algolia-autocomplete" style="position: relative; display: inline-block; direction: ltr;">
-                            <input 
-                                type="search" 
-                                class="form-control" 
-                                id="search-input" 
-                                placeholder="Search by task name" 
-                                aria-label="Search docs for..." 
-                                autocomplete="off" 
-                                data-bd-docs-version="5.1" 
-                                spellcheck="false" 
-                                role="combobox" 
-                                aria-autocomplete="list" 
-                                aria-expanded="false" 
-                                aria-owns="algolia-autocomplete-listbox-0" dir="auto" 
-                                style="position: relative; vertical-align: top; font-size: 12px; padding-left: 2rem;"
-                            >
-                                <span role="listbox" id="algolia-autocomplete-listbox-0" style="position: absolute; top: 3px; z-index: 100; left: 10px;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: #dee2e6;transform: ;msFilter:;">
-                                        <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path>
-                                    </svg>
-                                </span>
+                        <span class="flex ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: #5e6c84;transform: ;msFilter:;">
+                                <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
+                            </svg>
                         </span>
-                    </form>
+                    </outline-button>
+                    <!-- filter  -->
+                    <div class="flex align-items-center">
+                        <main-filter :filter="filter" @filterProjects="filterProjects" />
+                        <sort-filter :filter="displayType" @setType="setDisplayType" />
+                    </div>
                 </div>
-            </div>
             </div>
             <!-- content -->
             <template v-if="computeTasksByView.length > 0">
                 <div>
                     <div class="col-12 mt--40">
+                            <!-- v-model="computeTasksByView"  -->
                         <draggable 
-                            v-model="computeTasksByView" 
                             group="people" 
                             @start="dragging=true" 
                             @end="dragging=false" 
@@ -141,6 +104,11 @@ import draggable from "vuedraggable";
 import EmptyPage from '../../shared/emptyPage/EmptyPage.vue'
 import CreateTask from '../../shared/modals/CreateTask.vue';
 import { taskActions } from '../../../utils/dataHelpers';
+import MainFilter from '../../shared/filter/Main';
+import SortFilter from '../../shared/filter/Sort';
+import OutlineButton from '../../shared/buttons/OutlineButton.vue'
+
+
 
 export default {
     name: 'ProjectTasks',
@@ -148,7 +116,10 @@ export default {
         IconSvg,
         draggable,
         EmptyPage,
-        CreateTask
+        CreateTask,
+        MainFilter,
+        SortFilter,
+        OutlineButton
     },
     created() {
         // if(this.user && this.user.isRecentlyCreated === true) {
@@ -173,7 +144,8 @@ export default {
                 types: ['All', 'Pending', 'Completed']
             },
             taskActions: taskActions,
-            showBtns: false
+            showBtns: false,
+            isPageLoading: false
         }
     },
     props: ['user'],
@@ -181,15 +153,6 @@ export default {
         draggingInfo() {
             return this.dragging ? "under drag" : "";
         },
-        computeTasksByView() {
-            if(this.tasksViewType.default === 'Pending') {
-                return this.tasks.filter(item => item.status === 'pending')
-            } else if (this.tasksViewType.default === 'Completed') {
-                return this.tasks.filter(item => item.status === 'completed')
-            } else {
-                return this.tasks
-            }
-        }
     },
     methods: {
         add () {
@@ -223,11 +186,4 @@ export default {
 </script>
 
 <style lang="scss">
-.buttons {
-  margin-top: 35px;
-}
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
-}
 </style>

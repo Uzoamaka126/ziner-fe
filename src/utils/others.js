@@ -165,3 +165,7 @@ export function formatPhoneNumber(str) {
         return ''
     }
 }
+
+export function toLowerCaseTransform(str) {
+    return str && typeof str === 'string' ? str.toLowerCase() : ''
+}

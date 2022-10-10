@@ -1,47 +1,6 @@
 <template>
     <div>
         <div style="height: 100%; padding-right: 25px; padding-left: 3rem; padding-top: 2rem">
-            <div class="flex align-items-center justify-content-between">
-                <!-- <div class="back--wrap">
-                    <router-link class="back--link" to="/dashboard/clients">
-                        <icon-svg 
-                            class="nav__icon mr--0" 
-                            name="left-arrow-alt" 
-                            icon-position="left"
-                            :style="{ fill: 'rgba(66, 82, 110)' }"
-                            :width="'16px'"
-                        /> 
-                        <span>Back to clients</span>
-                    </router-link>
-                </div> -->
-                <div class="action--btns" v-show="loadingState === 'success'">
-                    <template v-if="!isEdit">
-                        <outline-button 
-                            :classNames="'text--sm '" 
-                            :btnSize="'fit-content'" 
-                            @submit="isEdit = true" 
-                            :label="'Edit'" 
-                            :outlineType="'primary'"
-                        />
-                    </template>
-                    <template v-else>
-                        <outline-button 
-                            :classNames="'text--sm mr--10'" 
-                            :outlineType="'primary'" 
-                            :btnSize="'fit-content'" 
-                            @submit="isEdit = false" 
-                            :label="'Save'" 
-                        />
-                        <outline-button 
-                            :classNames="'text--sm'" 
-                            :outlineType="'secondary'"
-                            :btnSize="'fit-content'" 
-                            @submit="cancelClientUpdate" 
-                            :label="'Cancel'" 
-                        />
-                    </template>
-                </div>
-            </div>
             <template v-if="loadingState === 'loading'">
                 <div class="flex justify-content-center align-items-center  mt--40 mb--45">
                     <div class="spinner-border text-primary" role="status" style="color: #5f76d3 !important">
@@ -49,7 +8,38 @@
                     </div>
                 </div>
             </template>
-            <template v-else>
+            <!--  -->
+            <template v-else-if="loadingState === 'success'">
+                <div class="flex align-items-center justify-content-between">
+                    <div class="action--btns" >
+                        <template v-if="!isEdit">
+                            <outline-button 
+                                :classNames="'text--sm '" 
+                                :btnSize="'fit-content'" 
+                                @submit="isEdit = true" 
+                                :label="'Edit'" 
+                                :outlineType="'primary'"
+                            />
+                        </template>
+                        <template v-else>
+                            <outline-button 
+                                :classNames="'text--sm mr--10'" 
+                                :outlineType="'primary'" 
+                                :btnSize="'fit-content'" 
+                                @submit="isEdit = false" 
+                                :label="'Save'" 
+                            />
+                            <outline-button 
+                                :classNames="'text--sm'" 
+                                :outlineType="'secondary'"
+                                :btnSize="'fit-content'" 
+                                @submit="cancelClientUpdate" 
+                                :label="'Cancel'" 
+                            />
+                        </template>
+                    </div>
+                </div>
+                <!--  -->
                 <div class="flex align-items-center justify-content-between mt--40">
                     <div class="text--md text--color-dark text-medium">
                         <p class="text--medium text--xmd">{{ client.name }}</p>

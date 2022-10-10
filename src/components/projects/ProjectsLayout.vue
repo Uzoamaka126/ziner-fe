@@ -26,7 +26,6 @@
                         <thead>
                             <tr>
                                 <th class="first header">Project title</th>
-                                <th class="header">Client</th>
                                 <th class="header">Status</th>
                                 <th class="header">Deadline</th>
                                 <th class="header">No. of Tasks</th>
@@ -34,28 +33,24 @@
                                 <th class="header"></th>
                             </tr>
                         </thead>
-                        <tbody v-for="project in projects" :key="project.id">
+                        <tbody v-for="project in projects" :key="project._id">
                             <span>
-                                <td class="flex align-items-center">
-                                    <span class="project--item__dot" :style="{ 'background-color': project.color }"></span>
-                                    <span>{{ project.title }}</span>
-                                    </td>
-                                <td>{{ project.client }}</td>
+                                <td>{{ project.title }}</td>
                                 <td>{{ project.status }}</td>
-                                <td>{{ formatProjectDateTime(project.time) }}</td>
-                                <td>{{ project.tasks }}</td>
+                                <td>{{ formatProjectDateTime(project.deadline) }}</td>
+                                <td>{{ project.tasks.length }}</td>
                                 <td>{{ project.invoices.length }}</td>
                                 <td  aria-expanded="false">
                                     <div data-bs-toggle="dropdown">
                                         <div class="icon cursor-pointer" tabindex="-1" title="More options">
-                                            <svg class="css-17keszd-EnhancedContextMenuIcon e16olzom2" width="4" height="12" viewBox="0 0 4 16">
-                                                <path fill="#95899b" fill-rule="evenodd" d="M0 2a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm0 12a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm0-6a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #95899b;transform: ;msFilter:;">
+                                                <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
                                             </svg>
                                         </div>
                                     </div>
                                     <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="tagActions">
                                         <li class="cursor-pointer">
-                                            <router-link :to="{name:'project-details-view', params:{ id:project.id }}" class="dropdown-item block width-100 text--xs">View</router-link>
+                                            <router-link :to="{ name:'project-details-view', params:{ id:project._id }}" class="dropdown-item block width-100 text--xs">View</router-link>
                                         </li>
                                         <li class="cursor-pointer">
                                             <p class="dropdown-item text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteProject">Delete</p>
@@ -102,7 +97,7 @@ import { formatDateTime } from '../../utils/others';
 import IconSvg from '../shared/icons/Icon-Svg.vue';
 import Pagination from '../shared/pagination/Index.vue';
 import EmptyPage from '../shared/emptyPage/EmptyPage.vue';
-
+import projects from '../../assets/js/projects.json'
 
 export default {
     name: 'ProjectLayout',
@@ -122,28 +117,7 @@ export default {
     },
     data () {
         return {
-            projects: [
-                {
-                    id: '1',
-                    title: 'Twitter Landing page',
-                    client: 'Twitter',
-                    status: 'pending',
-                    time: new Date('Sun Mar 31 2022 21:25:37 GMT+0100 (West Africa Standard Time)'),
-                    tasks: 6,
-                    invoices: ["https:///", 'htps:///www'],
-                    color: '#d94182'
-                },
-                {
-                    id: '2',
-                    title: 'Netlify Deployment',
-                    client: 'Netlify',
-                    status: 'pending',
-                    time: new Date('Thu Mar 10 2022 21:25:37 GMT+0100 (West Africa Standard Time)'),
-                    tasks: 10,
-                    invoices: ["https:///", 'htps:///www'],
-                    color: '#9e5bd9'
-                }
-            ],
+            projects: projects ,
             displayType: '',
             currentProject: {},
             loadingState: 'default',

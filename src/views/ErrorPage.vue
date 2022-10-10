@@ -2,7 +2,7 @@
   <div style="height: 100%;">
     <div class="background--white h-100">
       <div class="auth__wrapper error__wrapper">
-        <div class="logo auth--logo">
+        <div class="logo auth--logo width--100 flex justify-content-center">
           <siner-logo :layout="'center'"></siner-logo>
         </div>
 
