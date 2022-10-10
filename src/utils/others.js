@@ -1,5 +1,27 @@
 import { format, formatDistance, subDays, parse  } from 'date-fns'
 
+export function transformQueryToString( url = "", queryParams = undefined ) {
+    let queryString = url;
+    if( queryParams ) queryString += "?" + convertObjectToQueryString( queryParams );
+    return queryString
+  }
+  
+export function transformObjectToQueryString( obj ) {
+    var str = [];
+    for (var p in obj) {
+      
+      if( obj[p] === undefined ) { 
+        continue;
+      }
+      
+      if (obj.hasOwnProperty(p)) {
+        str.push((p) + "=" + (obj[p]));
+      }
+    }
+    
+    return str.join("&");
+  }
+
 /**
  * @param  {Date} date: Mon Feb 27 2017 18:33:38 GMT+0000 (UTC)
  * @returns {string} 27-Feb-2017

@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { transformQueryToString } from '../../../utils/apiFunctions';
+import { transformQueryToString } from '../../../utils/others';
 import OutlineButton from '../buttons/OutlineButton'
 
 

@@ -27,27 +27,30 @@
 </template>
 
 <script>
-import ProjectOverview from '../components/projects/projectDetails/ProjectOverview';
-import ProjectBoards from '../components/projects/projectDetails/ProjectBoards.vue';
-import ProjectMembers from '../components/projects/projectDetails/ProjectMembers.vue';
-import ProjectTasks from '../components/projects/projectDetails/ProjectTasks.vue';
-import ProjectCalendar from '../components/projects/projectDetails/ProjectCalendar.vue';
-import ProjectInvoice from '../components/projects/projectDetails/ProjectInvoice.vue'
-import { toLowerCaseTransform } from '../utils/others'
+import projects from '../assets/js/projects.json'
+import Overview from '../components/projects/projectDetails/ProjectOverview';
+import Boards from '../components/projects/projectDetails/ProjectBoards.vue';
+import Members from '../components/projects/projectDetails/ProjectMembers.vue';
+import Tasks from '../components/projects/projectDetails/ProjectTasks.vue';
+import Calendar from '../components/projects/projectDetails/ProjectCalendar.vue';
+import Invoice from '../components/projects/projectDetails/ProjectInvoice.vue'
+import {
+    projects as projectUtils,
+    others
+} from '../utils/index'
 
 export default {
-    name: 'SettingsLayout',
+    name: 'ProjectDetails',
     created() {
-        // console.log(this.user);
-        
+        this.handleFetchProject()
     },
     components: {
-        ProjectOverview,
-        ProjectBoards,
-        ProjectMembers,
-        ProjectCalendar,
-        ProjectInvoice,
-        ProjectTasks
+        Overview,
+        Boards,
+        Members,
+        Calendar,
+        Invoice,
+        Tasks
     },
     props: {
         user: Object
@@ -59,65 +62,85 @@ export default {
                 {   
                     id: 'Overview',
                     component: 'Overview',
-                    name: 'Overview'
                 },
                 {   
                     id: 'Boards',
                     component: 'Boards',
-                    name: 'Boards'
                 },
                 {   
                     id: 'Tasks',
                     component: 'Tasks',
-                    name: 'asks'
                 },
                 {   
                     id: 'Tracker',
                     component: 'Tracker',
-                    name: 'tracker'
                 },
                 {   
                     id: 'Calendar',
                     component: 'Calendar',
-                    name: 'calendar'
                 },
                 {   
                     id: 'Invoices',
                     component: 'Invoices',
-                    name: 'invoice'
                 },
                 // {   
                 //     id: 'Files',
                 //     component: 'ProjectOverview'
-                //     name: 'files'
                 // },
             ],
-            selectedIndex: 0
+            selectedIndex: 0,
+            projects: projects,
+            currentProject: {
+                title: '',
+                status: '',
+                deadline: '',
+                tags: [],
+                tasks: [],
+                invoices: []
+            },
+            isEditable: false,
+            isProjectLoading: false,
+            loadingState: 'default',
         }
     },
     computed: {
-
+        computedProps() {
+            return projectUtils.calculateProps(this.currentTabComponent, this.currentProject)
+        }
     },
     methods: {
         getCurrentTab(value, index, name) {
-            this.currentTabComponent = tab;
+            this.currentTabComponent = value;
             this.selectedIndex = index;
         },
         transformStr(str) {
             console.log({ str });
-            const transformedStr = toLowerCaseTransform(str)
+            const transformedStr = others.toLowerCaseTransform(str)
             console.log({ transformedStr });
             return transformedStr
-        }
+        },
+        handleFetchProject() {
+            this.loadingState = 'loading';
+            const id = this.$route.params.id;
+            
+            const project = this.projects.find(item => item._id === id);
+            
+            setTimeout(() => {
+                this.currentProject = {
+                    title: project.title || '',
+                    status: project.status || '',
+                    deadline: project.deadline || '',
+                    tags: project.tags || [],
+                    tasks: project.tasks || [],
+                    invoices: project.invoices || []
+                }
+                
+                this.loadingState = 'success';
+            }, 2000)
+        },
     },
-    //  watch: {
-    //     getCurrentTab(newView, oldView) {
-    //         if(newView !== oldView) {
-    //             const component = this.tabsList.findIndex(item => item.name === this.$route.name)
-    //             const
-    //         }
-    //     },
-    //     '$route': 'checkIfQueryParamsExists'
-    // }
+     watch: {
+        '$route': 'handleFetchProject'
+    }
 }
 </script>
