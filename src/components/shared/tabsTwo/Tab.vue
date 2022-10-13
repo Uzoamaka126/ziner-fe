@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-panel" role="tabPanel" style="height: auto;">
+  <div v-show="isActive" class="tab-panel" :class="{ 'block': isActive }" role="tabPanel" style="height: auto;">
     <div class="tab-content" style="height: auto;">
       <slot></slot>
     </div>
@@ -9,10 +9,18 @@
 
 export default {
     name: 'Tab',
-    props: ["title", "titleSlot", "disabled"],
+    props: {
+      title: {
+        type: String,
+        default: 'Overview'
+      },
+      isActive: {
+        type: Boolean,
+        default: false
+      }
+    },
     data () {
       return {
-        isActive: true
       }
     }
 }

@@ -10,7 +10,7 @@
                         :classNames="'text--sm'" 
                         :outlineType="'secondary'"
                         :btnSize="'fit-content'" 
-                        @submit="cancelUpdate" 
+                        @submit="handleAddTask" 
                         :label="'Add task'" 
                     >
                         <span class="flex ">
@@ -21,13 +21,13 @@
                     </outline-button>
                     <!-- filter  -->
                     <div class="flex align-items-center">
-                        <main-filter :filter="filter" @filterProjects="filterProjects" />
-                        <sort-filter :filter="displayType" @setType="setDisplayType" />
+                        <main-filter :filter="filter" @filter="filterTasks" />
+                        <sort-filter :filter="displayType" />
                     </div>
                 </div>
             </div>
             <!-- content -->
-            <template v-if="computeTasksByView.length > 0">
+            <template v-if="tasks.length > 0">
                 <div>
                     <div class="col-12 mt--40">
                             <!-- v-model="computeTasksByView"  -->
@@ -112,7 +112,7 @@ import OutlineButton from '../../shared/buttons/OutlineButton.vue'
 
 export default {
     name: 'ProjectTasks',
-     components: {
+    components: {
         IconSvg,
         draggable,
         EmptyPage,
@@ -121,6 +121,7 @@ export default {
         SortFilter,
         OutlineButton
     },
+    props: ['user'],
     created() {
         // if(this.user && this.user.isRecentlyCreated === true) {
         //     this.setShowOnboardingModal('show');
@@ -145,17 +146,30 @@ export default {
             },
             taskActions: taskActions,
             showBtns: false,
-            isPageLoading: false
+            isPageLoading: false,
+            displayType: '',
+            filter: {
+                status: {
+                    types: {
+                        "pending": "Pending", 
+                        "due": "Due", 
+                        "on-hold": 'OnHold',
+                        'completed': 'Completed'
+                    },
+                    selected: [],
+                },
+                client: this.$route.query.client || undefined,
+                title: this.$route.query.title || undefined,
+            },
         }
     },
-    props: ['user'],
     computed: {
         draggingInfo() {
             return this.dragging ? "under drag" : "";
         },
     },
     methods: {
-        add () {
+        handleAddTask () {
             this.list.push({ name: "Juan " + id, id: id++ });
         },
         replace () {
@@ -180,7 +194,43 @@ export default {
         markTaskAsCompleted(val) {},
         showActionBtnsOnHover(val) {
             this.showBtns = true;
-        }
+        },
+        filterTasks () {
+            const params = this.buildQueryString();
+            this.$router.replace({ name: 'projects', query: params });
+        },
+
+        sortTasks() {
+            if (this.displayType === 'A - Z') {
+                this.projects.sort((a, b) => {
+                    var lowerName = a.title.toLowerCase(); // ignore upper and lowercase
+                    var higherName = b.title.toLowerCase();
+
+                    if (lowerName < higherName) {
+                        return -1;
+                    }
+                    if (lowerName > higherName) {
+                        return 1;
+                    }
+
+                    return 0;
+                }) 
+            } else {
+                this.projects.sort((a, b) => {
+                    var lowerName = a.title.toLowerCase(); // ignore upper and lowercase
+                    var higherName = b.title.toLowerCase();
+
+                    if (lowerName < higherName) {
+                        return 1;
+                    }
+                    if (lowerName > higherName) {
+                        return -1;
+                    }
+
+                    return 0;
+                }) 
+            }
+        },
     }
 }
 </script>

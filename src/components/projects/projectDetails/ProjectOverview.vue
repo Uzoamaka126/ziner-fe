@@ -97,6 +97,7 @@ import TextButton from '../../shared/buttons/TextButton.vue';
 export default {
     name: 'ProjectOverview',
     created() {
+        this.$props
         this.handleFetchProject()
     },
     components: {
@@ -105,7 +106,8 @@ export default {
         TextButton
     },
     props: {
-        user: Object
+        user: Object,
+        data: Object
     },
     data(){
         return {

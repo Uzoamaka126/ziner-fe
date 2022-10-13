@@ -1,4 +1,5 @@
 export function calculateProps(val, propObj) {
+    console.log({ propObj });
     switch (val) {
         case 'Overview': 
             return {
@@ -27,3 +28,45 @@ export function calculateProps(val, propObj) {
             }
     }
 }
+
+export const tabList = [
+    {   
+        id: 'Overview',
+        component: 'Overview',
+        isActive: false
+    },
+    {   
+        id: 'Boards',
+        component: 'Boards',
+        isActive: false
+
+    },
+    {   
+        id: 'Tasks',
+        component: 'Tasks',
+        isActive: false
+
+    },
+    {   
+        id: 'Tracker',
+        component: 'Tracker',
+        isActive: false
+
+    },
+    {   
+        id: 'Calendar',
+        component: 'Calendar',
+        isActive: false
+
+    },
+    {   
+        id: 'Invoices',
+        component: 'Invoices',
+        isActive: false
+
+    },
+    // {   
+    //     id: 'Files',
+    //     component: 'ProjectOverview'
+    // },
+];

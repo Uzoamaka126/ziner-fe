@@ -1,39 +1,41 @@
 <template>
-    <div class="tabs horizontal ">
-        <ul class="tab-list left" role="tabList">
-            <li 
-                v-for="(tab, index) in tabsList"
-                :key="tab.name"
-                class="tab-list__item"
-                tabIndex="0"
-                role="tabItem"
-                :aria-selected="selectedIndex === index ? true : false"
-                @click="getCurrentTab(tab.component, index)"
-            >
-            {{ tab.id }}
-            </li>
-        </ul>
-        <div class="tab">
-            <div class="tab--panel" role="tabPanel" data-v-0292cb4e="">
-                <div class="tab-content">
-                    <keep-alive>
-                        <component :is="currentTabComponent"></component>
-                    </keep-alive>
-                    <!-- <router-view :name="transformStr(currentTabComponent)"/> -->
-                </div>
-            </div>
-        </div>
+    <div>
+        <tabs :list="tabs">
+            <template v-slot="slotProps">
+                <tab :isActive="slotProps.data.component === 'Overview'" :title="'Overview'">
+                    <project-overview /> 
+                </tab>
+                <!-- v-slot="{ name, isActive, ff }, item" -->
+                <tab :isActive="slotProps.data.component === 'Boards'" :title="'Boards'">
+                     <project-boards />
+                </tab>
+                <tab :isActive="slotProps.data.component === 'Tasks'" :title="'Tasks'">
+                    <project-tasks />
+                </tab>
+                <tab :isActive="slotProps.data.component === 'Members'" :title="'Members'">
+                    <project-members />
+                </tab>
+                <tab :isActive="slotProps.data.component === 'Calendar'" :title="'Calendar'">
+                    <project-calendar />
+                </tab>
+                <tab :isActive="slotProps.data.component === 'Invoices'" :title="'Invoices'">
+                    <project-invoice />
+                </tab>
+            </template>
+        </tabs>
     </div>
 </template>
 
 <script>
 import projects from '../assets/js/projects.json'
-import Overview from '../components/projects/projectDetails/ProjectOverview';
-import Boards from '../components/projects/projectDetails/ProjectBoards.vue';
-import Members from '../components/projects/projectDetails/ProjectMembers.vue';
-import Tasks from '../components/projects/projectDetails/ProjectTasks.vue';
-import Calendar from '../components/projects/projectDetails/ProjectCalendar.vue';
-import Invoice from '../components/projects/projectDetails/ProjectInvoice.vue'
+import Tabs from '../components/shared/tabsTwo/Tabs'
+import Tab from '../components/shared/tabsTwo/Tab'
+import ProjectOverview from '../components/projects/projectDetails/ProjectOverview';
+import ProjectBoards from '../components/projects/projectDetails/ProjectBoards.vue';
+import ProjectMembers from '../components/projects/projectDetails/ProjectMembers.vue';
+import ProjectTasks from '../components/projects/projectDetails/ProjectTasks.vue';
+import ProjectCalendar from '../components/projects/projectDetails/ProjectCalendar.vue';
+import ProjectInvoice from '../components/projects/projectDetails/ProjectInvoice.vue'
 import {
     projects as projectUtils,
     others
@@ -45,49 +47,23 @@ export default {
         this.handleFetchProject()
     },
     components: {
-        Overview,
-        Boards,
-        Members,
-        Calendar,
-        Invoice,
-        Tasks
+        ProjectOverview,
+        ProjectBoards,
+        ProjectMembers,
+        ProjectCalendar,
+        ProjectInvoice,
+        ProjectTasks,
+        Tabs,
+        Tab
     },
     props: {
         user: Object
     },
     data () {
         return {
+            title: '',
             currentTabComponent: "Overview",
-            tabsList: [
-                {   
-                    id: 'Overview',
-                    component: 'Overview',
-                },
-                {   
-                    id: 'Boards',
-                    component: 'Boards',
-                },
-                {   
-                    id: 'Tasks',
-                    component: 'Tasks',
-                },
-                {   
-                    id: 'Tracker',
-                    component: 'Tracker',
-                },
-                {   
-                    id: 'Calendar',
-                    component: 'Calendar',
-                },
-                {   
-                    id: 'Invoices',
-                    component: 'Invoices',
-                },
-                // {   
-                //     id: 'Files',
-                //     component: 'ProjectOverview'
-                // },
-            ],
+            tabsList: projectUtils.tabList,
             selectedIndex: 0,
             projects: projects,
             currentProject: {
@@ -101,46 +77,56 @@ export default {
             isEditable: false,
             isProjectLoading: false,
             loadingState: 'default',
+            currentProps: undefined,
+            tabs: projectUtils.tabList
         }
     },
-    computed: {
-        computedProps() {
-            return projectUtils.calculateProps(this.currentTabComponent, this.currentProject)
-        }
-    },
+    computed: {},
     methods: {
         getCurrentTab(value, index, name) {
             this.currentTabComponent = value;
             this.selectedIndex = index;
         },
+
         transformStr(str) {
-            console.log({ str });
             const transformedStr = others.toLowerCaseTransform(str)
             console.log({ transformedStr });
             return transformedStr
         },
+
         handleFetchProject() {
             this.loadingState = 'loading';
             const id = this.$route.params.id;
             
             const project = this.projects.find(item => item._id === id);
-            
+
             setTimeout(() => {
+                this.title = project?.title || '',
                 this.currentProject = {
-                    title: project.title || '',
-                    status: project.status || '',
-                    deadline: project.deadline || '',
-                    tags: project.tags || [],
-                    tasks: project.tasks || [],
-                    invoices: project.invoices || []
+                    title: project?.title || '',
+                    status: project?.status || '',
+                    deadline: project?.deadline || '',
+                    tags: project?.tags || [],
+                    tasks: project?.tasks || [],
+                    invoices: project?.invoices || []
                 }
                 
                 this.loadingState = 'success';
             }, 2000)
         },
+
+        computeProps() {
+            this.currentProps = projectUtils.calculateProps(this.currentTabComponent, this.currentProject)
+        }
     },
      watch: {
-        '$route': 'handleFetchProject'
+        '$route': 'handleFetchProject',
+        
+        title(newVal, oldVal) {
+            if (newVal !== oldVal) {
+                this.computeProps()
+            }
+        }
     }
 }
 </script>

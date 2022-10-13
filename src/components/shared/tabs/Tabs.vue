@@ -44,12 +44,14 @@ export default {
       return index !== undefined || index !== null;
     },
   },
+
   setup(props, { emit, slots }) {
     const { defaultIndex, resetTabs, position, direction, reverse } = toRefs(props);
 
     const selectedIndex = ref(0);
     const tabs = ref([]);
     const _tabItems = ref([]);
+    
     console.log({
       'tabs': tabs,
       'tabsValue': tabs.value
