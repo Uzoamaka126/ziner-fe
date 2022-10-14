@@ -1,12 +1,53 @@
 [
     {
         "_id": "631a0af222ad39da17db2e46",
-        "tasks": [],
+        "tasks": [
+            {
+                "_id": "631d426ee5fbc1f8717f2100",
+                "name": "Test new additions for a new project",
+                "isCompleted": false,
+                "priority": "low",
+                "deadline": "2022-03-13T10:13:00.000Z",
+                "createdAt": "2022-09-11T02:05:46.606Z",
+                "updatedAt": "2022-09-11T02:05:46.606Z",
+                "__v": 0
+            },
+            {
+                "_id": "631d4290e5fbc1f8717f2105",
+                "name": "Run A/B testing on Igoni",
+                "isCompleted": false,
+                "priority": "low",
+                "deadline": "2022-03-13T10:13:00.000Z",
+                "createdAt": "2022-09-11T02:06:08.039Z",
+                "updatedAt": "2022-09-11T02:06:08.039Z",
+                "__v": 0
+            }
+        ],
         "tags": [
-            "631d4624170f7afa54f07520",
-            "631d4632170f7afa54f07523",
-            "6329bb17ae3467423b5b3a70",
-            "6329bb17ae3467423b5b3a72"
+            {
+                "_id": "631d3b47fd669af67357ed2e",
+                "name": "web",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-11T01:35:03.117Z",
+                "updatedAt": "2022-09-11T01:35:03.117Z",
+                "__v": 0
+            },
+            {
+                "_id": "63249137c62191015308400a",
+                "name": "Hiring decisions",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-16T15:07:48.578Z",
+                "updatedAt": "2022-09-16T15:07:48.578Z",
+                "__v": 0
+            },
+            {
+                "_id": "63249146c62191015308400c",
+                "name": "Employee review",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-16T15:07:50.397Z",
+                "updatedAt": "2022-09-16T15:07:50.397Z",
+                "__v": 0
+            }
         ],
         "invoices": [],
         "title": "Design 3 moodboards for Temi's engagament",
@@ -20,12 +61,53 @@
     },
     {
         "_id": "631a0af251ad334a17db2e46",
-        "tasks": [],
+        "tasks": [
+            {
+                "_id": "631d426ee5fbc1f8717f2100",
+                "name": "Test new additions for a new project",
+                "isCompleted": false,
+                "priority": "low",
+                "deadline": "2022-03-13T10:13:00.000Z",
+                "createdAt": "2022-09-11T02:05:46.606Z",
+                "updatedAt": "2022-09-11T02:05:46.606Z",
+                "__v": 0
+            },
+            {
+                "_id": "631d4290e5fbc1f8717f2105",
+                "name": "Run A/B testing on Igoni",
+                "isCompleted": false,
+                "priority": "low",
+                "deadline": "2022-03-13T10:13:00.000Z",
+                "createdAt": "2022-09-11T02:06:08.039Z",
+                "updatedAt": "2022-09-11T02:06:08.039Z",
+                "__v": 0
+            }
+        ],
         "tags": [
-            "631d4624170f7afa54f07520",
-            "631d4632170f7afa54f07523",
-            "6329bb17ae3467423b5b3a70",
-            "6329bb17ae3467423b5b3a72"
+            {
+                "_id": "631d3b47fd669af67357ed2e",
+                "name": "web",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-11T01:35:03.117Z",
+                "updatedAt": "2022-09-11T01:35:03.117Z",
+                "__v": 0
+            },
+            {
+                "_id": "63249137c62191015308400a",
+                "name": "Hiring decisions",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-16T15:07:48.578Z",
+                "updatedAt": "2022-09-16T15:07:48.578Z",
+                "__v": 0
+            },
+            {
+                "_id": "63249146c62191015308400c",
+                "name": "Employee review",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-16T15:07:50.397Z",
+                "updatedAt": "2022-09-16T15:07:50.397Z",
+                "__v": 0
+            }
         ],
         "invoices": [],
         "title": "Design 3 moodboards for Temi's engagament",
@@ -39,12 +121,53 @@
     },
     {
         "_id": "631a0af251ad39da17db2e33",
-        "tasks": [],
+        "tasks": [
+            {
+                "_id": "631d426ee5fbc1f8717f2100",
+                "name": "Test new additions for a new project",
+                "isCompleted": false,
+                "priority": "low",
+                "deadline": "2022-03-13T10:13:00.000Z",
+                "createdAt": "2022-09-11T02:05:46.606Z",
+                "updatedAt": "2022-09-11T02:05:46.606Z",
+                "__v": 0
+            },
+            {
+                "_id": "631d4290e5fbc1f8717f2105",
+                "name": "Run A/B testing on Igoni",
+                "isCompleted": false,
+                "priority": "low",
+                "deadline": "2022-03-13T10:13:00.000Z",
+                "createdAt": "2022-09-11T02:06:08.039Z",
+                "updatedAt": "2022-09-11T02:06:08.039Z",
+                "__v": 0
+            }
+        ],
         "tags": [
-            "631d4624170f7afa54f07520",
-            "631d4632170f7afa54f07523",
-            "6329bb17ae3467423b5b3a70",
-            "6329bb17ae3467423b5b3a72"
+            {
+                "_id": "631d3b47fd669af67357ed2e",
+                "name": "web",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-11T01:35:03.117Z",
+                "updatedAt": "2022-09-11T01:35:03.117Z",
+                "__v": 0
+            },
+            {
+                "_id": "63249137c62191015308400a",
+                "name": "Hiring decisions",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-16T15:07:48.578Z",
+                "updatedAt": "2022-09-16T15:07:48.578Z",
+                "__v": 0
+            },
+            {
+                "_id": "63249146c62191015308400c",
+                "name": "Employee review",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-16T15:07:50.397Z",
+                "updatedAt": "2022-09-16T15:07:50.397Z",
+                "__v": 0
+            }
         ],
         "invoices": [],
         "title": "Design 3 moodboards for Temi's engagament",
@@ -58,12 +181,53 @@
     },
     {
         "_id": "631a0af251ad39da17dw0e46",
-        "tasks": [],
+        "tasks": [
+            {
+                "_id": "631d426ee5fbc1f8717f2100",
+                "name": "Test new additions for a new project",
+                "isCompleted": false,
+                "priority": "low",
+                "deadline": "2022-03-13T10:13:00.000Z",
+                "createdAt": "2022-09-11T02:05:46.606Z",
+                "updatedAt": "2022-09-11T02:05:46.606Z",
+                "__v": 0
+            },
+            {
+                "_id": "631d4290e5fbc1f8717f2105",
+                "name": "Run A/B testing on Igoni",
+                "isCompleted": false,
+                "priority": "low",
+                "deadline": "2022-03-13T10:13:00.000Z",
+                "createdAt": "2022-09-11T02:06:08.039Z",
+                "updatedAt": "2022-09-11T02:06:08.039Z",
+                "__v": 0
+            }
+        ],
         "tags": [
-            "631d4624170f7afa54f07520",
-            "631d4632170f7afa54f07523",
-            "6329bb17ae3467423b5b3a70",
-            "6329bb17ae3467423b5b3a72"
+            {
+                "_id": "631d3b47fd669af67357ed2e",
+                "name": "web",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-11T01:35:03.117Z",
+                "updatedAt": "2022-09-11T01:35:03.117Z",
+                "__v": 0
+            },
+            {
+                "_id": "63249137c62191015308400a",
+                "name": "Hiring decisions",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-16T15:07:48.578Z",
+                "updatedAt": "2022-09-16T15:07:48.578Z",
+                "__v": 0
+            },
+            {
+                "_id": "63249146c62191015308400c",
+                "name": "Employee review",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-16T15:07:50.397Z",
+                "updatedAt": "2022-09-16T15:07:50.397Z",
+                "__v": 0
+            }
         ],
         "invoices": [],
         "title": "Design 3 moodboards for Temi's engagament",
@@ -78,13 +242,52 @@
     {
         "_id": "631d3b47fd669af67323ed30",
         "tasks": [
-            "631d426ee5fbc1f8717f2100",
-            "631d4290e5fbc1f8717f2105"
+            {
+                "_id": "631d426ee5fbc1f8717f2100",
+                "name": "Test new additions for a new project",
+                "isCompleted": false,
+                "priority": "low",
+                "deadline": "2022-03-13T10:13:00.000Z",
+                "createdAt": "2022-09-11T02:05:46.606Z",
+                "updatedAt": "2022-09-11T02:05:46.606Z",
+                "__v": 0
+            },
+            {
+                "_id": "631d4290e5fbc1f8717f2105",
+                "name": "Run A/B testing on Igoni",
+                "isCompleted": false,
+                "priority": "low",
+                "deadline": "2022-03-13T10:13:00.000Z",
+                "createdAt": "2022-09-11T02:06:08.039Z",
+                "updatedAt": "2022-09-11T02:06:08.039Z",
+                "__v": 0
+            }
         ],
         "tags": [
-            "631d3b47fd669af67357ed2e",
-            "63249137c62191015308400a",
-            "63249146c62191015308400c"
+            {
+                "_id": "631d3b47fd669af67357ed2e",
+                "name": "web",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-11T01:35:03.117Z",
+                "updatedAt": "2022-09-11T01:35:03.117Z",
+                "__v": 0
+            },
+            {
+                "_id": "63249137c62191015308400a",
+                "name": "Hiring decisions",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-16T15:07:48.578Z",
+                "updatedAt": "2022-09-16T15:07:48.578Z",
+                "__v": 0
+            },
+            {
+                "_id": "63249146c62191015308400c",
+                "name": "Employee review",
+                "userId": "624ccf03d128972b338e6230",
+                "createdAt": "2022-09-16T15:07:50.397Z",
+                "updatedAt": "2022-09-16T15:07:50.397Z",
+                "__v": 0
+            }
         ],
         "invoices": [],
         "title": "Design 3 moodboards for Temi's engagament",

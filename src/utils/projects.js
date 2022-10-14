@@ -1,5 +1,4 @@
 export function calculateProps(val, propObj) {
-    console.log({ propObj });
     switch (val) {
         case 'Overview': 
             return {

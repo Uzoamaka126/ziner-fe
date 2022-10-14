@@ -3,14 +3,14 @@
         <tabs :list="tabs">
             <template v-slot="slotProps">
                 <tab :isActive="slotProps.data.component === 'Overview'" :title="'Overview'">
-                    <project-overview /> 
+                    <project-overview :data="currentProject" :loading="loadingState" /> 
                 </tab>
                 <!-- v-slot="{ name, isActive, ff }, item" -->
                 <tab :isActive="slotProps.data.component === 'Boards'" :title="'Boards'">
                      <project-boards />
                 </tab>
                 <tab :isActive="slotProps.data.component === 'Tasks'" :title="'Tasks'">
-                    <project-tasks />
+                    <project-tasks :tasks="currentProject.tasks" :loading="loadingState" />
                 </tab>
                 <tab :isActive="slotProps.data.component === 'Members'" :title="'Members'">
                     <project-members />

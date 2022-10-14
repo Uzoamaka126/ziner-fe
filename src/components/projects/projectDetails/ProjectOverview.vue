@@ -1,14 +1,14 @@
 <template>
     <div style="height: 100%">
         <div>
-            <template v-if="loadingState === 'loading'">
+            <template v-if="loading === 'loading'">
                 <div class="flex justify-content-center align-items-center  mt--40 mb--45">
                     <div class="spinner-border text-primary" role="status" style="color: #5f76d3 !important">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
             </template>
-            <template v-if="loadingState === 'success'">
+            <template v-if="loading === 'success'">
                 <div class="action--btns flex justify-content-end">
                     <template v-if="!isEditable">
                         <outline-button 
@@ -39,14 +39,14 @@
                 <div class="project__overview--item flex">
                     <span class="text--color-dark text--medium text--sm">Title:</span>
                         <template v-if="!isEditable">
-                            <span class="ml--10 text--sm">{{ currentProject.title }}</span>
+                            <span class="ml--10 text--sm">{{ data.title }}</span>
                         </template>
                         <template v-else>
                             <span class="ml--10" style="min-width: 340px;">
                                 <input 
                                     type="text" 
                                     class="text--sm form-control px-2 py-1" 
-                                    v-model="currentProject.title"
+                                    v-model="form.title"
                                 />
                             </span>
                         </template>
@@ -54,11 +54,11 @@
                 <div class="project__overview--item flex align-items-center flex">
                     <span class="text--color-dark text--medium text--sm">Status:</span>
                         <template v-if="!isEditable">
-                            <span class="ml--10 text--sm">{{ currentProject.status }}</span>
+                            <span class="ml--10 text--sm">{{ data.status }}</span>
                         </template>
                         <template v-else>
                             <span class="ml--10" style="min-width: 340px;">
-                                <select class="form-select form-select-sm form-control text--sm" v-model="currentProject.status">
+                                <select class="form-select form-select-sm form-control text--sm" v-model="form.status">
                                     <option selected>Open this select menu</option>
                                 </select>
                             </span>
@@ -67,10 +67,10 @@
                     <div class="project__overview--item flex align-items-center" style="display: flex;">
                         <span class="text--color-dark text--medium text--sm">Deadline:</span>
                         <template v-if="!isEditable">
-                            <span class="ml--10 text--sm">{{ computedDeadlineDate }}</span>
+                            <span class="ml--10 text--sm">{{ computeDeadlineDate(data.deadline) }}</span>
                         </template>
                         <template v-else>
-                            <v-date-picker v-model="currentProject.deadline" class="ml--10" style="min-width: 340px;">
+                            <v-date-picker v-model="data.deadline" class="ml--10" style="min-width: 340px;">
                                 <template #default="{ inputValue, inputEvents }">
                                     <input class="px-2 text--sm py-1 border rounded form-control" :value="inputValue" v-on="inputEvents" required />
                                 </template>
@@ -89,17 +89,12 @@
 <script>
 import IconSvg from '../../shared/icons/Icon-Svg.vue';
 import { formatDateTime } from '../../../utils/others'
-import projects from '../../../assets/js/projects.json'
 import OutlineButton from '../../../components/shared/buttons/OutlineButton.vue'
 import TextButton from '../../shared/buttons/TextButton.vue';
 
-
 export default {
     name: 'ProjectOverview',
-    created() {
-        this.$props
-        this.handleFetchProject()
-    },
+    created() {},
     components: {
         IconSvg,
         OutlineButton,
@@ -107,22 +102,12 @@ export default {
     },
     props: {
         user: Object,
-        data: Object
+        data: Object,
+        loading: String
     },
     data(){
         return {
-            projects: projects,
-            currentProject: {
-                title: '',
-                status: '',
-                deadline: '',
-                tags: [],
-                tasks: [],
-                invoices: []
-            },
             isEditable: false,
-            isProjectLoading: false,
-            loadingState: 'default',
             form: {
                 title: '',
                 status: '',
@@ -132,51 +117,41 @@ export default {
         }
     },
     computed: {
-        computedDeadlineDate() {
-            if(this.currentProject.deadline) {
-                return formatDateTime(this.currentProject.deadline)
+    },
+    methods: {
+        computeDeadlineDate(date) {
+            if(date) {
+                return formatDateTime(date)
             } else {
                 return 'None'
             }
-        }
-    },
-    methods: {
-        handleFetchProject() {
-            this.loadingState = 'loading';
-            const id = this.$route.params.id;
-            
-            const project = this.projects.find(item => item._id === id);
-            
-            setTimeout(() => {
-                this.currentProject = {
-                    title: project.title || '',
-                    status: project.status || '',
-                    deadline: project.deadline || '',
-                    tags: project.tags || [],
-                    tasks: project.tasks || [],
-                    invoices: project.invoices || []
-                }
-                
-                this.loadingState = 'success';
-            }, 2000)
+        },
+
+        fillFormWithProps() {
+            this.form = {
+                title: this.data.title || '',
+                status: this.data.status || '',
+                deadline: this.data.deadline || '',
+                tags: this.data.tags || [],
+            }
         },
 
         cancelUpdate() {
             this.isEditable = false;
             this.form = {
-                title: this.currentProject.title || '',
-                status: this.currentProject.status || '',
-                deadline: this.currentProject.deadline || '',
-                tags: this.currentProject.tags || [],
+                title: this.data.title || '',
+                status: this.data.status || '',
+                deadline: this.data.deadline || '',
+                tags: this.data.tags || [],
             }
         },
 
         showEdit () {
-            this.form =  {
-                title: this.currentProject.title || '',
-                status: this.currentProject.status || '',
-                deadline: this.currentProject.deadline || '',
-                tags: this.currentProject.tags || [],
+            this.form = {
+                title: this.data.title || '',
+                status: this.data.status || '',
+                deadline: this.data.deadline || '',
+                tags: this.data.tags || [],
             }
             this.isEditable = true;
         },
@@ -190,7 +165,16 @@ export default {
         }
     },
     watch: {
-        '$route': 'handleFetchProject'
+        // isEditable(newVal, oldVal) {
+        //     if (newVal !== oldVal && newVal === true) {
+        //         this.form = {
+        //             title: this.data.title || '',
+        //             status: this.data.status || '',
+        //             deadline: this.data.deadline || '',
+        //             tags: this.data.tags || [],
+        //         }
+        //     }
+        // }
     }
 }
 </script>

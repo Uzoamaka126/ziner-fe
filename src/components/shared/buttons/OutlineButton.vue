@@ -1,6 +1,6 @@
 <template>
     <button 
-        class="btn" 
+        class="btn flex" 
         type="button" 
         :class="[classNames, type]" 
         :disabled="isDisabled" 
