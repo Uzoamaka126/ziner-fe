@@ -181,7 +181,7 @@
             </template>
         </div>
 
-        <confirm-deletion-modal :type="'client'" :action="handleDeleteClient" :reset="resetCurrentClient" />
+        <confirm-deletion-modal :type="'client'" @delete="handleDeleteClient" :reset="resetCurrentClient" />
         <create-project-modal :showCreateProjectModal="isCreateProjectModalOpen" @cancel="isCreateProjectModalOpen = false" />
     </div>
 </template>

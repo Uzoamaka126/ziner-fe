@@ -78,7 +78,7 @@
             <!-- modal -->
         <create-tag-modal />
         <edit-tag-modal :currentTagDetails="currentTagDetails"  @resetCurrentTagDetails="resetCurrentTagDetails" :tagName="currentTagDetails.name" />
-        <confirm-deletion-modal :type="'tag'" :action="handleDeleteTag" />
+        <confirm-deletion-modal :type="'tag'" @delete="handleDeleteTag" @reset="resetCurrentTagDetails" />
     </div>
 </template>
 

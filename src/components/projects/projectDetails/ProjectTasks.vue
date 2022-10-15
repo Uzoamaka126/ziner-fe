@@ -9,11 +9,11 @@
                 </div>
             </template>
             <template v-else>
-                <div class="align-items-center justify-content-between" style="display: flex;">
+                <div class="align-items-center justify-content-between" style="display: flex;" v-if="tasksCopy.length > 0">
                     <div class="list--count">
-                        <p>{{ tasks.length }} {{ tasks.length > 1 ? 'tasks' : 'task' }}</p>
+                        <p>{{ tasksCopy.length }} {{ tasksCopy.length > 1 ? 'tasks' : 'task' }}</p>
                     </div>
-                    <div class="flex align-items-center justify-content-between" v-if="tasks.length > 0">
+                    <div class="flex align-items-center justify-content-between">
                         <outline-button 
                             :classNames="'text--xs flex align-items-center mr--5'" 
                             :outlineType="'secondary'"
@@ -28,17 +28,17 @@
                             </span>
                         </outline-button>
                         <!-- filter  -->
-                        <div class="flex align-items-center" v-if="tasks.length > 1">
+                        <div class="flex align-items-center" v-if="tasksCopy.length > 1">
                             <main-filter :filter="filter" @filter="filterTasks" />
                             <sort-filter :filter="displayType" @setType="setDisplayType" />
                         </div>
                     </div>
                 </div>
                 <!-- content -->
-                <div v-if="tasks.length > 0">
+                <div v-if="tasksCopy.length > 0">
                     <div>
                         <div class="col-12 mt--40">
-                            <draggable v-model="tasks">
+                            <draggable v-model="tasksCopy">
                                 <template v-slot:item="{item}">
                                     <div 
                                         class="task__completed--list" 
@@ -62,7 +62,7 @@
                                                     :id="item._id"
                                                     style="width: 70%;"
                                                 >
-                                                <div class="flex align-items-center tasks__action--btns" :id="`taskActionBtns-${item._id}`" :class="{ 'active':showBtns }">
+                                                <div class="flex align-items-center task__action--btns" :id="`taskActionBtns-${item._id}`" :class="{ 'active':showBtns }">
                                                     <span class="mr--5">
                                                         <icon-svg
                                                             :name="'alarm'"
@@ -87,7 +87,7 @@
                                                             data-bs-placement="top" 
                                                         /> 
                                                     </span>
-                                                    <span>
+                                                    <span @click="openDeleteModal(item._id)">
                                                         <icon-svg
                                                             :name="'delete'"
                                                             icon-position="left"
@@ -121,6 +121,7 @@
             </template>
         </div>
         <create-task />
+        <delete-tag :showModal="showDeleteModal" @delete="removeTaskByDeletion" @reset="resetCurrentlySelectedTask" /> 
     </div>
 </template>
 
@@ -129,12 +130,11 @@ import IconSvg from '../../shared/icons/Icon-Svg.vue';
 import draggable from "vue3-draggable";
 import EmptyPage from '../../shared/emptyPage/EmptyPage.vue'
 import CreateTask from '../../shared/modals/CreateTask.vue';
-import { taskActions } from '../../../utils/dataHelpers';
 import MainFilter from '../../shared/filter/Main';
+import DeleteTag from '../../shared/modals/DeleteTag.vue';
 import SortFilter from '../../shared/filter/Sort';
 import OutlineButton from '../../shared/buttons/OutlineButton.vue'
 import { formatDateStrings, sortList } from '../../../utils/others';
-import { te } from 'date-fns/locale';
 
 export default {
     name: 'ProjectTasks',
@@ -145,10 +145,10 @@ export default {
         CreateTask,
         MainFilter,
         SortFilter,
-        OutlineButton
+        OutlineButton,
+        DeleteTag
     },
     props: ['tasks', 'loading'],
-    created() {},
     data () {
         return {
             search: {
@@ -161,7 +161,6 @@ export default {
                 default: 'Pending',
                 types: ['All', 'Pending', 'Completed']
             },
-            taskActions: taskActions,
             showBtns: false,
             isPageLoading: false,
             displayType: '',
@@ -180,54 +179,58 @@ export default {
             },
             showDeadlineModal: false,
             showPriorityModal: false,
-            showDeleteModal: false
+            showDeleteModal: false,
+            tasksCopy: [],
+            currentTaskId: '',
         }
     },
     computed: {
-        draggingInfo() {
-            return this.dragging ? "under drag" : "";
-        },
     },
     methods: {
         handleAddTask () {
             this.list.push({ name: "Juan " + id, _id: id++ });
         },
-        replace () {
-            this.list = [{ name: "Edgard", _id: id++ }];
-        },
-        checkMove (e) {
-            window.console.log("Future index: " + e.draggedContext.futureIndex);
-        },
-        removeTaskByDeletion(id, value) {
+
+        removeTaskByDeletion() {
+            const id = this.currentTaskId;
+
             var previousSibling = document.getElementById(id).previousElementSibling;
-            if (value === '') {
-                this.tasks = this.tasks.filter(item => item._id !== id)
-                console.log(previousSibling);
-                previousSibling.getElementsByTagName('input').focus
+
+            if (id) {
+                this.tasksCopy = this.tasksCopy.filter(item => item._id !== id)
+                this.showDeleteModal = false
             }
+            // if (value === '') {
+            //     this.tasksCopy = this.tasksCopy.filter(item => item._id !== id)
+            //     console.log(previousSibling);
+            //     previousSibling.getElementsByTagName('input').focus
+            // }
         },
-        setTasksView(val) {
-            this.tasksViewType.default = val
+
+        resetCurrentlySelectedTask() {
+            this.currentTaskId = ''
+            this.showDeleteModal = false
         },
+
         markTaskAsCompleted(val) {},
+
         filterTasks () {
             const params = this.buildQueryString();
             this.$router.replace({ name: 'projects', query: params });
         },
 
         sortTasks() {
-            console.log('log here');
-            sortList(this.displayType, this.tasks, 'name')
+            sortList(this.displayType, this.tasksCopy, 'name')
         },
+
         setDisplayType(val) {
             this.displayType = val
         },
+
         formatDate(dateString) {
             return dateString && typeof dateString === 'string' ? formatDateStrings(dateString) : 'N/A'
         },
-        toggleTaskBtnActions() {
 
-        },
         toggleActionBtnsOnHover(id, type) {
             const getParentElem = document.getElementById(id);
             if (!getParentElem) {
@@ -239,6 +242,11 @@ export default {
             } else {
                 document.getElementById(`taskActionBtns-${id}`).style.visibility = 'hidden'
             }
+        },
+
+        openDeleteModal(id) {
+            this.currentTaskId = id
+            this.showDeleteModal = true
         }
 
     },
@@ -248,6 +256,9 @@ export default {
                 this.sortTasks()
             }
         },
+        tasks(val) {
+            this.tasksCopy = this.tasks
+        }
         // '$route': 'checkIfQueryParamsExists'
     }
 }

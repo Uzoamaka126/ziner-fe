@@ -159,7 +159,7 @@
         </div>
 
          <!-- modals -->
-        <confirm-deletion-modal :type="'invoice'" :action="deleteInvoice" :reset="resetCurrentInvoice" />
+        <confirm-deletion-modal :type="'invoice'" @delete="deleteInvoice" @reset="resetCurrentInvoice" />
         <mark-invoice-as-paid  @markInvoiceAsPaid="markInvoiceAsPaid" />
         <toast-el />
     </div>

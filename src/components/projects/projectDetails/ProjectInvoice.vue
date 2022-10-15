@@ -110,7 +110,7 @@
 
         <!-- modals -->
         <view-project-invoice-modal />
-        <confirm-deletion-modal :type="'invoice'" :action="deleteInvoice" :reset="resetCurrentInvoice" />
+        <confirm-deletion-modal :type="'invoice'" @delete="deleteInvoice" @reset="resetCurrentInvoice" />
     </div>
 </template>
 

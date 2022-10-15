@@ -92,7 +92,7 @@
         <!-- <pagination data="invoices-list" :pageNumber="noOfPages" /> -->
 
         <!-- modals -->
-        <confirm-deletion-modal :type="'invoice'" :action="deleteInvoice" :reset="resetCurrentInvoice" />
+        <confirm-deletion-modal :type="'invoice'" @delete="deleteInvoice" @reset="resetCurrentInvoice" />
     </div>
 </template>
 

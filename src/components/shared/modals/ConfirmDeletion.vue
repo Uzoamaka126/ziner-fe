@@ -7,17 +7,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <form @submit.prevent="" class="form--workspace__create mb--20">
+                <div class="form--workspace__create mb--20">
                     <div class="form__item">
                         <div class="mb-3">
                             <p>Are you sure you want to delete this {{ type }}?</p>
                         </div>
                     </div>
-                </form>
+                </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn--secondary mr--10 btn--sm" data-bs-dismiss="modal" aria-label="Close" @click="reset()">Cancel</button>
-                    <button type="button" class="btn btn--danger btn--sm" @click="action()">Delete</button>
+                    <button type="button" class="btn btn--secondary mr--10 btn--sm" data-bs-dismiss="modal" aria-label="Close" @click="handleResetAction">Cancel</button>
+                    <button type="button" class="btn btn--danger btn--sm" @click="handleDeleteAction">Delete</button>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
 
 export default {
     name: 'ConfirmDeletion',
-    props: ['action', 'type', 'reset'],
+    props: ['type'],
     data: () => ({
         loading: false,
         attributes: {
@@ -37,6 +37,9 @@ export default {
             },
             'tag': {
                 name: 'tag',
+            },
+            'task': {
+                name: 'task',
             },
             'project': {
                 name: 'project',
@@ -57,5 +60,13 @@ export default {
             return 'delete' + this.type.charAt(0).toUpperCase() + this.type.slice(1) + 'Label'
         }
     },
+    methods: {
+        handleDeleteAction () {
+            this.$emit('delete')
+        },
+        handleResetAction () {
+            this.$emit('reset')
+        }
+    }
 }
 </script>

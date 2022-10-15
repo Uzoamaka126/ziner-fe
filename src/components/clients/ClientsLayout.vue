@@ -132,7 +132,7 @@
 
         <!-- modal -->
         <create-client-modal @handleAddClient="handleAddClient" :loading="loadingState" />
-        <confirm-deletion-modal :type="'client'" :action="handleDeleteClient" :reset="resetCurrentClient" />
+        <confirm-deletion-modal :type="'client'" @delete="handleDeleteClient" :reset="resetCurrentClient" />
         <client-details-modal :currentClientDetails="currentClient" :clientName="currentClient.name"  @resetCurrentClient="resetCurrentClient" />
     </div>
 </template>

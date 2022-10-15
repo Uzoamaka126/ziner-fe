@@ -84,7 +84,7 @@
         </div>
 
         <!-- modal -->
-        <confirm-deletion-modal :type="'project'" :action="handleDeleteProject" :reset="resetSelectedProject" />
+        <confirm-deletion-modal :type="'project'" @delete="handleDeleteProject" @reset="resetSelectedProject" />
     </div>
 </template>
 
