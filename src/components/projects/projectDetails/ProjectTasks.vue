@@ -18,7 +18,7 @@
                             :classNames="'text--xs flex align-items-center mr--5'" 
                             :outlineType="'secondary'"
                             :btnSize="'fit-content'" 
-                            @submit="handleAddTask" 
+                            @submit="showCreateTaskModal = true" 
                             :label="'Add task'" 
                         >
                             <span class="flex ">
@@ -120,8 +120,8 @@
                 </div>
             </template>
         </div>
-        <create-task />
-        <delete-tag :showModal="showDeleteModal" @delete="removeTaskByDeletion" @reset="resetCurrentlySelectedTask" /> 
+        <create-task :showModal="showCreateTaskModal" @cancel="showCreateTaskModal = false" />
+        <delete-task :showModal="showDeleteModal" @delete="removeTaskByDeletion" @reset="resetCurrentlySelectedTask" /> 
     </div>
 </template>
 
@@ -129,9 +129,8 @@
 import IconSvg from '../../shared/icons/Icon-Svg.vue';
 import draggable from "vue3-draggable";
 import EmptyPage from '../../shared/emptyPage/EmptyPage.vue'
-import CreateTask from '../../shared/modals/CreateTask.vue';
+import Modals from '../../shared/modals/index.js';
 import MainFilter from '../../shared/filter/Main';
-import DeleteTag from '../../shared/modals/DeleteTag.vue';
 import SortFilter from '../../shared/filter/Sort';
 import OutlineButton from '../../shared/buttons/OutlineButton.vue'
 import { formatDateStrings, sortList } from '../../../utils/others';
@@ -142,11 +141,11 @@ export default {
         IconSvg,
         draggable,
         EmptyPage,
-        CreateTask,
+        CreateTask: Modals.CreateTask,
         MainFilter,
         SortFilter,
         OutlineButton,
-        DeleteTag
+        DeleteTask: Modals.DeleteTask
     },
     props: ['tasks', 'loading'],
     data () {
@@ -180,6 +179,7 @@ export default {
             showDeadlineModal: false,
             showPriorityModal: false,
             showDeleteModal: false,
+            showCreateTaskModal: false,
             tasksCopy: [],
             currentTaskId: '',
         }
