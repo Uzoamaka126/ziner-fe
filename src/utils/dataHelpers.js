@@ -22,13 +22,13 @@ export const taskActions = [
         id: 1,
         name: "alarm",
         fill: "rgba(128, 128, 128, 1)",
-        toolTipTitle: "Task deadline"
+        toolTipTitle: "Set a deadline"
     },
     {
         id: 2,
-        name: "hour-glass",
+        name: "flag",
         fill: "rgba(128, 128, 128, 1)",
-        toolTipTitle: "Task priority"
+        toolTipTitle: "Priority"
     },
     {
         id: 1,

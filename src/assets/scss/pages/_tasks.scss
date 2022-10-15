@@ -19,9 +19,9 @@
     &__action {
         &--btns {
             visibility: hidden;
-            &.active {
-                visibility: visible;
-            }
+            // &.active {
+            //     visibility: visible;
+            // }
         }
     }
 }

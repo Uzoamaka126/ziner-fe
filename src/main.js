@@ -4,7 +4,6 @@ import router from './router'
 import store from './store'
 import "bootstrap/dist/css/bootstrap.min.css";
 import Multiselect from '@vueform/multiselect'
-import Draggable from "vuedraggable";
 import { PopoverRow, Calendar, DatePicker } from 'v-calendar';
 import { Money3Component } from 'v-money3';
 import VueChartkick from 'vue-chartkick'
@@ -34,7 +33,6 @@ createApp(App)
   .component('multi-select', Multiselect)
   .component('vue-multi-select', VueMultiselect)
   .component('money', Money3Component)
-  .component('draggable', Draggable)
   .component('popover-row', PopoverRow)
   .component('v-calendar', Calendar)
   .component('v-date-picker', DatePicker)

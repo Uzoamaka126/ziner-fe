@@ -38,49 +38,70 @@
                 <div v-if="tasks.length > 0">
                     <div>
                         <div class="col-12 mt--40">
-                            <draggable 
-                            @mouseleave="showBtns = false"
-                            @mouseover="showActionBtnsOnHover()"
-                            v-model="tasks"
-                            >
+                            <draggable v-model="tasks">
                                 <template v-slot:item="{item}">
-                                    <div class="task__completed--list">
+                                    <div 
+                                        class="task__completed--list" 
+                                        :id="item._id" 
+                                        @mouseleave="toggleActionBtnsOnHover(item._id, 'leave')" 
+                                        @mouseover="toggleActionBtnsOnHover(item._id, 'show')"
+                                    >
                                         <span class="task__completed__wrap">
                                             <svg class="task__completed--icon" focusable="false" viewBox="0 0 32 32">
                                                 <path class="outer-path" d="M31,16c0,8.3-6.7,15-15,15S1,24.3,1,16S7.7,1,16,1S31,7.7,31,16z"></path>
                                                 <path class="inner-path" d="M13.4,22.1c-0.3,0-0.5-0.1-0.7-0.3l-3.9-3.9c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l3.1,3.1l8.1-8.1c0.4-0.4,1-0.4,1.4,0   s0.4,1,0,1.4l-8.9,8.9C13.9,22,13.7,22.1,13.4,22.1z"></path>
                                             </svg>
                                         </span>
-                                        <div class="flex align-items-center width--100 justify-content-between">
-                                            <!-- name -->
-                                            <input 
-                                                class="form-control form-control-sm task__form--input" 
-                                                type="text" 
-                                                v-model="item.name" 
-                                                @keyup="removeTaskByDeletion(item._id, item.name)"
-                                                :id="item._id"
-                                                style="width: 70%;"
-                                            >
-                                            <div class="flex align-items-center">
-                                                <span
-                                                    v-for="item in taskActions"
-                                                    :key="item._id"
-                                                    class="tasks__action--btns"
-                                                    :class="{ 'active':showBtns }"
+                                        <div class="width--100">
+                                            <div class="flex align-items-center justify-content-between">
+                                                <input 
+                                                    class="form-control form-control-sm task__form--input" 
+                                                    type="text" 
+                                                    v-model="item.name" 
+                                                    @keyup="removeTaskByDeletion(item._id, item.name)"
+                                                    :id="item._id"
+                                                    style="width: 70%;"
                                                 >
-                                                    <icon-svg
-                                                        :name="item.name"
-                                                        icon-position="left"
-                                                        :width="'16px'"
-                                                        :styles="'display: inline-block; margin-right: 5px;'"
-                                                        :fill="item.fill"
-                                                        type="button"
-                                                        :title="item.toolTipTitle"
-                                                        data-bs-toggle="tooltip" 
-                                                        data-bs-placement="top" 
-                                                    /> 
-                                                </span>
+                                                <div class="flex align-items-center tasks__action--btns" :id="`taskActionBtns-${item._id}`" :class="{ 'active':showBtns }">
+                                                    <span class="mr--5">
+                                                        <icon-svg
+                                                            :name="'alarm'"
+                                                            icon-position="left"
+                                                            :width="'16px'"
+                                                            :fill="'rgba(128, 128, 128, 1)'"
+                                                            type="button"
+                                                            title="'Set deadline'"
+                                                            data-bs-toggle="tooltip" 
+                                                            data-bs-placement="top" 
+                                                        /> 
+                                                    </span>
+                                                    <span class="mr--5">
+                                                        <icon-svg
+                                                            :name="'flag'"
+                                                            icon-position="left"
+                                                            :width="'16px'"
+                                                            :fill="'rgba(128, 128, 128, 1)'"
+                                                            type="button"
+                                                            title="'Set priority'"
+                                                            data-bs-toggle="tooltip" 
+                                                            data-bs-placement="top" 
+                                                        /> 
+                                                    </span>
+                                                    <span>
+                                                        <icon-svg
+                                                            :name="'delete'"
+                                                            icon-position="left"
+                                                            :width="'16px'"
+                                                            :fill="'rgba(209, 69, 59, 1)'"
+                                                            type="button"
+                                                            title="'Delete this task'"
+                                                            data-bs-toggle="tooltip" 
+                                                            data-bs-placement="top" 
+                                                        /> 
+                                                    </span>
+                                                </div>
                                             </div>
+                                            <div class="text--xs text--color-warning" style="padding: 0rem 0.7rem 0.3rem;">Due date: {{ formatDate(item.deadline) }}</div>
                                         </div>
                                     </div>
                                 </template>
@@ -112,7 +133,8 @@ import { taskActions } from '../../../utils/dataHelpers';
 import MainFilter from '../../shared/filter/Main';
 import SortFilter from '../../shared/filter/Sort';
 import OutlineButton from '../../shared/buttons/OutlineButton.vue'
-import { sortList } from '../../../utils/others';
+import { formatDateStrings, sortList } from '../../../utils/others';
+import { te } from 'date-fns/locale';
 
 export default {
     name: 'ProjectTasks',
@@ -156,6 +178,9 @@ export default {
                 client: this.$route.query.client || undefined,
                 title: this.$route.query.title || undefined,
             },
+            showDeadlineModal: false,
+            showPriorityModal: false,
+            showDeleteModal: false
         }
     },
     computed: {
@@ -185,20 +210,37 @@ export default {
             this.tasksViewType.default = val
         },
         markTaskAsCompleted(val) {},
-        showActionBtnsOnHover(val) {
-            this.showBtns = true;
-        },
         filterTasks () {
             const params = this.buildQueryString();
             this.$router.replace({ name: 'projects', query: params });
         },
 
         sortTasks() {
+            console.log('log here');
             sortList(this.displayType, this.tasks, 'name')
         },
         setDisplayType(val) {
             this.displayType = val
         },
+        formatDate(dateString) {
+            return dateString && typeof dateString === 'string' ? formatDateStrings(dateString) : 'N/A'
+        },
+        toggleTaskBtnActions() {
+
+        },
+        toggleActionBtnsOnHover(id, type) {
+            const getParentElem = document.getElementById(id);
+            if (!getParentElem) {
+                return
+            }
+
+            if (getParentElem && type === 'show') {
+                document.getElementById(`taskActionBtns-${id}`).style.visibility = 'visible'
+            } else {
+                document.getElementById(`taskActionBtns-${id}`).style.visibility = 'hidden'
+            }
+        }
+
     },
     watch: {
         displayType(newType, oldType) {
