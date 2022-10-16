@@ -79,8 +79,7 @@
                     </div>
                     <div class="project__overview--item flex">
                         <span class="item--title">Tags:</span>
-                        <span class="ml--10 text--sm ml--10">1</span>
-                        <span class="badge rounded-pill btn--danger ml--20" :class="[statusMap[invoice.status]]" v-for="tag in tags">{{ invoice.status }}</span>
+                        <span class="badge rounded-pill ml--10 tag--blue" v-for="tag in data.tags">{{ tag.name }}</span>
                     </div>
             </template>
     </div>
@@ -166,16 +165,16 @@ export default {
         }
     },
     watch: {
-        // isEditable(newVal, oldVal) {
-        //     if (newVal !== oldVal && newVal === true) {
-        //         this.form = {
-        //             title: this.data.title || '',
-        //             status: this.data.status || '',
-        //             deadline: this.data.deadline || '',
-        //             tags: this.data.tags || [],
-        //         }
-        //     }
-        // }
+        isEditable(val) {
+            if (val === true) {
+                this.form = {
+                    title: this.data.title || '',
+                    status: this.data.status || '',
+                    deadline: this.data.deadline || '',
+                    tags: this.data.tags || [],
+                }
+            }
+        }
     }
 }
 </script>
