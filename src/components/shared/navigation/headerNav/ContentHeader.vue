@@ -4,11 +4,11 @@
             <div class="content--header__left" style="display: flex; align-items: center;">
                 <div class="collapse--content"></div>
                 <template  v-if="!showBackArrowBtn">
-                    <div class="back--wrap">
+                    <!-- <div class="back--wrap">
                         <span class="back--link cursor-text">
                             <span>{{ computeHeaderTitle }}</span>
                         </span>
-                    </div>
+                    </div> -->
                 </template>
                 <div class="back--wrap" v-else>
                     <router-link class="back--link" :to="`/dashboard/${computeRouteName}`">
