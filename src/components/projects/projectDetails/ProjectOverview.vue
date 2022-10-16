@@ -37,7 +37,7 @@
                     </template>
                 </div>
                 <div class="project__overview--item flex">
-                    <span class="text--color-dark text--medium text--sm">Title:</span>
+                    <span class="item--title">Title:</span>
                         <template v-if="!isEditable">
                             <span class="ml--10 text--sm">{{ data.title }}</span>
                         </template>
@@ -52,7 +52,7 @@
                         </template>
                 </div>
                 <div class="project__overview--item flex align-items-center flex">
-                    <span class="text--color-dark text--medium text--sm">Status:</span>
+                    <span class="item--title">Status:</span>
                         <template v-if="!isEditable">
                             <span class="ml--10 text--sm">{{ data.status }}</span>
                         </template>
@@ -65,7 +65,7 @@
                         </template>
                 </div>
                     <div class="project__overview--item flex align-items-center" style="display: flex;">
-                        <span class="text--color-dark text--medium text--sm">Deadline:</span>
+                        <span class="item--title">Deadline:</span>
                         <template v-if="!isEditable">
                             <span class="ml--10 text--sm">{{ computeDeadlineDate(data.deadline) }}</span>
                         </template>
@@ -78,8 +78,9 @@
                         </template>
                     </div>
                     <div class="project__overview--item flex">
-                        <span class="text--color-dark text--medium text--sm">Tags:</span>
+                        <span class="item--title">Tags:</span>
                         <span class="ml--10 text--sm ml--10">1</span>
+                        <span class="badge rounded-pill btn--danger ml--20" :class="[statusMap[invoice.status]]" v-for="tag in tags">{{ invoice.status }}</span>
                     </div>
             </template>
     </div>
@@ -186,11 +187,6 @@ export default {
         padding: 30px;
         height: auto;
     }
-    .password__change {
-        border-top: 2px solid #eee;
-        margin-top: 1.5rem;
-        padding-top: 2rem;
-    }
     input[disabled] {
         background-color: #fafbfc;
         cursor: not-allowed;
@@ -200,5 +196,11 @@ export default {
     }
     label {
         font-size: 0.8rem;
+    }
+    .item--title {
+        min-width: 84px;
+        color: #172B4D;
+        font-weight: 500 !important;
+        font-size: 0.875rem !important;
     }
 </style>

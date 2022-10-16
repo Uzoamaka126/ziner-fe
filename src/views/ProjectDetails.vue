@@ -3,14 +3,28 @@
         <tabs :list="tabs">
             <template v-slot="slotProps">
                 <tab :isActive="slotProps.data.component === 'Overview'" :title="'Overview'">
-                    <project-overview :data="currentProject" :loading="loadingState" /> 
+                    <project-overview 
+                        :data="{
+                             _id: currentProject._id,
+                            title: currentProject.title,
+                            status: currentProject.status,
+                            deadline: currentProject.deadline,
+                            tags: currentProject.tags
+                        }" 
+                        :loading="loadingState" 
+                    /> 
                 </tab>
                 <!-- v-slot="{ name, isActive, ff }, item" -->
                 <tab :isActive="slotProps.data.component === 'Boards'" :title="'Boards'">
                      <project-boards />
                 </tab>
                 <tab :isActive="slotProps.data.component === 'Tasks'" :title="'Tasks'">
-                    <project-tasks :tasks="currentProject.tasks" :loading="loadingState" />
+                    <project-tasks 
+                        :tasks="currentProject.tasks" 
+                        :loading="loadingState" 
+                        :projectId="currentProject._id" 
+                        :userId="user?._id" 
+                    />
                 </tab>
                 <tab :isActive="slotProps.data.component === 'Members'" :title="'Members'">
                     <project-members />
@@ -67,6 +81,7 @@ export default {
             selectedIndex: 0,
             projects: projects,
             currentProject: {
+                _id: '',
                 title: '',
                 status: '',
                 deadline: '',
@@ -103,6 +118,7 @@ export default {
             setTimeout(() => {
                 this.title = project?.title || '',
                 this.currentProject = {
+                    _id: project._id,
                     title: project?.title || '',
                     status: project?.status || '',
                     deadline: project?.deadline || '',

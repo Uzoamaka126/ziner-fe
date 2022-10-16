@@ -133,6 +133,7 @@
             @edit="editTask"
             :action-type="createOrEdit"
             :task="taskToBeEdited"
+            :errMsg="taskErrMsg"
         />
         <delete-task 
             :showModal="showDeleteModal" 
@@ -166,7 +167,7 @@ export default {
         DeleteTask: Modals.DeleteTask
     },
 
-    props: ['tasks', 'loading', 'projectId'],
+    props: ['tasks', 'loading', 'projectId', 'userId'],
 
     data () {
         return {
@@ -318,10 +319,11 @@ export default {
         addTask(data) {
             const payload = {
                 ...data,
-                projectId: this.projectId
+                projectId: this.projectId,
+                userId: this.userId
             }
-            if (!this.projectId) {
-                this.taskErrMsg = 'The project id for this task is missing';
+            if (!this.projectId || !this.userId) {
+                this.taskErrMsg = 'Missing project or user Id';
                 return;
             }
 
@@ -332,10 +334,11 @@ export default {
         editTask(data) {
             const payload = {
                 ...data,
-                projectId: this.projectId
+                projectId: this.projectId,
+                userId: this.userId
             }
-            if (!this.projectId) {
-                this.taskErrMsg = 'The project id for this task is missing';
+            if (!this.projectId || !this.userId) {
+                this.taskErrMsg = 'Missing project or user Id';
                 return;
             }
 

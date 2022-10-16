@@ -54,6 +54,7 @@
                                     </v-date-picker>
                                     </div>
                                 </div>
+                                <p class="text--xs mt--10 mb--10 text--color-warning">{{ errMsg }}</p>
                             </form>
                         </div>
                     </div>
@@ -79,7 +80,7 @@ export default {
         MainModal,
         IconSvg,
     },
-    props: ["showModal", 'actionType', 'task'],
+    props: ["showModal", 'actionType', 'task', 'errMsg'],
     data() {
         return {
             taskStatus: ['Pending', "Completed", "On-Hold"],
@@ -127,12 +128,14 @@ export default {
             const payload = {
                 ...this.form
             }
+            this.$emit('add', payload)
         },
 
         handleEditTask() {
-            const form = {
+            const payload = {
                 ...this.form
             }
+            this.$emit('edit', payload)
         },
 
         resetValues() {
