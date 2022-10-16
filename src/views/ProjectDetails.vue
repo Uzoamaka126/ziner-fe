@@ -23,7 +23,7 @@
                         :tasks="currentProject.tasks" 
                         :loading="loadingState" 
                         :projectId="currentProject._id" 
-                        :userId="user?._id" 
+                        :userId="currentProject._id" 
                     />
                 </tab>
                 <tab :isActive="slotProps.data.component === 'Members'" :title="'Members'">

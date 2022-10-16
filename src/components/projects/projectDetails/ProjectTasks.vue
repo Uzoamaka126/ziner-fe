@@ -56,11 +56,12 @@
                                             <div class="flex align-items-center justify-content-between mt--5">
                                                 <input 
                                                     class="form-control form-control-sm task__form--input" 
+                                                    :class="{ 'text-line-through': !!item.isCompleted }"
                                                     type="text" 
                                                     v-model="item.name" 
-                                                    @keyup="removeTaskByDeletion(item._id, item.name)"
                                                     :id="item._id"
                                                     style="width: 70%;"
+                                                    @keyup="removeTaskByDeletion(item._id, item.name)"
                                                 >
                                                 <div class="flex align-items-center task__action--btns" :id="`taskActionBtns-${item._id}`" :class="{ 'active':showBtns }">
                                                     <span class="mr--5 cursor-pointer" @click="markTaskAsCompleted(item._id)">
@@ -220,10 +221,6 @@ export default {
     },
 
     methods: {
-        handleAddTask () {
-            this.list.push({ name: "Juan " + id, _id: id++ });
-        },
-
         removeTaskByDeletion() {
             const id = this.currentTaskId;
 
@@ -248,7 +245,9 @@ export default {
         markTaskAsCompleted(id) {
             this.tasksCopy = this.tasksCopy.map((item) => {
                 if (item._id === id) {
-                    return item.isCompleted = true
+                    return { ...item, isCompleted: true }
+                } else {
+                    return item
                 }
             })
         },
@@ -318,16 +317,18 @@ export default {
 
         addTask(data) {
             const payload = {
+                _id:  this.taskToBeEdited._id,
                 ...data,
                 projectId: this.projectId,
                 userId: this.userId
             }
+
             if (!this.projectId || !this.userId) {
                 this.taskErrMsg = 'Missing project or user Id';
                 return;
             }
 
-            this.tasks = this.tasks.push(payload);
+            this.tasksCopy.push(payload)
             this.hideCreateOrEditModal()
         },
 
@@ -353,6 +354,7 @@ export default {
         }
 
     },
+
     watch: {
         displayType(newType, oldType) {
             if(newType !== oldType) {
@@ -360,7 +362,14 @@ export default {
             }
         },
         tasks(val) {
-            this.tasksCopy = this.tasks
+            if (val.length) {
+                this.tasksCopy = this.tasks
+            }
+        },
+        tasksCopy(newVal, oldVal) {
+            if (newVal.length !== oldVal.length) {
+                console.log({ newVal,  oldVal });
+            }
         }
         // '$route': 'checkIfQueryParamsExists'
     }

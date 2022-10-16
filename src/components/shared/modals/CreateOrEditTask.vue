@@ -125,10 +125,14 @@ export default {
         },
 
         handleAddTask() {
-            const payload = {
-                ...this.form
+            this.$emit('add', this.form)
+            this.form = {
+                name: '',
+                description: '',
+                priority: '',
+                deadline: '',
+                isCompleted: false
             }
-            this.$emit('add', payload)
         },
 
         handleEditTask() {
@@ -159,7 +163,6 @@ export default {
     },
     watch: {
         task(val) {
-            console.log({ val });
             if (val._id) {
                 this.form = {
                     _id: this.task._id,
