@@ -53,7 +53,7 @@
                                             </svg>
                                         </span>
                                         <div class="width--100">
-                                            <div class="flex align-items-center justify-content-between">
+                                            <div class="flex align-items-center justify-content-between mt--5">
                                                 <input 
                                                     class="form-control form-control-sm task__form--input" 
                                                     type="text" 
@@ -130,6 +130,7 @@
             :showModal="showCreateOrEditTaskModal" 
             @cancel="hideCreateOrEditModal" 
             @add="addTask" 
+            @edit="editTask"
             :action-type="createOrEdit"
             :task="taskToBeEdited"
         />
@@ -165,7 +166,7 @@ export default {
         DeleteTask: Modals.DeleteTask
     },
 
-    props: ['tasks', 'loading'],
+    props: ['tasks', 'loading', 'projectId'],
 
     data () {
         return {
@@ -209,7 +210,8 @@ export default {
                 priority: '',
                 deadline: '',
                 isCompleted: ''
-            }
+            },
+            taskErrMsg: ''
         }
     },
 
@@ -298,6 +300,14 @@ export default {
         hideCreateOrEditModal() {
             this.createOrEdit = ''
             this.showCreateOrEditTaskModal = false
+            this.taskToBeEdited = {
+                _id: '',
+                name: '',
+                description: '',
+                priority: '',
+                deadline: '',
+                isCompleted: ''
+            }
         },
 
         openDeleteModal(id) {
@@ -306,20 +316,37 @@ export default {
         },
 
         addTask(data) {
-            // const payload = {
-            //     ...data
-            // }
-            this.tasks = this.tasks.push(data)
+            const payload = {
+                ...data,
+                projectId: this.projectId
+            }
+            if (!this.projectId) {
+                this.taskErrMsg = 'The project id for this task is missing';
+                return;
+            }
+
+            this.tasks = this.tasks.push(payload);
+            this.hideCreateOrEditModal()
         },
 
         editTask(data) {
+            const payload = {
+                ...data,
+                projectId: this.projectId
+            }
+            if (!this.projectId) {
+                this.taskErrMsg = 'The project id for this task is missing';
+                return;
+            }
+
             this.tasks = this.tasks.map(item => {
-                if (item._id === data._id) {
-                    return {...item, ...data}
+                if (item._id === payload._id) {
+                    return {...item, ...payload}
                 } else {
                     return item
                 }
             })
+            this.hideCreateOrEditModal()
         }
 
     },
