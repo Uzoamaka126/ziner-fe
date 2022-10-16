@@ -18,7 +18,7 @@
                             :classNames="'text--xs flex align-items-center mr--5'" 
                             :outlineType="'secondary'"
                             :btnSize="'fit-content'" 
-                            @submit="showCreateTaskModal = true" 
+                            @submit="openCreateOrEditModal('add')" 
                             :label="'Add task'" 
                         >
                             <span class="flex ">
@@ -63,38 +63,44 @@
                                                     style="width: 70%;"
                                                 >
                                                 <div class="flex align-items-center task__action--btns" :id="`taskActionBtns-${item._id}`" :class="{ 'active':showBtns }">
-                                                    <span class="mr--5">
+                                                    <span class="mr--5 cursor-pointer" @click="markTaskAsCompleted(item._id)">
+                                                        <icon-svg
+                                                            :name="'check-successful'"
+                                                            :width="'16px'"
+                                                            :fill="'#05c987'"
+                                                            type="button"
+                                                            title="Mark as completed"
+                                                            data-bs-toggle="tooltip" 
+                                                            data-bs-placement="top" 
+                                                        /> 
+                                                    </span>
+                                                    <span class="mr--5 cursor-pointer" @click="openCreateOrEditModal('edit', item)">
                                                         <icon-svg
                                                             :name="'alarm'"
-                                                            icon-position="left"
                                                             :width="'16px'"
                                                             :fill="'rgba(128, 128, 128, 1)'"
-                                                            type="button"
-                                                            title="'Set deadline'"
+                                                            title="Deadline"
                                                             data-bs-toggle="tooltip" 
                                                             data-bs-placement="top" 
                                                         /> 
                                                     </span>
-                                                    <span class="mr--5">
+                                                    <span class="mr--5 cursor-pointer" @click="openCreateOrEditModal('edit', item)">
                                                         <icon-svg
                                                             :name="'flag'"
-                                                            icon-position="left"
                                                             :width="'16px'"
                                                             :fill="'rgba(128, 128, 128, 1)'"
                                                             type="button"
-                                                            title="'Set priority'"
+                                                            title="Priority"
                                                             data-bs-toggle="tooltip" 
                                                             data-bs-placement="top" 
                                                         /> 
                                                     </span>
-                                                    <span @click="openDeleteModal(item._id)">
+                                                    <span class="cursor-pointer" @click="openDeleteModal(item._id)">
                                                         <icon-svg
                                                             :name="'delete'"
-                                                            icon-position="left"
                                                             :width="'16px'"
                                                             :fill="'rgba(209, 69, 59, 1)'"
-                                                            type="button"
-                                                            title="'Delete this task'"
+                                                            title="Delete"
                                                             data-bs-toggle="tooltip" 
                                                             data-bs-placement="top" 
                                                         /> 
@@ -120,8 +126,18 @@
                 </div>
             </template>
         </div>
-        <create-task :showModal="showCreateTaskModal" @cancel="showCreateTaskModal = false" />
-        <delete-task :showModal="showDeleteModal" @delete="removeTaskByDeletion" @reset="resetCurrentlySelectedTask" /> 
+        <create-or-edit-task 
+            :showModal="showCreateOrEditTaskModal" 
+            @cancel="hideCreateOrEditModal" 
+            @add="addTask" 
+            :action-type="createOrEdit"
+            :task="taskToBeEdited"
+        />
+        <delete-task 
+            :showModal="showDeleteModal" 
+            @delete="removeTaskByDeletion" 
+            @reset="resetCurrentlySelectedTask" 
+        /> 
     </div>
 </template>
 
@@ -137,17 +153,20 @@ import { formatDateStrings, sortList } from '../../../utils/others';
 
 export default {
     name: 'ProjectTasks',
+
     components: {
         IconSvg,
         draggable,
         EmptyPage,
-        CreateTask: Modals.CreateTask,
+        CreateOrEditTask: Modals.CreateOrEditTask,
         MainFilter,
         SortFilter,
         OutlineButton,
         DeleteTask: Modals.DeleteTask
     },
+
     props: ['tasks', 'loading'],
+
     data () {
         return {
             search: {
@@ -179,13 +198,24 @@ export default {
             showDeadlineModal: false,
             showPriorityModal: false,
             showDeleteModal: false,
-            showCreateTaskModal: false,
+            showCreateOrEditTaskModal: false,
             tasksCopy: [],
             currentTaskId: '',
+            createOrEdit: '',
+            taskToBeEdited: {
+                _id: '',
+                name: '',
+                description: '',
+                priority: '',
+                deadline: '',
+                isCompleted: ''
+            }
         }
     },
+
     computed: {
     },
+
     methods: {
         handleAddTask () {
             this.list.push({ name: "Juan " + id, _id: id++ });
@@ -212,7 +242,13 @@ export default {
             this.showDeleteModal = false
         },
 
-        markTaskAsCompleted(val) {},
+        markTaskAsCompleted(id) {
+            this.tasksCopy = this.tasksCopy.map((item) => {
+                if (item._id === id) {
+                    return item.isCompleted = true
+                }
+            })
+        },
 
         filterTasks () {
             const params = this.buildQueryString();
@@ -244,9 +280,46 @@ export default {
             }
         },
 
+        openCreateOrEditModal(action, data) {
+            this.createOrEdit = action;
+            if (action === 'edit' && data.name) {
+                this.taskToBeEdited = {
+                    _id: data._id,
+                    name: data.name,
+                    description: data.description,
+                    priority: data.priority,
+                    deadline: data.deadline,
+                    isCompleted: data.isCompleted
+                }
+            }
+            this.showCreateOrEditTaskModal = true
+        },
+
+        hideCreateOrEditModal() {
+            this.createOrEdit = ''
+            this.showCreateOrEditTaskModal = false
+        },
+
         openDeleteModal(id) {
             this.currentTaskId = id
             this.showDeleteModal = true
+        },
+
+        addTask(data) {
+            // const payload = {
+            //     ...data
+            // }
+            this.tasks = this.tasks.push(data)
+        },
+
+        editTask(data) {
+            this.tasks = this.tasks.map(item => {
+                if (item._id === data._id) {
+                    return {...item, ...data}
+                } else {
+                    return item
+                }
+            })
         }
 
     },

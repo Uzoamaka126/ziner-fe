@@ -75,12 +75,19 @@
     }
 
     &__priority {
+        &--item {
+            cursor: pointer;
+            margin-right: 16px;
+        }
         &--flag {
+            padding: 10px 5px;
+            border: 1px solid transparent;
+            width: 20px;
+            height: 20px;  
+
             &.selected {
-                border: 1px solid #6d6e6f;
-                width: 20px;
-                height: 20px;
-                padding: 5px;
+                border: 1px solid #ddd;
+                              
             }
         }
     }
