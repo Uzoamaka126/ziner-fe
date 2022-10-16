@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-    <home-layout></home-layout>
+    <report-layout></report-layout>
   </div>
 </template>
 
 <script>
-import HomeLayout from '@/components/home/HomeLayout.vue'
+import ReportLayout from '@/components/reports/ReportsLayout.vue'
 
 export default {
-  name: 'Home',
+  name: 'Reports',
   components: {
-   'home-layout': HomeLayout
+   ReportLayout
   },
 };
 </script>

@@ -96,7 +96,7 @@ export default {
             } 
         },
         backToHome() {
-            this.$router.push({ name: 'home-view'})
+            this.$router.push({ name: 'reports-view'})
             localStorage.setItem('showWorkspaceNav', false)
         }
     },

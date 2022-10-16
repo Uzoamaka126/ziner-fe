@@ -1,25 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/Home.vue'
+import ReportsView from '../views/Reports.vue'
 import ClientsView from '../views/Clients.vue'
 import ClientsDetailsView from '../components/clients/ClientDetails.vue'
+import ProjectReports from '../components/reports/ProjectReports.vue'
+import ClientReports from '../components/reports/ClientReports.vue'
+import TaskReports from '../components/reports/TaskReports.vue'
 import ProjectsView from '../views/Projects.vue'
 import DashboardView from '../views/Dashboard.vue'
 import ProjectsDetailsView from '../views/ProjectDetails.vue'
-// project details
-import Overview from '../components/projects/projectDetails/ProjectOverview';
-import Boards from '../components/projects/projectDetails/ProjectBoards.vue';
-import Members from '../components/projects/projectDetails/ProjectMembers.vue';
-import Tasks from '../components/projects/projectDetails/ProjectTasks.vue';
-import Calendar from '../components/projects/projectDetails/ProjectCalendar.vue';
-import Invoices from '../components/projects/projectDetails/ProjectInvoice.vue'
-// project details
-
 import SettingsView from '../views/Settings.vue'
 import TagsView from '../views/Tags.vue'
 import InvoicesView from '../views/Invoices.vue'
 import CreateInvoiceView from '../components/invoices/CreateInvoice.vue';
 import InvoiceDetailsView from '../components/invoices/InvoiceDetails.vue';
-import { isRouteAuthRequired } from '../utils/auth'
+// import { isRouteAuthRequired } from '../utils/auth'
 
 const routes = [
   // {
@@ -66,25 +60,33 @@ const routes = [
     component: DashboardView,
     // beforeEnter: isRouteAuthRequired,
     children:[
-      { path:'home', name:'home-view', component: HomeView },
-            
-      { path:'projects', name:'projects-view',  component: ProjectsView },
-      
       { 
-        path:'projects/:id', 
-        name:'project-details-view', 
-        component: ProjectsDetailsView, 
-        // component: {
-        //   default: ProjectsDetailsView,
-        //   Overview,
-        //   Boards,
-        //   Members,
-        //   Tasks,
-        //   Calendar,
-        //   Invoices,
-        // } 
-      },
+        path: 'reports', 
+        name: 'reports-view', 
+        component: ReportsView ,
+        children: [
+          {
+            path: 'projects',
+            component: ProjectReports
+          }, 
+          {
+            path: 'clients',
+            component: ClientReports,
+          },
+          {
+            path: 'tasks',
+            component: TaskReports
+          },
+        ]
+    },
+      { path: 'reports/projects', name: 'project-reports-view', component: ProjectReports },
+      // { path:'reports?type=clients', name:'reports-view', component: ReportsView },
+      // { path:'reports?type=tasks', name:'reports-view', component: ReportsView },
+            
+      { path:'projects', name: 'projects-view',  component: ProjectsView },
       
+      {  path:'projects/:id',  name: 'project-details-view',  component: ProjectsDetailsView},
+       
       { path:'tags',  name:'tags-view', component: TagsView },
       
       { path: 'invoices', name: 'invoices-view', component: InvoicesView },
@@ -95,7 +97,7 @@ const routes = [
       
       { path: 'invoices/:id', name: 'invoice-details-view', component: InvoiceDetailsView },
       
-      { path: 'clients', name:'clients-view', component: ClientsView },
+      { path: 'clients', name: 'clients-view', component: ClientsView },
 
       { path:'clients/:id', name:'client-details-view', component: ClientsDetailsView },
       

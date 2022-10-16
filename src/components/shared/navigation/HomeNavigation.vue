@@ -1,16 +1,15 @@
 <template>
     <div class="nav__section__content__group">
-        <router-link :to="{ name:'home-view' }" class="nav__section--item">
-            <!-- naviation item link text -->
+        <router-link :to="{ name:'reports-view' }" class="nav__section--item">
             <icon-svg 
                 fill="rgba(66, 82, 110)" 
                 class="nav__icon" 
-                name="home" 
+                name="report" 
                 icon-position="left"
                 :style="{ fill: 'rgba(66, 82, 110)' }"
                 :width="'24px'"
             />   
-            <span class="nav__section__content__group__title">Home</span>
+            <span class="nav__section__content__group__title">Reports</span>
         </router-link>
     </div>
 </template>

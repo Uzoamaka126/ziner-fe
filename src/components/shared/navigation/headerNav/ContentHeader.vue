@@ -103,7 +103,7 @@ export default {
             showCreateBoardModal: false,
             currentWorkspaceName: '',
             routeNameMap: {
-                'home-view': 'Home',
+                'reports-view': 'Reports',
                 'projects-view': 'Projects',
                 'clients-view': 'Clients',
                 'client-details-view': 'Clients',
