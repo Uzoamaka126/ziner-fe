@@ -54,12 +54,13 @@
                 <div class="project__overview--item flex align-items-center flex">
                     <span class="item--title">Status:</span>
                         <template v-if="!isEditable">
-                            <span class="ml--10 text--sm">{{ data.status }}</span>
+                            <span class="badge rounded-pill btn--danger ml--10" :class="[statusMap[data.status]]">{{ data.status }}</span>
                         </template>
                         <template v-else>
                             <span class="ml--10" style="min-width: 340px;">
                                 <select class="form-select form-select-sm form-control text--sm" v-model="form.status">
-                                    <option selected>Open this select menu</option>
+                                    <option selected>{{ form.status }}</option>
+                                    <option v-for="status in statues">{{ status }}</option>
                                 </select>
                             </span>
                         </template>
@@ -113,6 +114,16 @@ export default {
                 status: '',
                 deadline: '',
                 tags: [],
+            },
+            statues: ['Blocked', 'Completed', 'In Progress', 'On Hold', 'Paid', 'Pending', 'Requires Fixes'],
+            statusMap: {
+                'Draft': "tag--blue",
+                'Completed': "tag--purple",
+                'Paid': "tag--green",
+                'In Progress': "tag--blue",
+                'On Hold': "tag--yellow",
+                'Pending': "tag--grey",
+                'Requires Fixes': 'tag--red'
             },
         }
     },
