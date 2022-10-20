@@ -58,7 +58,8 @@
                                             </router-link>
                                         </li>
                                         <li class="cursor-pointer">
-                                            <p class="dropdown-item text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteClient">Delete</p>
+                                            <!-- <p class="dropdown-item text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteClient">Delete</p> -->
+                                            <p class="dropdown-item text--xs text--color-warning" @click="startDelete(client)">Delete</p>
                                         </li>
                                     </ul>
                                 </td>
@@ -125,7 +126,18 @@ export default {
     data() {
         return {
             isMenuItemHover: '',
-            currentClient: {},
+            currentClient: {
+                _id: '',
+                name: '',
+                userId: '',
+                ccEmails: [],
+                email: '',
+                phoneNumber: '',
+                country: '',
+                address: '',
+                organizationType: null,
+                createdAt: '',
+            },
             loadingState: 'default',
             pageData: {
                 currentPage: 1,
@@ -165,7 +177,17 @@ export default {
         },
 
         setClientDetails(data) {
-            this.currentClient = data;
+            this.currentClient = {
+                _id: data?._id,
+                name: data?.name,
+                ccEmails: [],
+                email: data?.email,
+                phoneNumber: data?.phoneNumber,
+                country: data?.country,
+                address: data?.address,
+                organizationType: data?.organizationType,
+                createdAt: data?.createdAt,
+            };
             $("#clientDetails").modal("show");
         },
 
@@ -179,9 +201,35 @@ export default {
         },
 
         handleDeleteClient() {
-            this.clientsList = this.clientsList.filter(item => item.id !== this.currentClient.id);
-            this.currentClient = {}
+            this.clientsList = this.clientsList.filter(item => item._id !== this.currentClient._id);
+            this.currentClient = {
+                _id: '',
+                name: '',
+                userId: '',
+                ccEmails: [],
+                email: '',
+                phoneNumber: '',
+                country: '',
+                address: '',
+                organizationType: null,
+                createdAt: '',
+            }
             $("#deleteClient").modal("hide");
+        },
+
+        resetCurrentClient() {
+            this.currentClient = {
+                _id: '',
+                name: '',
+                userId: '',
+                ccEmails: [],
+                email: '',
+                phoneNumber: '',
+                country: '',
+                address: '',
+                organizationType: null,
+                createdAt: '',
+            }
         },
 
         handleAddClient(data) {

@@ -62,6 +62,7 @@ export default {
     },
     methods: {
         handleDeleteAction () {
+            console.log('llllf');
             this.$emit('delete')
         },
         handleResetAction () {

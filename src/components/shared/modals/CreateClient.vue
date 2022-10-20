@@ -59,7 +59,7 @@
                     <button class="btn btn--secondary btn--md form__footer--btnFirst" @click="closeModal()">Cancel</button>
                     <!-- <button class="btn btn--primary btn--md" :disabled="isBtnDisabled" type="submit">Add client</button> -->
                     <primary-button 
-                      :loading="loading" 
+                      :loading="isBtnLoading" 
                       :type="'submit'" 
                       :isBtnDisabled="isBtnDisabled" 
                       :classNames="'btn--md'"
@@ -113,6 +113,9 @@ export default {
                 return false
             }
         },
+        isBtnLoading() {
+            return this.loading === 'loading' ? true : false
+         },
     },
 
     methods: {
