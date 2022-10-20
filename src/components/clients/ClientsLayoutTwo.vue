@@ -13,6 +13,22 @@
                     <p>{{ clients.length }} client{{ clients.length > 1 ? 's' : '' }}</p>
                 </div>
                 <div class="flex align-items-center">
+                    <div v-show="selectedClients.length > 1" class="row__item positionRelative ml--10 pb--0">
+                        <button class="btn btn--danger btn--sm" @click="handleDeleteMultipleClient">Delete selected clients</button>
+                    </div>
+                    <outline-button 
+                            :classNames="'text--xs flex align-items-center mr--5'" 
+                            :outlineType="'secondary'"
+                            :btnSize="'fit-content'" 
+                            @submit="openCreateOrEditModal('add')" 
+                            :label="'Add new client'" 
+                        >
+                            <span class="flex ">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: #5e6c84;transform: ;msFilter:;">
+                                    <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
+                                </svg>
+                            </span>
+                        </outline-button>
                     <main-filter :filter="filter" />
                     <sort-filter :filter="displayType" @setType="setDisplayType" />
                 </div>
@@ -23,6 +39,7 @@
                     <table class="table table-hover root">
                         <thead>
                             <tr>
+                                <th class="header"></th>
                                 <th class="first header">Client name</th>
                                 <th class="header">Country</th>
                                 <th class="header">Phone number</th>
@@ -34,12 +51,18 @@
                         </thead>
                         <tbody v-for="client in clients" :key="client._id">
                             <span>
+                                <td>
+                                    <div class="checkbox cursor-pointer">
+                                        <input class="form-check-input" type="checkbox" :id="'label' + client._id" :value="client._id" v-model="selectedClients">
+                                        <label class="form-check-label d-none" :for="'label' + client._id"></label>
+                                    </div>
+                                </td>
                                 <td>{{ client.name }}</td>
                                 <td>{{ client.country }}</td>
                                 <td>{{ client.phoneNumber }}</td>
                                 <td>{{ client.email }}</td>
                                 <td>{{ client.address }}</td>
-                                <td>{{ !client.organizationType ? '-' : client.organizationType }}</td>
+                                <td>{{ !client.organizationType ? 'N/A' : client.organizationType }}</td>
                                 <td aria-expanded="false">
                                     <div data-bs-toggle="dropdown">
                                         <div class="icon cursor-pointer" tabindex="-1" title="More options">
@@ -98,6 +121,7 @@
 <script>
 import clientsList from '../../assets/js/clients.json'
 import MainFilter from '../shared/filter/Main';
+import OutlineButton from '../shared/buttons/OutlineButton.vue';
 import SortFilter from '../shared/filter/Sort';
 import ConfirmDeletionModal from '../shared/modals/ConfirmDeletion';
 import IconSvg from '../shared/icons/Icon-Svg.vue';
@@ -122,6 +146,7 @@ export default {
         Pagination,
         MainFilter,
         SortFilter,
+        OutlineButton,
     },
     data() {
         return {
@@ -157,6 +182,7 @@ export default {
             },
             clientsList,
             displayType: '',
+            selectedClients: []
         }
     },
     computed: {
@@ -215,6 +241,12 @@ export default {
                 createdAt: '',
             }
             $("#deleteClient").modal("hide");
+        },
+
+        handleDeleteMultipleClient() {
+            const arr = [...this.selectedClients]
+            this.clientsList = this.clientsList.filter(item => !arr.includes(item._id));
+            this.selectedClients = []
         },
 
         resetCurrentClient() {

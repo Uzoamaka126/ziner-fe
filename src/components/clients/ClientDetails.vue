@@ -10,7 +10,7 @@
             </template>
             <!--  -->
             <template v-else-if="loadingState === 'success'">
-                <div class="flex align-items-center justify-content-between">
+                <div class="flex align-items-center justify-content-end">
                     <div class="action--btns" >
                         <template v-if="!isEdit">
                             <outline-button 
@@ -37,6 +37,9 @@
                                 :label="'Cancel'" 
                             />
                         </template>
+                        <div class="row__item positionRelative ml--10 pb--0">
+                          <button class="btn btn--danger btn--sm">Delete Client</button>
+                      </div>
                     </div>
                 </div>
                 <!--  -->

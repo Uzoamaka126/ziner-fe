@@ -18,7 +18,7 @@ thead, th {
         border-top: none;
         border-collapse: initial;
         box-shadow: rgb(235 231 235 / 50%) 0px -1px 0px 0px inset;
-        table-layout: fixed;
+        table-layout: auto;
     }
 
     th {

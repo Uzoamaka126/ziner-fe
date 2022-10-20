@@ -428,6 +428,30 @@
     }
 }
 
+.pb {
+    &--0 {
+        padding-bottom: 0;
+    }
+    &--5{
+        padding-bottom:5px;
+    }
+    &--10{
+        padding-bottom:10px;
+    }
+    &--12{
+        padding-bottom:12px;
+    }
+    &--15{
+        padding-bottom:15px;
+    }
+    &--25 {
+        padding-bottom: 25px;
+    }
+    &--35 {
+        padding-bottom: 35px;
+    }
+}
+
 .text-divider{
     margin-left:5px;
     margin-right:5px;
