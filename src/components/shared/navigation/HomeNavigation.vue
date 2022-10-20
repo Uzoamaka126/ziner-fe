@@ -1,6 +1,6 @@
 <template>
     <div class="nav__section__content__group">
-        <router-link :to="{ name:'reports-view' }" class="nav__section--item">
+        <router-link to="/dashboard/reports/projects" class="nav__section--item pr--10">
             <icon-svg 
                 fill="rgba(66, 82, 110)" 
                 class="nav__icon" 
@@ -22,18 +22,5 @@ export default {
     components: {
         'icon-svg': IconSvg
     },
-    data: () => ({
-    }),
-    computed: {
-        // df () {
-        //     return this.showOnboardingModal
-        // }
-    }
 }
 </script>
-
-<style lang="scss" scoped>
-    .nav__section--item {
-        padding: 10px;
-    }
-</style>

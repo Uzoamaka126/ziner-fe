@@ -62,28 +62,27 @@ const routes = [
     children:[
       { 
         path: 'reports', 
-        name: 'reports-view', 
         component: ReportsView ,
         children: [
           {
             path: 'projects',
+            name: 'project-reports-view',
             component: ProjectReports
           }, 
           {
             path: 'clients',
+            name: 'client-reports-view',
             component: ClientReports,
           },
           {
             path: 'tasks',
+            name: 'tasks-reports-view',
             component: TaskReports
           },
         ]
     },
-      { path: 'reports/projects', name: 'project-reports-view', component: ProjectReports },
-      // { path:'reports?type=clients', name:'reports-view', component: ReportsView },
-      // { path:'reports?type=tasks', name:'reports-view', component: ReportsView },
-            
-      { path:'projects', name: 'projects-view',  component: ProjectsView },
+      
+    { path:'projects', name: 'projects-view',  component: ProjectsView },
       
       {  path:'projects/:id',  name: 'project-details-view',  component: ProjectsDetailsView},
        

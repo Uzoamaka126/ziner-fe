@@ -23,10 +23,6 @@ import { createdWorkspaces } from '../../utils/dummy'
 export default {
     name: 'HomeLayout',
     created() {
-        // console.log(this.user);
-        // if(this.user && this.user.isRecentlyCreated === true) {
-        //     this.setShowOnboardingModal('show');
-        // }
     },
     props: {
         user: Object
