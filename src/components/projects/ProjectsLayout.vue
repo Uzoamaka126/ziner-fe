@@ -15,6 +15,22 @@
                     <p>{{ projects.length }} project{{ projects.length > 1 ? 's' : '' }}</p>
                 </div>
                 <div class="flex align-items-center">
+                    <div v-show="selectedProjects.length > 1" class="row__item positionRelative ml--10 pb--0">
+                        <button class="btn btn--danger btn--sm" @click="handleDeleteMultipleProjects">Delete selected projects</button>
+                    </div>
+                    <outline-button 
+                            :classNames="'text--xs flex align-items-center mr--5'" 
+                            :outlineType="'secondary'"
+                            :btnSize="'fit-content'" 
+                            @submit="openCreateOrEditModal('add')" 
+                            :label="'Add project'" 
+                        >
+                            <span class="flex ">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: #5e6c84;transform: ;msFilter:;">
+                                    <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
+                                </svg>
+                            </span>
+                        </outline-button>
                     <main-filter :filter="filter" @filterProjects="filterProjects" />
                     <sort-filter :filter="displayType" @setType="setDisplayType" />
                 </div>
@@ -25,6 +41,7 @@
                     <table class="table table-hover root">
                         <thead>
                             <tr>
+                                <th class="header"></th>
                                 <th class="first header">Project title</th>
                                 <th class="header">Status</th>
                                 <th class="header">Deadline</th>
@@ -35,6 +52,12 @@
                         </thead>
                         <tbody v-for="project in projects" :key="project._id">
                             <span>
+                                <td>
+                                    <div class="checkbox">
+                                        <input class="form-check-input cursor-pointer" type="checkbox" :id="'label' + project._id" :value="project._id" v-model="selectedProjects">
+                                        <label class="form-check-label d-none" :for="'label' + project._id"></label>
+                                    </div>
+                                </td>
                                 <td>{{ project.title }}</td>
                                 <td>{{ project.status }}</td>
                                 <td>{{ formatProjectDateTime(project.deadline) }}</td>
@@ -91,6 +114,7 @@
 <script>
 import CreateProjectModal from '../shared/modals/CreateProject'
 import MainFilter from '../shared/filter/Main';
+import OutlineButton from '../shared/buttons/OutlineButton.vue';
 import SortFilter from '../shared/filter/Sort';
 import ConfirmDeletionModal from '../shared/modals/ConfirmDeletion';
 import { formatDateTime } from '../../utils/others';
@@ -113,7 +137,8 @@ export default {
         SortFilter,
         IconSvg,
         Pagination,
-        EmptyPage
+        EmptyPage,
+        OutlineButton
     },
     data () {
         return {
@@ -145,6 +170,7 @@ export default {
                 client: this.$route.query.client || undefined,
                 title: this.$route.query.title || undefined,
             },
+            selectedProjects: []
         }
     },
     computed: {
@@ -352,7 +378,12 @@ export default {
                 default:
                     this.isSearched = false;
             }
-        }
+        },
+        handleDeleteMultipleProjects() {
+            const arr = [...this.selectedProjects]
+            this.projects = this.projects.filter(item => !arr.includes(item._id));
+            this.selectedProjects = []
+        },
     },
     watch: {
         displayType(newType, oldType) {

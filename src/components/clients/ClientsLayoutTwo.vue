@@ -14,14 +14,14 @@
                 </div>
                 <div class="flex align-items-center">
                     <div v-show="selectedClients.length > 1" class="row__item positionRelative ml--10 pb--0">
-                        <button class="btn btn--danger btn--sm" @click="handleDeleteMultipleClient">Delete selected clients</button>
+                        <button class="btn btn--danger btn--sm" @click="handleDeleteMultipleClients">Delete selected clients</button>
                     </div>
                     <outline-button 
                             :classNames="'text--xs flex align-items-center mr--5'" 
                             :outlineType="'secondary'"
                             :btnSize="'fit-content'" 
                             @submit="openCreateOrEditModal('add')" 
-                            :label="'Add new client'" 
+                            :label="'Add client'" 
                         >
                             <span class="flex ">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: #5e6c84;transform: ;msFilter:;">
@@ -243,7 +243,7 @@ export default {
             $("#deleteClient").modal("hide");
         },
 
-        handleDeleteMultipleClient() {
+        handleDeleteMultipleClients() {
             const arr = [...this.selectedClients]
             this.clientsList = this.clientsList.filter(item => !arr.includes(item._id));
             this.selectedClients = []
