@@ -1,8 +1,8 @@
 <template>
     <div>
         <!-- add new task to calendar -->
-        <div>
-            <div class="align-items-center mb--20 justify-content-end" style="display: flex;">
+        <div class="flex justify-content-center align-items-center">
+            <!-- <div class="align-items-center mb--20 justify-content-end" style="display: flex;">
             <div class="btn--outline__sm align-items-center" data-bs-toggle="modal" data-bs-target="#createCalendarTask" style="display: flex;">
                <span class="flex ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: #5e6c84;transform: ;msFilter:;">
@@ -25,7 +25,8 @@
                         {{ attr.customData.description }}
                     </popover-row>
                 </template>
-            </v-calendar>
+            </v-calendar> -->
+            <p>Coming soon</p>
         </div>
 
         <create-calendar-task :addNewCalendarTask="addNewCalendarTask"></create-calendar-task>

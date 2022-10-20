@@ -6,6 +6,7 @@
                 <div class="page__result" v-if="invoices.length === 1">{{ invoices.length }} Invoice</div>
                 <div class="page__result" v-if="invoices.length > 1">{{ invoices.length }} Invoices</div>
             </div>
+            <div class="page__result"></div>
 
             <!-- others -->
             <div class="row__right">
@@ -37,7 +38,6 @@
                         </span>
                     </form>
                 </div>
-                <!-- <button-icon @click="downloadInvoices" icon="download" :disabled="downloadButtonIsDisabled" class="btn--default btn--sm btn--flex">Download</button-icon> -->
             </div>
         </div>
 
@@ -67,8 +67,8 @@
                             <td class="first">{{ invoice.client_email }}</td>
                             <td>{{ invoice.currency }} {{ formatMoney(invoice.amount) }}</td>
                             <td>{{ invoice.invoice_num }}</td>
-                            <!-- <td>{{ formatDateTime(invoice.date_created) }}</td>
-                            <td>{{ formatDateTime(invoice.due_date) }}</td> -->
+                            <td>{{ formatDateTime(invoice.createdAt) }}</td>
+                            <td>{{ formatDateTime(invoice.dueDate) }}</td>
                             <td class="dropdown">
                                 <div class=" cursor-pointer" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #95899b;transform: ;msFilter:;">
@@ -77,16 +77,12 @@
                                 </div>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li>
-                                        <p
-                                            class="dropdown-item cursor-pointer text--xs text--link" 
-                                            style="display: block;"
-                                            data-bs-toggle="modal" data-bs-target="#viewProjectInvoice"
-                                        >
+                                        <p class="dropdown-item cursor-pointer text--xs text--link">
                                             View invoice
                                         </p>
                                     </li>
                                     <li><p class="dropdown-item cursor-pointer text--xs">Download as PDF</p></li>
-                                    <!-- <li v-if="invoice.status === 'draft'"><p class="dropdown-item cursor-pointer text--xs">Edit invoice</p></li> -->
+                                    <li v-if="invoice.status === 'draft'"><p class="dropdown-item cursor-pointer text--xs">Edit invoice</p></li>
                                     <li><p class="dropdown-item cursor-pointer text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteInvoice">Delete invoice</p></li>
                                 </ul>
                             </td>
@@ -109,24 +105,21 @@
         <!-- <pagination data="invoices-list" :pageNumber="noOfPages" /> -->
 
         <!-- modals -->
-        <view-project-invoice-modal />
         <confirm-deletion-modal :type="'invoice'" @delete="deleteInvoice" @reset="resetCurrentInvoice" />
     </div>
 </template>
 
 <script>
 import EmptyPage from '../../shared/emptyPage/EmptyPage.vue'
-import { dummyInvoicesData } from '../../../utils/dummy';
 import ConfirmDeletionModal from '../../shared/modals/ConfirmDeletion.vue';
-import ViewProjectInvoiceModal from '../../shared/modals/ViewProjectInvoice.vue';
 
 export default {
     name: 'ProjectInvoice',
     components: {
         EmptyPage,
         ConfirmDeletionModal,
-        ViewProjectInvoiceModal
     },
+    props: ['invoices'],
     data () {
             return {
                 loading: false,
@@ -142,7 +135,7 @@ export default {
                     },
                 },
                 filterType: '',
-                invoices: dummyInvoicesData,
+                invoicesCopy: this.invoices,
                 /**
                  * Returns the appropriate CSS status tag for each invoice status
                  */
@@ -184,26 +177,6 @@ export default {
     },
 
     methods: {
-        downloadInvoices() {
-        //   const params = {
-        //     from: this.filter.dueDate.from,
-        //     to: this.filter.dueDate.to,
-        //     status: this.filter.status.values.length ? this.filter.status.values.join(",") : undefined,
-        //     download: 1,
-        //   }
-
-        //   const url = createQueryString( `v2/invoices`, params )
-        //   this.$http.get( url ).then(({ ok, data }) => {
-        //     const filename = data.data.file;
-        //     if( filename === "N/A" ) return toast.red( "File Not Available: Cannot download invoices." );
-        //     toast.green( "Fetching Download..." );
-        //     return pollDownload( `v2/downloads/${filename}/status`, this.invoices.length );
-        //   })
-        //   .catch( e => {
-        //     console.log( e );
-        //   })
-        },
-
         fetchInvoices( queryParams ) {
         // If there are query parameters on page reload, 
         // update the filter dropdown.
@@ -248,15 +221,15 @@ export default {
         },
 
         clearInvoiceFilter() {
-        // this.filter.dueDate.to = last30Days.to;
-        // this.filter.dueDate.from = last30Days.from;
-        // this.filter.dueDate.rangeText = "By Last 30 days";
-        // this.filter.status.values = [];
-        this.$router.replace({ name: "invoices-list" });
+            // this.filter.dueDate.to = last30Days.to;
+            // this.filter.dueDate.from = last30Days.from;
+            // this.filter.dueDate.rangeText = "By Last 30 days";
+            // this.filter.status.values = [];
+            this.$router.replace({ name: "invoices-list" });
         },
 
         createNewInvoice() {
-        this.$router.push({ name: 'create-invoice-view' });
+            this.$router.push({ name: 'create-invoice-view' });
         },
         deleteInvoice() {
             this.requestIsDisabled = true;
@@ -287,7 +260,4 @@ export default {
 </script>
 
 <style>
-.mx-datepicker-popup { 
-  left: 0px;
-}
 </style>

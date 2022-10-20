@@ -26,14 +26,14 @@
                         :userId="currentProject._id" 
                     />
                 </tab>
-                <tab :isActive="slotProps.data.component === 'Members'" :title="'Members'">
-                    <project-members />
+                <tab :isActive="slotProps.data.component === 'Tracker'" :title="'Tracker'">
+                    <project-tracker />
                 </tab>
                 <tab :isActive="slotProps.data.component === 'Calendar'" :title="'Calendar'">
                     <project-calendar />
                 </tab>
                 <tab :isActive="slotProps.data.component === 'Invoices'" :title="'Invoices'">
-                    <project-invoice />
+                    <project-invoice :invoices="currentProject.invoices" />
                 </tab>
             </template>
         </tabs>
@@ -46,7 +46,7 @@ import Tabs from '../components/shared/tabsTwo/Tabs'
 import Tab from '../components/shared/tabsTwo/Tab'
 import ProjectOverview from '../components/projects/projectDetails/ProjectOverview';
 import ProjectBoards from '../components/projects/projectDetails/ProjectBoards.vue';
-import ProjectMembers from '../components/projects/projectDetails/ProjectMembers.vue';
+import ProjectTracker from '../components/projects/projectDetails/ProjectTracker.vue';
 import ProjectTasks from '../components/projects/projectDetails/ProjectTasks.vue';
 import ProjectCalendar from '../components/projects/projectDetails/ProjectCalendar.vue';
 import ProjectInvoice from '../components/projects/projectDetails/ProjectInvoice.vue'
@@ -63,7 +63,7 @@ export default {
     components: {
         ProjectOverview,
         ProjectBoards,
-        ProjectMembers,
+        ProjectTracker,
         ProjectCalendar,
         ProjectInvoice,
         ProjectTasks,

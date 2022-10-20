@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-content-center pt-5 pr-5 pl-5">
+    <div class="flex justify-content-center align-items-center">
         <p>Coming soon</p>
     </div>
 </template>
@@ -8,7 +8,7 @@
 import IconSvg from '../../shared/icons/Icon-Svg.vue';
 
 export default {
-    name: 'ProjectMembers',
+    name: 'ProjectTracker',
     watch:{
     //watch for route parameter change and execute method
     },
