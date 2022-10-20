@@ -1,106 +1,96 @@
 <template>
   <!-- Main Body layout -->
-    <div style="height: 100%; padding-right: 25px; padding-left: 25px; padding-top: 2rem">
-        <div class="row__header--item align-items-center justify-content-between hidden-xs" style="display: flex;">
-            <div class="row__left" v-if="invoices.length > 0">
-                <div class="page__result" v-if="invoices.length === 1">{{ invoices.length }} Invoice</div>
-                <div class="page__result" v-if="invoices.length > 1">{{ invoices.length }} Invoices</div>
-            </div>
-            <div class="page__result"></div>
-
-            <!-- others -->
-            <div class="row__right">
-                <div class="positionRelative mr--10">
-                    <button @click="createNewInvoice()" class="btn btn--primary btn--sm align-items-center" style="display: flex">
-                        <span class="flex ">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: #fff;transform: ;msFilter:;">
-                                <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
-                            </svg>
-                        </span>
-                        <span>New Invoice</span>
-                    </button>
+    <div style="height: 100%; padding-right: 25px; padding-left: 25px;">
+        <template v-if="loading === 'loading'">
+                <div class="flex justify-content-center align-items-center  mt--40 mb--45">
+                    <div class="spinner-border text-primary" role="status" style="color: #5f76d3 !important">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
-                <div class="filter__actions--list">
-                    <!-- search list -->
-                    <form class="bd-search position-relative" style="margin-right: 0.5rem;">
-                        <span class="algolia-autocomplete" style="position: relative; display: inline-block; direction: ltr;">
-                            <input 
-                                type="search" class="form-control" id="search-input" :placeholder="filterType === '' ? 'Search invoices...' : 'Search invoices...' + '' + filterType" 
-                                aria-label="Search docs for..." autocomplete="off" data-bd-docs-version="5.1" spellcheck="false" 
-                                aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" dir="auto" 
-                                style="position: relative; vertical-align: top; font-size: 12px; padding-left: 2rem;"
-                            >
-                                <span role="listbox" id="algolia-autocomplete-listbox-0" style="position: absolute; top: 5px; z-index: 100; left: 5px;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #dee2e6;transform: ;msFilter:;">
-                                        <path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path>
+            </template>
+            <template v-else>
+                <div class="row__header--item align-items-center justify-content-between hidden-xs flex">
+                    <div v-show="invoicesCopy.length > 0" class="row__left">
+                        <div class="page__result">{{ invoicesCopy.length }} Invoice {{ invoicesCopy.length > 1 ? 's' : ''}}</div>
+                    </div>
+                        <!-- Don't delete this below - it prevents the content of the right row from moving to the left -->
+                    <div class="page__result"></div> 
+        
+                    <!-- others -->
+                    <div class="row__right">
+                        <div class="positionRelative mr--10">
+                            <button @click="createNewInvoice()" class="btn btn--primary btn--sm align-items-center flex">
+                                <span class="flex ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: #fff;transform: ;msFilter:;">
+                                        <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
                                     </svg>
                                 </span>
-                        </span>
-                    </form>
+                                <span>New Invoice</span>
+                            </button>
+                        </div>
+                        <div v-show="invoicesCopy.length > 1" class="align-items-center" style="display: flex">
+                            <main-filter :filter="filter" @filter="filterInvoices" />
+                            <sort-filter :filter="displayType" @setType="setDisplayType" />
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="loaderContainer" v-if="loading">
-            <div class="loader"></div>
-        </div>
-
-        <div v-else>
-            <div v-show="invoices.length > 0">
-                <table class="table root mt--40">
-                    <thead>
-                        <tr>
-                            <th class="header">Status</th>
-                            <th class="first header">Client email</th>
-                            <th class="header">Amount</th>
-                            <th class="header">Invoice No.</th>
-                            <th class="header">Date Created</th>
-                            <th class="header">Due Date</th>
-                            <th class="header"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="invoice in invoices" :key="invoice.id">
-                            <td>
-                                <span :class="['table__data--main badge', 'tag', invoiceTagMap[invoice.status]]">{{ invoice.status }}</span>
-                            </td>
-                            <td class="first">{{ invoice.client_email }}</td>
-                            <td>{{ invoice.currency }} {{ formatMoney(invoice.amount) }}</td>
-                            <td>{{ invoice.invoice_num }}</td>
-                            <td>{{ formatDateTime(invoice.createdAt) }}</td>
-                            <td>{{ formatDateTime(invoice.dueDate) }}</td>
-                            <td class="dropdown">
-                                <div class=" cursor-pointer" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #95899b;transform: ;msFilter:;">
-                                        <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
-                                    </svg>
-                                </div>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li>
-                                        <p class="dropdown-item cursor-pointer text--xs text--link">
-                                            View invoice
-                                        </p>
-                                    </li>
-                                    <li><p class="dropdown-item cursor-pointer text--xs">Download as PDF</p></li>
-                                    <li v-if="invoice.status === 'draft'"><p class="dropdown-item cursor-pointer text--xs">Edit invoice</p></li>
-                                    <li><p class="dropdown-item cursor-pointer text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteInvoice">Delete invoice</p></li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-             <template v-if="!invoices.length">
-                <empty-page 
-                    :title="'You have not created any invoices yet.'" 
-                    :subtitle="'Your invoices will show up here  when you create them.'" 
-                    :iconName="'client'"
-                    :width="'60px'"
-                    :height="'60px'"
-                />
+                <div v-if="invoicesCopy.length > 0">        
+                    <div>
+                        <table class="table root mt--40">
+                            <thead>
+                                <tr>
+                                    <th class="header">Status</th>
+                                    <th class="first header">Client email</th>
+                                    <th class="header">Amount</th>
+                                    <th class="header">Invoice No.</th>
+                                    <th class="header">Date Created</th>
+                                    <th class="header">Due Date</th>
+                                    <th class="header"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="invoice in invoices" :key="invoice.id">
+                                    <td>
+                                        <span :class="['table__data--main badge', 'tag', invoiceTagMap[invoice.status]]">{{ invoice.status }}</span>
+                                    </td>
+                                    <td class="first">{{ invoice.client_email }}</td>
+                                    <td>{{ invoice.currency }} {{ formatMoney(invoice.amount) }}</td>
+                                    <td>{{ invoice.invoice_num }}</td>
+                                    <td>{{ formatDateTime(invoice.createdAt) }}</td>
+                                    <td>{{ formatDateTime(invoice.dueDate) }}</td>
+                                    <td class="dropdown">
+                                        <div class=" cursor-pointer" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: #95899b;transform: ;msFilter:;">
+                                                <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+                                            </svg>
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li>
+                                                <p class="dropdown-item cursor-pointer text--xs text--link">
+                                                    View invoice
+                                                </p>
+                                            </li>
+                                            <li><p class="dropdown-item cursor-pointer text--xs">Download as PDF</p></li>
+                                            <li v-if="invoice.status === 'draft'"><p class="dropdown-item cursor-pointer text--xs">Edit invoice</p></li>
+                                            <li><p class="dropdown-item cursor-pointer text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteInvoice">Delete invoice</p></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+    
+                <div v-else>
+                    <empty-page 
+                        :title="'You have not created any invoices yet.'" 
+                        :subtitle="'Your invoices will show up here  when you create them.'" 
+                        :iconName="'invoice'"
+                        :width="'60px'"
+                        :height="'60px'"
+                    />
+                </div>
             </template>
-        </div>
         
         <!-- <pagination data="invoices-list" :pageNumber="noOfPages" /> -->
 
@@ -112,17 +102,20 @@
 <script>
 import EmptyPage from '../../shared/emptyPage/EmptyPage.vue'
 import ConfirmDeletionModal from '../../shared/modals/ConfirmDeletion.vue';
+import MainFilter from '../../shared/filter/Main';
+import SortFilter from '../../shared/filter/Sort';
 
 export default {
     name: 'ProjectInvoice',
     components: {
         EmptyPage,
         ConfirmDeletionModal,
+        MainFilter,
+        SortFilter,
     },
-    props: ['invoices'],
+    props: ['invoices', 'loading'],
     data () {
             return {
-                loading: false,
                 filter: {
                     dueDate: {
                     //   to: last30Days.to,
@@ -153,7 +146,8 @@ export default {
                     pageIsEmpty: false,
                     noData: false,
                 },
-                invoice: {}
+                invoice: {},
+                displayType: ''
             }
     },
 
@@ -250,12 +244,29 @@ export default {
         resetCurrentInvoice() {
             this.invoice = {}
         },
+        filterInvoices () {
+            const params = this.buildQueryString();
+            this.$router.replace({ name: 'projects', query: params });
+        },
+
+        sortInvoices() {
+            sortList(this.displayType, this.invoicesCopy, 'title')
+        },
+
+        setDisplayType(val) {
+            this.displayType = val
+        },
+
     },
 
-    created() {
-        // const queryParams = this.$route.query;
-        // this.fetchInvoices( queryParams );
-    },
+    watch: {
+        displayType(newType, oldType) {
+            if(newType !== oldType) {
+                this.sortInvoices()
+            }
+        },
+        // '$route': 'checkIfQueryParamsExists'
+    }
 };
 </script>
 

@@ -23,6 +23,7 @@ export default {
 .tab-panel {
   .tab-content {
     padding: 0.5rem;
+    padding-top: 0px;
   }
 }
 </style>

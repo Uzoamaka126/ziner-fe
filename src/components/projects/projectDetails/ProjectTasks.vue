@@ -245,6 +245,7 @@ export default {
         markTaskAsCompleted(id) {
             this.tasksCopy = this.tasksCopy.map((item) => {
                 if (item._id === id) {
+                    console.log({ item });
                     return { ...item, isCompleted: !item.isCompleted }
                 } else {
                     return item

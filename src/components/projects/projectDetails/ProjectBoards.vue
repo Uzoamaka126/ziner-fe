@@ -1,57 +1,6 @@
 <template>
-    <div style="height: 100%; padding-right: 50px; padding-left: 50px; padding-top: 2rem">
-         <!-- boards functionalities header -->
-        <div class="flex align-center justify-content-between">
-            <div class="form__item mr--15 mb--0 justify-content-end" style="min-width: 30%">
-                <input 
-                    style="padding-top: 6px; padding-bottom: 6px;" 
-                    class="" v-model="search.value" 
-                    placeholder="Search boards by title" 
-                />
-            </div>
-            <div class="flex align-center">
-                <span class="form__item mr--15 mb--0">
-                    <label for="" class="label__sort">Sort by</label>                    
-                </span>
-            </div>
-        </div>
-        <div style="display: flex; margin-top: 2.5rem;">
-            <div class="home--content__wrap create--workspace__wrap">
-                <div class="home--content--item">
-                    <span>
-                        <div class="workspace--theme--img create--workspace__img">
-                            <icon-svg 
-                                fill="rgba(194, 200, 212, 1)" 
-                                class="nav__icon" 
-                                name="add" 
-                                icon-position="left"
-                                :width="'24px'"
-                                :height="'24px'"
-                            /> 
-                        </div>
-                        <span class="flex flex-column">
-                            <span class="text--color-dark text--sm text--bold mt--5 text-center">New board</span>
-                        </span>
-                    </span>
-                </div>
-            </div>
-            <div class="home--content__wrap">
-                <div class="home--content--item positionRelative" v-for="(item, index) in createdWorkspaces" :key="index">
-                    <router-link :to="{ path: `/dashboard/boards/${item.name }`}" >
-                        <div 
-                            class="workspace--theme--img" 
-                            @mouseenter="showMenuIconOnHover(item.name)"
-                            @mouseleave="showMenuIconOnHover(null)"
-                            :id="item.name"
-                        >
-                        </div>
-                        <span class="flex flex-column">
-                            <span class="text--color-dark text--sm text--bold mt--5 text-center">{{ item.name }}</span>
-                        </span>
-                    </router-link>
-                </div>
-            </div>
-        </div>
+    <div style="height: 100%; padding-right: 50px; padding-left: 50px;">
+        <p>Coming soon!</p>
     </div>
 </template>
 

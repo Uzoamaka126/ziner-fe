@@ -33,7 +33,7 @@
                     <project-calendar />
                 </tab>
                 <tab :isActive="slotProps.data.component === 'Invoices'" :title="'Invoices'">
-                    <project-invoice :invoices="currentProject.invoices" />
+                    <project-invoice :invoices="currentProject.invoices" :loading="loadingState"  />
                 </tab>
             </template>
         </tabs>
