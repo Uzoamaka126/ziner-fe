@@ -60,29 +60,9 @@ const routes = [
     component: DashboardView,
     // beforeEnter: isRouteAuthRequired,
     children:[
-      { 
-        path: 'reports', 
-        component: ReportsView ,
-        children: [
-          {
-            path: 'projects',
-            name: 'project-reports-view',
-            component: ProjectReports
-          }, 
-          {
-            path: 'clients',
-            name: 'client-reports-view',
-            component: ClientReports,
-          },
-          {
-            path: 'tasks',
-            name: 'tasks-reports-view',
-            component: TaskReports
-          },
-        ]
-    },
+      { path: 'reports', component: ReportsView },
       
-    { path:'projects', name: 'projects-view',  component: ProjectsView },
+      { path:'projects', name: 'projects-view',  component: ProjectsView },
       
       {  path:'projects/:id',  name: 'project-details-view',  component: ProjectsDetailsView},
        

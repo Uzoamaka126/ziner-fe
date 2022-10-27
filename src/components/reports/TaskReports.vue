@@ -4,21 +4,11 @@
             <div class="header__item--wrap">
                 <div class="header" style="border-bottom: 0;">
                     <div style="display: flex; align-items: center">
-                        <span @click="hideContent('projects')">
-                            <icon-svg 
-                                fill="rgba(107, 119, 140, 1)" 
-                                class="nav__icon cursor-pointer" 
-                                name="arrow-down" 
-                                icon-position="left"
-                                :width="'1rem'"
-                                style="margin-right: 4px;"
-                            /> 
-                        </span> 
                         <span class="header--text">Task Report</span>
                     </div>
                 </div>
             </div>
-            <div class="home--content" :class="{ hide: isHideProjectsReport }">
+            <div class="home--content">
                 <div class="home--content__wrap">
                     <column-chart 
                     loading="Loading..." 

@@ -1,69 +1,72 @@
 <template>
     <div style="height: 100%">
-        <div class="home__wrap">
-            <div aria-expanded="false">
-                <div data-bs-toggle="dropdown">
-                    {{ reportItemType }}
+        <div>
+           <div class="report__wrap">
+                <div class="report__left">
+                    <h4 class="text--bold text--md text--capitalize">{{ reportItemType }}</h4>
                 </div>
-                <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="reportTypeItems">
-                    <li class="cursor-pointer" v-for="item in reportItemTypes">
-                        <router-link :to="{ path: `/dashboard/reports/${item.routeName }`}" class="dropdown-item block width-100 text--xs">{{ item.name }}</router-link>
-                    </li>
-                </ul>
-            </div>
-            <router-view></router-view>
+                <div aria-expanded="false" class="report__right">
+                    <div data-bs-toggle="dropdown" class="flex">
+                        <span class="text-capitalize">{{ reportItemType }}</span>
+                        <span class="icon ml--5 cursor-pointer" tabindex="-1">
+                            <icon-svg
+                                :name="'custom-arrow-down'"
+                                :width="'16px'"
+                                :fill="'#95899b'"
+                            /> 
+                        </span>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="reportTypeItems">
+                        <li class="cursor-pointer" v-for="item in reportItemTypes">
+                            <span class="dropdown-item block width-100 text--xs" @click="setReportType(item.routeName)">{{ item.name }}</span>
+                        </li>
+                    </ul>
+                </div>
+           </div>
+            <!-- <router-view></router-view> -->
+            <project-reports v-if="reportItemType === 'projects'"></project-reports>
+            <client-reports v-if="reportItemType === 'clients'"></client-reports>
+            <task-reports v-if="reportItemType === 'tasks'"></task-reports>
         </div>
     </div>
 </template>
 
 <script>
 import IconSvg from "../shared/icons/Icon-Svg.vue";
-import { createdWorkspaces } from '../../utils/dummy'
+import ProjectReports from './ProjectReports'
+import ClientReports from './ClientReports'
+import TaskReports from './TaskReports'
 
 export default {
-    name: 'HomeLayout',
+    name: 'ReportsLayout',
     created() {
+    },
+    components: {
+        IconSvg,
+        ProjectReports,
+        ClientReports,
+        TaskReports,
     },
     props: {
         user: Object
     },
     data () {
         return {
-            showOnboardingModal: false,
-            createdWorkspaces: createdWorkspaces,
             isHideProjectsReport: false,
-            isHideInvoiceReport: false,
-            reportItemType: 'project',
+            reportItemType: 'projects',
             reportItemTypes: [
-                {
-                    name: 'Projects',
-                    routeName: 'projects'
-                },
-                {
-                    name: 'Clients',
-                    routeName: 'clients'
-                },
-                {
-                    name: 'tasks',
-                    routeName: 'tasks'
-                },
+                { name: 'Projects', routeName: 'projects' },
+                { name: 'Clients', routeName: 'clients' },
+                { name: 'Tasks', routeName: 'tasks' },
             ]
-            
         }
     },
-    computed: {
-    },
-    components: {
-        'icon-svg': IconSvg,
-    },
     methods: {
-        hideContent(val) {
-            if(val === "projects") {
-                this.isHideProjectsReport = !this.isHideProjectsReport;
-            } else {
-                this.isHideInvoiceReport = !this.isHideInvoiceReport;
-            }
-        },
+       setReportType(type) {
+        if (!type) return
+        this.reportItemType = type
+        // this.$router.push(`/dashboard/reports/${type}`)
+       }
     }
 }
 </script>
@@ -72,10 +75,12 @@ export default {
 <style scoped lang="scss">
     @import '../../assets/scss/pages/home.scss';
 
-    .home__onboarding--btn {
+    .report__wrap {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: center;
         margin-top: 1rem;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 </style>
