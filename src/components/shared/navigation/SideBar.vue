@@ -12,8 +12,7 @@
                                 <icon-svg 
                                     fill="rgba(125, 136, 157)" 
                                     class="nav__icon" 
-                                    name="list-minus" 
-                                    icon-position="left"
+                                    name="chevron-left" 
                                     :style="{ fill: 'rgba(125, 136, 157)' }"
                                     :width="'24px'"
                                 />  
