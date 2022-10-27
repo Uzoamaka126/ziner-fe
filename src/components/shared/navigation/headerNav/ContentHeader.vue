@@ -3,32 +3,24 @@
         <div class="content--header">
             <div class="content--header__left" style="display: flex; align-items: center;">
                 <div class="collapse--content"></div>
-                <template  v-if="!showBackArrowBtn">
+                <template v-if="!showBackArrowBtn"></template>
+                <template v-else>
+                    <div class="back--wrap">
+                        <router-link class="back--link" :to="`/dashboard/${computeRouteName}`">
+                            <icon-svg 
+                                class="nav__icon mr--0" 
+                                name="left-arrow-alt" 
+                                icon-position="left"
+                                :style="{ fill: 'rgba(66, 82, 110)' }"
+                                :width="'16px'"
+                            /> 
+                            <span>Back to {{ computeHeaderTitle }}</span>
+                        </router-link>
+                    </div>
                 </template>
-                <div class="back--wrap" v-else>
-                    <router-link class="back--link" :to="`/dashboard/${computeRouteName}`">
-                        <icon-svg 
-                            class="nav__icon mr--0" 
-                            name="left-arrow-alt" 
-                            icon-position="left"
-                            :style="{ fill: 'rgba(66, 82, 110)' }"
-                            :width="'16px'"
-                        /> 
-                        <span>Back to {{ computeHeaderTitle }}</span>
-                    </router-link>
-                </div>
             </div>
 
             <div class="content--header__right">
-                <div class="header__create" style="height: 100%; display: flex; justify-content: center; align-items: center;">
-                    <icon-svg 
-                        fill="rgb(52, 69, 99)" 
-                        name="info" 
-                        icon-position="left"
-                        :width="'1.5rem'"
-                        :styles="iconStyles"
-                    />  
-                </div>
                 <div class="dropdown">
                     <div class="dropdown-toggle cursor-pointer dropdown-toggle--profile" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="avatar profile--avatar">
