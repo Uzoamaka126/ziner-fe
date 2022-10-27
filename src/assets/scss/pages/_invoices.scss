@@ -216,12 +216,14 @@
             height: auto;
           
             .top {
-                  display: flex;
+                display: flex;
                 justify-content: space-between;
+
                  *h6 {
-                color: #808080;
-                font-weight: 500;
-                font-size: 1rem;
+                    color: #808080;
+                    font-weight: 500;
+                    font-size: 0.875rem;
+                    margin-bottom: 0.2rem!important;
                 }
 
                 *p {

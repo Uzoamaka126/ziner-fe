@@ -23,6 +23,21 @@
 import IconSvg from "../shared/icons/Icon-Svg.vue";
 import { createdWorkspaces } from '../../utils/dummy'
 
+/* plotting createdAt vs projects.length || number of projects done per month
+    there'll be a function to getWeek aka get all projects from x date to y date
+
+
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    var xcv = arrty.map(item => {
+        const getMonthPerItem = new Date(item.createdAt).getMonth();
+        return {
+            id: item._id,
+            month: months[getMonthPerItem],
+            title: item.title
+        }
+    })
+*/
+
 export default {
     name: 'ProjectReports',
     created() {

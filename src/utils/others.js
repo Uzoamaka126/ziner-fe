@@ -191,3 +191,10 @@ export function formatPhoneNumber(str) {
 export function toLowerCaseTransform(str) {
     return str && typeof str === 'string' ? str.toLowerCase() : ''
 }
+
+export function getMonth() {
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+    const d = new Date();
+    return months[d.getMonth()];
+}

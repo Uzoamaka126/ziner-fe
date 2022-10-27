@@ -1,7 +1,6 @@
 <template>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
-            <!-- <h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas</h5> -->
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -11,9 +10,9 @@
                         <div class="invoice__preview--header">
                             <h1>Invoice</h1>
                             <div>
-                                <p>uzoamaka Anyanwu</p>
-                                <p>uzoamaka@gmail.cpm</p>
-                                <p>09063950225</p>
+                                <p>{{ data.user.fullName }}</p>
+                                <p>{{ data.user.email}}</p>
+                                <p>{{ data.user.phoneNumber }}</p>
                             </div>
                        </div>
                        <div class="invoice__preview--card">
@@ -22,25 +21,26 @@
                                     <div class="left--item">
                                         <h6>Billed to</h6>
                                         <div>
-                                            <p>Uzoamaka Test</p>
-                                            <p>uzoamaka@test.com</p>
-                                            <p>22, Taofeek, Gbabgaa</p>
-                                            <p>Lagos, Nigeria</p>
+                                            <p>{{ data.client.name }}</p>
+                                            <p>{{ data.client.email }}</p>
+                                            <p>{{ data.client.phoneNumber }}</p>
+                                            <p v-if="data.client.address || data.client.country">{{ data.client.address }}, {{ data.client.country }}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="right">
                                     <div class="right--item mt--10">
                                         <h6>Invoice Number</h6>
-                                            <p>#444444</p>
+                                            <p v-if="data.invoice.invoiceNo">#{{ data.invoice.invoiceNo }}</p>
+                                            <p v-else>Not generated yet</p>
                                     </div>
                                     <div class="right--item mt--10">
                                         <h6>Due Created</h6>
-                                            <p>April 24th 2022</p>
+                                            <p>{{ formatDate(data.invoice.date_created) }}</p>
                                     </div>
                                     <div class="right--item mt--10">
                                         <h6>Due Date</h6>
-                                            <p>May 3rd 2022</p>
+                                            <p>{{ formatDate(data.invoice.due_date) }}</p>
                                     </div>
                                 </div>
                            </div>
@@ -75,34 +75,28 @@
 </template>
 
 <script>
+import { formatDateStrings, sortList } from '../../../utils/others';
+
 export default {
     name: 'PreviewInvoice',
-    props: ['items'],
+    props: ['items', 'data'],
     data() {
         return {
             clients: [],
-            reactiveSelection: this.selection,
-            dropDownIsShown: false,
             loading: false,
-            typingInput: null,
         }
     },
 
     computed: {},
-
-    watch: {
-        selection(newVal) {
-            this.reactiveSelection = newVal;
+    methods: {
+        formatDate(dateString) {
+            if (typeof dateString === 'object') {
+                let stringDate = dateString.toString()
+                return formatDateStrings(stringDate) || 'N/A'
+            }
+            return dateString && typeof dateString === 'string' ? formatDateStrings(dateString) : 'N/A'
         },
-        reactiveSelection( newVal ) {
-            this.$emit( "change", newVal )
-            this.$emit('input', newVal)
-        }
-    },
-
-    methods: {},
-
-    created() {},
+    }
 }
 </script>
 

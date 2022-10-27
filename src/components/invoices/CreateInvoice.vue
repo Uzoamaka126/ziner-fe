@@ -365,7 +365,7 @@
       />
 
     <!-- preview invoice off-canvas -->
-    <preview-invoice :items="invoice.meta.items" />
+    <preview-invoice :items="invoice.meta.items" :data="previewInvoiceData" />
   </div>
 </template>
 
@@ -395,12 +395,20 @@ export default {
   },
 
   created() {
+    this.user = {
+      fullName: 'Test User One',
+      email: 'testuserone@gmail.com',
+      username: 'testy boy'
+    }
   },
 
-  props: ['user'],
-  
   data() {
     return {
+      user: {
+        fullName: '',
+        email: '',
+        username: ''
+      },
       type: {
         newInvoice: false,
         existingInvoice: false,
@@ -673,6 +681,30 @@ export default {
         return true
       } else {
         return false
+      }
+    },
+    previewInvoiceData () {
+      return {
+        invoice: {
+          invoiceNo: this.invoiceNo,
+          amount: this.invoice.amount,
+          currency: this.invoice.currency,
+          date_created: this.invoice.date_created,
+          date_paid: this.invoice.date_paid,
+          due_date: this.invoice.due_date,
+        },
+        client: {
+          name: this.client.name,
+          phoneNumber: this.client.phoneNumber,
+          email: this.client.email,
+          country: this.client.country,
+          address: this.client.name,
+        },
+        user: {
+          fullName: this.user.fullName,
+          email: this.user.email,
+          username: this.user.username
+        }
       }
     }
   },
