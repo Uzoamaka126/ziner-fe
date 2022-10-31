@@ -40,11 +40,6 @@ export default {
     SinerLogo,
     IconButton
   },
-  data() {
-    return {}
-  },
-  computed: {
-  },
   methods: {
     goBackToHome() {
       this.$router.replace('/');

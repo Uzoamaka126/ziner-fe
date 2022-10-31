@@ -1,6 +1,6 @@
 <template>
     <div class="nav__section__content__group">
-        <router-link to="/dashboard/reports/projects" class="nav__section--item pr--10">
+        <router-link to="/dashboard/reports" class="nav__section--item pr--10" :class="{ 'active': activeName === 'reports' }">
             <icon-svg 
                 fill="rgba(66, 82, 110)" 
                 class="nav__icon" 
@@ -19,6 +19,7 @@ import IconSvg from "../../shared/icons/Icon-Svg.vue";
 
 export default {
     name: 'HomeNavigation',
+    props: ['activeName'],
     components: {
         'icon-svg': IconSvg
     },

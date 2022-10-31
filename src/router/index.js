@@ -1,10 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ReportsView from '../views/Reports.vue'
 import ClientsView from '../views/Clients.vue'
+import ComingSoon from '../views/ComingSoon.vue'
 import ClientsDetailsView from '../components/clients/ClientDetails.vue'
-import ProjectReports from '../components/reports/ProjectReports.vue'
-import ClientReports from '../components/reports/ClientReports.vue'
-import TaskReports from '../components/reports/TaskReports.vue'
 import ProjectsView from '../views/Projects.vue'
 import DashboardView from '../views/Dashboard.vue'
 import ProjectsDetailsView from '../views/ProjectDetails.vue'
@@ -60,7 +58,7 @@ const routes = [
     component: DashboardView,
     // beforeEnter: isRouteAuthRequired,
     children:[
-      { path: 'reports', component: ReportsView },
+      { path: 'reports', name: 'reports', component: ReportsView },
       
       { path:'projects', name: 'projects-view',  component: ProjectsView },
       
@@ -69,6 +67,8 @@ const routes = [
       { path:'tags',  name:'tags-view', component: TagsView },
       
       { path: 'invoices', name: 'invoices-view', component: InvoicesView },
+
+      { path: 'teams', name: 'teams-view', component: ComingSoon },
       
       { path: 'invoices/create', name: 'create-invoice-view', component: CreateInvoiceView },
 

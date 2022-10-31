@@ -37,3 +37,17 @@ export const taskActions = [
         toolTipTitle: "Delete this task"
     }
 ]
+
+export const routesNameMap = {
+    'reports-view': 'reports',
+    'projects-view': 'projects',
+    'clients-view': 'clients',
+    'teams-view': 'teams',
+    'client-details-view': 'clients',
+    'settings-view': 'settings',
+    'tags-view': 'tags',
+    'invoices-view': 'invoices',
+    'project-details-view': 'projects',
+    'create-invoice-view': 'invoices',
+    'invoice-details-view': 'invoices',
+}

@@ -34,9 +34,9 @@
 
                      <div class="nav__section__content__links">
                         <template v-if="!collapse">
-                            <home-navigation></home-navigation>
-                            <operations-navigation></operations-navigation>
-                            <settings-navigation></settings-navigation>
+                            <home-navigation :activeName="computeRoute()"></home-navigation>
+                            <operations-navigation :activeName="computeRoute()"></operations-navigation>
+                            <settings-navigation :activeName="computeRoute()"></settings-navigation>
                         </template>
                         <template v-else>
                         </template>
@@ -54,6 +54,7 @@ import OperationsNavigation from './OperationsNavigation.vue';
 import SettingsNavigation from './SettingsNavigation.vue';
 import HomeNavigation from './HomeNavigation.vue';
 import ClientItemNavigation from './ClientNavigationItem.vue'
+import { routesNameMap } from '../../../utils/dataHelpers';
 
 export default {
     name: 'SideBarLayout',
@@ -66,27 +67,25 @@ export default {
        ClientItemNavigation
     },
     created() {
-        this.showWorkspaceNavComputed();
     },
     watch:{
         //watch for route parameter change and execute method
-        '$route': 'showWorkspaceNavComputed',
+        '$route': 'computeRoute',
     },
-    data: () => ({
-        showOnboardingModal: false,
-        showWorkspaceNav: false
-    }),
-    
-    computed: {},
+    data() {
+        return {
+            showOnboardingModal: false,
+            showWorkspaceNav: false,
+            routeNameMap: routesNameMap
+        }
+    }, 
 
     methods: {
-        showWorkspaceNavComputed () {
-            if(!JSON.parse(localStorage.getItem('showWorkspaceNav'))) {
-                this.showWorkspaceNav = false;
-                return false
+        computeRoute() {
+            if (this.$route && this.$route.name) {
+                return this.routeNameMap[this.$route.name]
             } else {
-                this.showWorkspaceNav = true;
-                return true;
+                return ''
             }
         }
     },

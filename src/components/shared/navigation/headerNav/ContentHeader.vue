@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { routesNameMap } from "../../../../utils/dataHelpers";
 import IconSvg from "../../../shared/icons/Icon-Svg.vue";
 
 export default {
@@ -68,18 +69,7 @@ export default {
                 display: 'flex', 
                 'align-items': 'center'
             },
-            routeNameMap: {
-                'reports-view': 'Reports',
-                'projects-view': 'Projects',
-                'clients-view': 'Clients',
-                'client-details-view': 'Clients',
-                'settings-view': 'Settings',
-                'tags-view': 'Tags',
-                'invoices-view': 'Invoices',
-                'project-details-view': 'Projects',
-                'create-invoice-view': 'Invoices',
-                'invoice-details-view': 'Invoices',
-            }
+            routeNameMap: routesNameMap
         }
     },
     
