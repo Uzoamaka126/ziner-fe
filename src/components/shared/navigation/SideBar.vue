@@ -53,7 +53,6 @@ import IconSvg from "../../shared/icons/Icon-Svg.vue";
 import OperationsNavigation from './OperationsNavigation.vue';
 import SettingsNavigation from './SettingsNavigation.vue';
 import HomeNavigation from './HomeNavigation.vue';
-import ClientItemNavigation from './ClientNavigationItem.vue'
 import { routesNameMap } from '../../../utils/dataHelpers';
 
 export default {
@@ -64,7 +63,6 @@ export default {
         OperationsNavigation,
         SettingsNavigation,
         HomeNavigation,
-       ClientItemNavigation
     },
     created() {
     },
