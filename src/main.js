@@ -8,9 +8,7 @@ import { PopoverRow, Calendar, DatePicker } from 'v-calendar';
 import { Money3Component } from 'v-money3';
 import VueChartkick from 'vue-chartkick'
 import 'chartkick/chart.js'
-import Vue3Tour from 'vue3-tour'
 import VueMultiselect from 'vue-multiselect'
-import 'vue3-tour/dist/vue3-tour.css';
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-default.css';
 import "vue-multiselect/dist/vue-multiselect.css";
@@ -29,7 +27,6 @@ createApp(App)
   .use(store)
   .use(VueChartkick)
   .use(VueToast)
-  .use(Vue3Tour)
   .component('multi-select', Multiselect)
   .component('vue-multi-select', VueMultiselect)
   .component('money', Money3Component)
