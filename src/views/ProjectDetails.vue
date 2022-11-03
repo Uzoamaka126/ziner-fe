@@ -52,8 +52,10 @@ import ProjectCalendar from '../components/projects/projectDetails/ProjectCalend
 import ProjectInvoice from '../components/projects/projectDetails/ProjectInvoice.vue'
 import {
     projects as projectUtils,
-    others
+    utils
 } from '../utils/index'
+
+// console.log({ utils });
 
 export default {
     name: 'ProjectDetails',
@@ -104,7 +106,7 @@ export default {
         },
 
         transformStr(str) {
-            const transformedStr = others.toLowerCaseTransform(str)
+            const transformedStr = utils.toLowerCaseTransform(str)
             console.log({ transformedStr });
             return transformedStr
         },

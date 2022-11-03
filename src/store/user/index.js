@@ -14,7 +14,7 @@ export default {
                 return ''
             }
 
-            const { email, firstName, lastName } = state.user
+            const { email, firstName, lastName, username } = state.user
 
             if (firstName && lastName) {
                 return firstName.substring(0, 1) + lastName.substring(0, 1)
@@ -22,6 +22,9 @@ export default {
 
             return email.substring(0, 2)
         },
+        async getCachedUser(state) {
+            return state.user || (await this.getCustomerProfile())
+        }
     },
     mutations: {
         setUserDataState(state, data) {
