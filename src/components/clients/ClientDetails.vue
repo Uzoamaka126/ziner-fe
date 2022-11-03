@@ -1,7 +1,7 @@
 <template>
     <div>
         <div style="height: 100%; padding-right: 25px; padding-left: 3rem; padding-top: 2rem">
-            <template v-if="loadingState === 'loading'">
+            <template v-if="loading">
                 <div class="flex justify-content-center align-items-center  mt--40 mb--45">
                     <div class="spinner-border text-primary" role="status" style="color: #5f76d3 !important">
                         <span class="visually-hidden">Loading...</span>
@@ -9,7 +9,7 @@
                 </div>
             </template>
             <!--  -->
-            <template v-else-if="loadingState === 'success'">
+            <template v-else>
                 <div class="flex align-items-center justify-content-end">
                     <div class="action--btns" >
                         <template v-if="!isEdit">
@@ -234,7 +234,7 @@ export default {
    data() {
         return {
             isMenuItemHover: '',
-            loadingState: 'success',
+            loading: false,
             client: {},
             isEdit: false,
             clients: clientsList,
@@ -300,33 +300,35 @@ export default {
         },
 
         handleFetchClient() {
-            // this.loadingState = 'loading';
-            const currentClient = this.clients.find(client => client._id === this.clientId);
-            this.client = currentClient;
-            this.billingEmailsCopy = [...this.client.ccEmails]
-            this.clientForm = {
-                name: this.client.name || '',
-                phoneNumber: formatPhoneNumber(this.client.phoneNumber),
-                country: this.client.country || '',
-                email: this.client.email || '',
-                address: this.client.address || '',
-                industry: this.client.organizationType || '',
-            }
+            this.loading = true;
+            setTimeout(() => {
+                this.loading = false;
+                const currentClient = this.clients.find(client => client._id === this.clientId);
+                this.client = currentClient;
+                this.billingEmailsCopy = [...this.client.ccEmails]
+                this.clientForm = {
+                    name: this.client.name || '',
+                    phoneNumber: formatPhoneNumber(this.client.phoneNumber),
+                    country: this.client.country || '',
+                    email: this.client.email || '',
+                    address: this.client.address || '',
+                    industry: this.client.organizationType || '',
+                }
+            }, 2000)
         },
 
         handleFetchClientProjects() {
             this.isProjectLoading = true;
             setTimeout(() => {
                 this.isProjectLoading = false;
-                const projects = this.projectsList
-                this.projects = projects;
+                this.projects = this.projectsList
             }, 2000)
         },
 
         handleUpdateClient(data) {
-            this.loadingState = 'loading';
+            this.loading = true;
             setTimeout(() => {
-                this.loadingState = 'addClientSuccess';
+                this.loading = false;
                 this.clientsList.push(data);
                 $("#createClient").modal("hide");
             }, 10000)
@@ -357,13 +359,19 @@ export default {
                 return
             }
         },
+
         cancelClientUpdate() {
             this.clientForm = this.client
             this.billingEmailsCopy = this.client.ccEmails || []
             this.isEdit = false
         },
+
         goToProject(projectId) {
             this.$router.push({ name: 'project-details-view', params: { id: projectId }})
+        },
+
+        handleAddProject() {
+            
         }
     },
     watch: {
