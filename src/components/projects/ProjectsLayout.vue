@@ -384,6 +384,10 @@ export default {
             this.projects = this.projects.filter(item => !arr.includes(item._id));
             this.selectedProjects = []
         },
+        cleanUp() {
+            this.displayType = ''
+            this.currentProject = {}
+        }
     },
     watch: {
         displayType(newType, oldType) {
@@ -392,6 +396,9 @@ export default {
             }
         },
         '$route': 'checkIfQueryParamsExists'
+    },
+    beforeUnmount() {
+        this.cleanUp()
     }
 }
 </script>

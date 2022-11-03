@@ -12,7 +12,15 @@
             Sort by
             </button>
             <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="sortFilter" id="sortFilterList">
-                <li v-for="(item, index) in displayTypeList" :key="index" class="dropdown-item cursor-pointer text--xs" @click="setDisplayType(item)">{{ item }}</li>
+                <li 
+                    v-for="(item, index) in displayTypeList" 
+                    :key="index" 
+                    :class="{ 'selected': filter === item }"
+                    class="dropdown-item cursor-pointer text--xs" 
+                    @click="setDisplayType(item)"
+                >
+                    {{ item }}
+                </li>
             </ul>
         </div>
     </div>
@@ -49,23 +57,9 @@ export default {
         min-width: 5rem !important;
         font-size: 14px !important;
     }
-    .tags {
-        &__view {
-            display: flex;
-            flex-direction: row;
-
-            &--list {
-                flex-direction: column;
-            }
-        }
-        &--display__btns {
-            border: 1px solid #eee;
-            border-radius: 4px;
-            padding: 2px 5px;
-        }
-        &__dropdown--list {
-            justify-content: space-between;
-            width: 100%;
-        }
+    .dropdown-item.selected {
+        color: #1e2125;
+        background-color: #e9ecef;
+        font-weight: 600;
     }
 </style>

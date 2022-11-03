@@ -3,7 +3,6 @@ import CreateClient from'./CreateClient.vue';
 import CreateOrEditTask from './CreateOrEditTask.vue';
 import ConfirmDeletion from './ConfirmDeletion.vue';
 import DeleteTask from './DeleteTask.vue';
-import EditTag from './EditTag.vue';
 
 export default {
     ChangePassword,
@@ -11,5 +10,4 @@ export default {
     CreateOrEditTask,
     ConfirmDeletion,
     DeleteTask,
-    EditTag,
 }
