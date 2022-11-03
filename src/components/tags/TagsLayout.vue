@@ -8,7 +8,7 @@
                         <p>{{ tags.length }} Tag{{ tags.length > 1 ? '(s)' : '' }}</p>
                     </div>
                     <div style="display:flex" class="align-items-center">
-                        <button class="btn btn--primary header__btn" data-bs-toggle="modal" data-bs-target="#createTag">   
+                        <button class="btn btn--primary header__btn" @click="openCreateModal">   
                             <icon-svg 
                                 fill="#fff" 
                                 name="add" 
@@ -21,7 +21,7 @@
                         <div style="align-self: center;" class="ml--10 cursor-pointer tags--display__btns">
                             <div class="dropdown">
                                 <div class="list--view__type" id="viewTag" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="text--xs text--upper text--color-normal">{{ workspaceDisplay }}</span>
+                                    <span class="text--xs text--upper text--color-normal">{{ tagDisplay }}</span>
                                     <span class="positionRelative">
                                         <div>
                                             <icon-svg 
@@ -43,18 +43,18 @@
                     </div>
                 </div>
                 <div style="display: flex; margin-top: 2.5rem;"> 
-                    <div class="tags__view" :class="{ 'tags__view--list': workspaceDisplay === 'list'}">
+                    <div class="tags__view" :class="{ 'tags__view--list': tagDisplay === 'list'}">
                         <div class="tags--project dropdown" v-for="(tag) in tags" :key="tag._id">
                             <div 
                                 style="display:flex" 
-                                :class="{ 'tags__dropdown--list': workspaceDisplay === 'list' }" 
+                                :class="{ 'tags__dropdown--list': tagDisplay === 'list' }" 
                                 class="align-items-center tags--project__item" 
                                 id="tagActions" 
                                 data-bs-toggle="dropdown" 
                                 aria-expanded="false"
                             >
                                 <div class="tags--project-text" v-if="tag.name">
-                                    <span class="">{{ tag.name.toLowerCase() }}</span>
+                                    <span class="text--lower">{{ tag.name }}</span>
                                 </div>
                                 <div class="icon" tabindex="-1" title="More options">
                                     <svg class="css-17keszd-EnhancedContextMenuIcon e16olzom2" width="4" height="12" viewBox="0 0 4 16">
@@ -64,7 +64,7 @@
                             </div>
                             <ul class="dropdown-menu dropdown-menu--tag" aria-labelledby="tagActions">
                                 <li>
-                                    <p class="dropdown-item cursor-pointer text--xs" @click="setCurrentTagDetails(tag)">Edit</p>
+                                    <p class="dropdown-item cursor-pointer text--xs" @click="openEditModal(tag)">Edit</p>
                                 </li>
                                 <li>
                                     <p class="dropdown-item cursor-pointer text--xs text--color-warning" data-bs-toggle="modal" data-bs-target="#deleteTag">Delete</p>
@@ -76,17 +76,21 @@
             </div>
         </div>
             <!-- modal -->
-        <create-tag-modal />
-        <edit-tag-modal :currentTagDetails="currentTagDetails"  @resetCurrentTagDetails="resetCurrentTagDetails" :tagName="currentTagDetails.name" />
+        <create-or-edit-tag-modal 
+            :showModal="showTagModal" 
+            :actionType="actionType" 
+            :tagData="currentTagDetails" 
+            @cancel="showTagModal = false" 
+        />
         <confirm-deletion-modal :type="'tag'" @delete="handleDeleteTag" @reset="resetCurrentTagDetails" />
     </div>
 </template>
 
 <script>
 import IconSvg from '../shared/icons/Icon-Svg.vue';
-import CreateTagModal from '../shared/modals/CreateTag.vue';
-import EditTagModal from '../shared/modals/EditTag.vue';
+import CreateOrEditTagModal from '../shared/modals/CreateOrEditTag.vue';
 import ConfirmDeletionModal from '../shared/modals/ConfirmDeletion.vue';
+import { tags } from '../../utils/dummy';
 
 export default {
     name: 'TagsLayout',
@@ -97,42 +101,33 @@ export default {
     },
     components: {
         IconSvg,
-        CreateTagModal,
-        'edit-tag-modal': EditTagModal,
+        CreateOrEditTagModal,
         ConfirmDeletionModal
     },
     data () {
         return {
-            tags: [
-            {
-                _id: '62102f08ca0f171b9c4aa048',
-                name: 'Finished',
-                project_id: '62102f08ca0f171b9c4aa049'
-            },
-            {
-                _id: '62102f08ca0f171b9c4aa048',
-                name: 'SEO',
-                project_id: '62102f08ca0f171b9c4aa049'
-            },
-            {
-                _id: '62102f08ca0f171b9c4aa048',
-                name: 'Onboarding',
-                project_id: '62102f08ca0f171b9c4aa049'
-            }
-            ],
-            workspaceDisplay: 'Tiles',
+            tags: tags,
+            tagDisplay: 'Tiles',
             currentTagDetails: {},
-            state: 'default'
+            state: 'default',
+            actionType: 'add',
+            showTagModal: false
       }
     },
     computed: {},
     methods: {
         selectDisplayType(value) {
-            this.workspaceDisplay = value
+            this.tagDisplay = value
         },
-        setCurrentTagDetails(data) {
+        openCreateModal() {
+            this.currentTagDetails = {};
+            this.actionType = 'add';
+            this.showTagModal = true
+        },
+        openEditModal(data) {
             this.currentTagDetails = data;
-            $("#editTag").modal("show");
+            this.actionType = 'edit';
+            this.showTagModal = true
         },
         resetCurrentTagDetails() {
             this.currentTagDetails = {};

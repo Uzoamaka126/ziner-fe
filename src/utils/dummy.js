@@ -246,3 +246,21 @@ export const dummyInvoicesData = [
 export const projectStatusEnum = ['Blocked', 'Completed', 'In Progress', 'On Hold', 'Paid', 'Pending', 'Requires Fixes']
 
 export const invoiceStatusEnum = ['Blocked', 'Draft', 'Due', 'Paid', 'Pending', 'Rejected']
+
+export const tags = [
+    {
+        _id: '62102f08ca0f171b9c4aa048',
+        name: 'Finished',
+        project_id: '62102f08ca0f171b9c4aa049'
+    },
+    {
+        _id: '62102f08ca0f171b9c4aa048',
+        name: 'SEO',
+        project_id: '62102f08ca0f171b9c4aa049'
+    },
+    {
+        _id: '62102f08ca0f171b9c4aa048',
+        name: 'Onboarding',
+        project_id: '62102f08ca0f171b9c4aa049'
+    }
+];

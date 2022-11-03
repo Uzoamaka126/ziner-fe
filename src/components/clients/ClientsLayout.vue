@@ -131,7 +131,7 @@
         </div>
 
         <!-- modal -->
-        <create-client-modal @handleAddClient="handleAddClient" :loading="loadingState" />
+        <create-client-modal :showModal="showCreateClientModal" @handleAddClient="handleAddClient" :loading="loadingState" @cancel="showCreateClientModal = false" />
         <confirm-deletion-modal :type="'client'" @delete="handleDeleteClient" :reset="resetCurrentClient" />
         <client-details-modal :currentClientDetails="currentClient" :clientName="currentClient.name"  @resetCurrentClient="resetCurrentClient" />
     </div>
@@ -187,7 +187,8 @@ export default {
                 nameQuery: this.$route.query.name || '',
                 download: false
             },
-            clientsList: clientsList
+            clientsList: clientsList,
+            showCreateClientModal: false
         }
     },
     components: {
@@ -228,7 +229,7 @@ export default {
 
         setClientDetails(data) {
             this.currentClient = data;
-            $("#clientDetails").modal("show");
+            this.showCreateClientModal = true
         },
 
         startDelete(data) {
@@ -333,6 +334,7 @@ export default {
 
             this.$router.replace(`${currentRoutePath}?${queryParams}`)
         },
+
         resetFilter() {
             let currentRoutePath = this.$route.path;
 
@@ -341,6 +343,7 @@ export default {
             }
             this.$router.replace({ path: `${currentRoutePath}` })
         },
+
         handlePaginationNumChange(num) {
             if (num) {
                 console.log('num:', num);

@@ -20,7 +20,7 @@
                             :classNames="'text--xs flex align-items-center mr--5'" 
                             :outlineType="'secondary'"
                             :btnSize="'fit-content'" 
-                            @submit="openCreateOrEditModal('add')" 
+                            @submit="showCreateClientModal = true" 
                             :label="'Add client'" 
                         >
                             <span class="flex ">
@@ -113,7 +113,7 @@
         </div>
 
         <!-- modal -->
-        <create-client-modal @handleAddClient="handleAddClient" :loading="loadingState" />
+        <create-client-modal :showModal="showCreateClientModal" @handleAddClient="handleAddClient" :loading="loadingState" @cancel="showCreateClientModal = false" />
         <confirm-deletion-modal :type="'client'" @delete="handleDeleteClient" @reset="resetCurrentClient" />
     </div>
 </template>
@@ -182,7 +182,8 @@ export default {
             },
             clientsList,
             displayType: '',
-            selectedClients: []
+            selectedClients: [],
+            showCreateClientModal: false
         }
     },
     computed: {
