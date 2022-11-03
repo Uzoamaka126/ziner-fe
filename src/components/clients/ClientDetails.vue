@@ -59,6 +59,12 @@
                     </div>
                     <div class="client__item">
                         <div class="form__item">
+                            <label for="email" class="form__label title">Email</label>
+                            <input name="email" type="email" class="form__input" v-model="clientForm.email" :readonly="!isEdit"/>
+                        </div>
+                    </div>
+                    <div class="client__item">
+                        <div class="form__item">
                             <label for="workspaceTitle" class="form__label title">Phone number</label>
                             <input name="phoneNumber" type="number" class="form__input" v-model="clientForm.phoneNumber" :readonly="!isEdit"/>
                         </div>
@@ -87,8 +93,9 @@
                         <p class="title">Date created</p>
                         <p class="sub-title">{{ client.createdAt ? computedCreatedAtDate : 'N/A' }}</p>
                     </div>
+                    
                     <div class="client__item mb--0 email">
-                        <label for="email" class="form__label title">Billing email(s)</label>
+                        <label for="email" class="form__label title">Other billing emails</label>
                         <div class="flex align-items-center">
                             <div class="form__item mb--0 mr--10" v-show="billingEmailsCopy.length < 3">
                                 <div class="input-group">
@@ -241,6 +248,7 @@ export default {
                 country: '',
                 address: '',
                 industry: '',
+                email: ''
             },
             projectsList,
             projects: [],
@@ -336,7 +344,7 @@ export default {
 
         removeEmail(email) {
             if (this.disableRemoveEmailBtn) return;
-            
+
             const updatedEmails = this.billingEmailsCopy.filter(item => item !== email)
             this.billingEmailsCopy = [...updatedEmails]
         },
