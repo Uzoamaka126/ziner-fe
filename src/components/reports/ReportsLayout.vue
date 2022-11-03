@@ -65,7 +65,6 @@ export default {
        setReportType(type) {
         if (!type) return
         this.reportItemType = type
-        // this.$router.push(`/dashboard/reports/${type}`)
        }
     }
 }

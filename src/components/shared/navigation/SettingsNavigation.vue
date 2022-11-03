@@ -1,6 +1,6 @@
 <template>
     <div class="nav__section__content__group">
-        <router-link :to="{ name:'settings-view' }" class="nav__section--item" :class="{ 'active': activeName === link.name }">
+        <router-link :to="{ name:'settings-view' }" class="nav__section--item" :class="{ 'active': activeName === 'settings' }">
             <icon-svg 
                 fill="rgba(66, 82, 110)" 
                 class="nav__icon" 
