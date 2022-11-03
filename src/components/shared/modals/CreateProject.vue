@@ -88,23 +88,25 @@ export default {
         'main-modal': MainModal,
     },
     props: ["showModal", "toggleCreateProjectModal"],
-    data: () => ({
-       statuses: PROJECT_STATUSES,
-       form: {
-        title: '',
-        status: '',
-        deadline: '',
-        isFavourite: false,
-        selectedTags: []
-       },
-       tags: [
-            { id: 1, name: 'design' },
-            { id: 2, name: 'web' },
-            { id: 3, name: 'android' },
-            { id: 4, name: 'mobile' },
-            { id: 5, name: 'marketing' },
-        ]
-    }),
+    data() {
+        return {
+            statuses: PROJECT_STATUSES,
+            form: {
+                title: '',
+                status: '',
+                deadline: '',
+                isFavourite: false,
+                selectedTags: []
+            },
+            tags: [
+                 { id: 1, name: 'design' },
+                 { id: 2, name: 'web' },
+                 { id: 3, name: 'android' },
+                 { id: 4, name: 'mobile' },
+                 { id: 5, name: 'marketing' },
+             ],
+        }
+    },
     computed: {
         isFormFilled() {
             if (!this.form.title || !this.form.status) {

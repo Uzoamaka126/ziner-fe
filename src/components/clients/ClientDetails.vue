@@ -125,8 +125,8 @@
                     <div class="card--box pl--0">
                         <div class="card--content__header">
                             <p class="text--bold text--md">Associated projects</p>
-                            <span @click="isCreateProjectModalOpen = true">
-                                <text-button :label="'Add'" :classNames="'btn--ghost__primary'" />
+                            <span @click="showCreateProjectModal = true">
+                                <text-button :label="'+Add'" :classNames="'btn--ghost__primary text--sm'" />
                             </span>
                         </div>
                         <div class="card--content__body">
@@ -197,7 +197,7 @@
         </div>
 
         <confirm-deletion-modal :type="'client'" @delete="handleDeleteClient" :reset="resetCurrentClient" />
-        <create-project-modal :showCreateProjectModal="isCreateProjectModalOpen" @cancel="isCreateProjectModalOpen = false" />
+        <create-project-modal :showModal="showCreateProjectModal" @cancel="showCreateProjectModal = false" />
     </div>
 </template>
 
@@ -265,7 +265,7 @@ export default {
                 'Requires Fixes': "tag--grey",
                 'In Progress': "tag--blue",
             },
-            isCreateProjectModalOpen: false
+            showCreateProjectModal: false
         }
     },
     computed: {

@@ -19,18 +19,18 @@
                         <button class="btn btn--danger btn--sm" @click="handleDeleteMultipleProjects">Delete selected projects</button>
                     </div>
                     <outline-button 
-                            :classNames="'text--xs flex align-items-center mr--5'" 
-                            :outlineType="'secondary'"
-                            :btnSize="'fit-content'" 
-                            @submit="openCreateOrEditModal('add')" 
-                            :label="'Add project'" 
-                        >
-                            <span class="flex ">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: #5e6c84;transform: ;msFilter:;">
-                                    <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
-                                </svg>
-                            </span>
-                        </outline-button>
+                        :classNames="'text--xs flex align-items-center mr--5'" 
+                        :outlineType="'secondary'"
+                        :btnSize="'fit-content'" 
+                        @submit="showCreateProjectModal = true" 
+                        :label="'Add project'" 
+                    >
+                        <span class="flex ">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="fill: #5e6c84;transform: ;msFilter:;">
+                                <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
+                            </svg>
+                        </span>
+                    </outline-button>
                     <main-filter :filter="filter" @filterProjects="filterProjects" />
                     <sort-filter :filter="displayType" @setType="setDisplayType" />
                 </div>
@@ -107,6 +107,7 @@
         </div>
 
         <!-- modal -->
+        <create-project-modal :showModal="showCreateProjectModal" @cancel="showCreateProjectModal = false" />
         <confirm-deletion-modal :type="'project'" @delete="handleDeleteProject" @reset="resetSelectedProject" />
     </div>
 </template>
@@ -170,7 +171,8 @@ export default {
                 client: this.$route.query.client || undefined,
                 title: this.$route.query.title || undefined,
             },
-            selectedProjects: []
+            selectedProjects: [],
+            showCreateProjectModal: false
         }
     },
     computed: {
