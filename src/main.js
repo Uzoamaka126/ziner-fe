@@ -10,6 +10,7 @@ import VueChartkick from 'vue-chartkick'
 import 'chartkick/chart.js'
 import VueMultiselect from 'vue-multiselect'
 import VueToast from 'vue-toast-notification';
+import 'v-calendar/dist/style.css';
 import 'vue-toast-notification/dist/theme-default.css';
 import "vue-multiselect/dist/vue-multiselect.css";
 
