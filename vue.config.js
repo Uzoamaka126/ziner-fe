@@ -9,20 +9,23 @@
 // };
 
 module.exports = {
-    // devServer: {
-    //     port: 3454,
-    // },
-    runtimeCompiler: true,
-    // plugins: [
-    //   '~/plugins/axios.js',
-    //   '~/plugins/api.js'
-    // ],
-    configureWebpack: {
-    resolve: {
-      alias: {
-        vue$: 'vue'
-        // vue$: 'vue/dist/vue.esm-bundler.js'
-      }
+  // devServer: {
+  //     port: 3454,
+  // },
+  runtimeCompiler: true,
+
+  // plugins: [
+  //   '~/plugins/axios.js',
+  //   '~/plugins/api.js'
+  // ],
+  configureWebpack: {
+  resolve: {
+    alias: {
+      vue$: 'vue'
+      // vue$: 'vue/dist/vue.esm-bundler.js'
     }
-  },
+  }
+},
+
+  transpileDependencies: true
 } 

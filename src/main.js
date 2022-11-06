@@ -1,18 +1,19 @@
-import { createApp } from 'vue/dist/vue.esm-bundler.js';
+// import { createApp } from 'vue/dist/vue.esm-bundler.js';
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 import "bootstrap/dist/css/bootstrap.min.css";
-import Multiselect from '@vueform/multiselect'
 import { PopoverRow, Calendar, DatePicker } from 'v-calendar';
 import { Money3Component } from 'v-money3';
 import VueChartkick from 'vue-chartkick'
 import 'chartkick/chart.js'
-import VueMultiselect from 'vue-multiselect'
+import VueMultiselect from '@suadelabs/vue3-multiselect'
 import VueToast from 'vue-toast-notification';
 import 'v-calendar/dist/style.css';
 import 'vue-toast-notification/dist/theme-default.css';
-import "vue-multiselect/dist/vue-multiselect.css";
+import "vue-multiselect/dist/vue-multiselect.min.css";
+// import "vue3-multiselect/dist/vue3-multiselect.css"
 
 import { isUserAuthenticated } from './utils/auth';
 
@@ -28,7 +29,6 @@ createApp(App)
   .use(store)
   .use(VueChartkick)
   .use(VueToast)
-  .component('multi-select', Multiselect)
   .component('vue-multi-select', VueMultiselect)
   .component('money', Money3Component)
   .component('popover-row', PopoverRow)
