@@ -7,6 +7,10 @@ import ProjectsView from '../views/Projects.vue'
 import DashboardView from '../views/Dashboard.vue'
 import ProjectsDetailsView from '../views/ProjectDetails.vue'
 import SettingsView from '../views/Settings.vue'
+import LoginView from '../views/Login.vue'
+import InitiateResetView from '../views/InitiateReset.vue'
+import SignupView from '../views/Signup.vue'
+import ResetView from '../views/Reset.vue'
 import TagsView from '../views/Tags.vue'
 import InvoicesView from '../views/Invoices.vue'
 import CreateInvoiceView from '../components/invoices/CreateInvoice.vue';
@@ -26,6 +30,7 @@ const routes = [
     path: '/',
     name: 'home',
     component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
+    // component: LoginView
     // redirect: { name: 'login' }
   },
   {
@@ -33,54 +38,58 @@ const routes = [
     name: 'login',
     // component: LoginView,
     component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
+    // component: LoginView
   },
   {
     path: '/signup',
     name: 'signup',
     component: () => import(/* webpackChunkName: "signup" */ '../views/Signup.vue')
-
+    // component: SignupView
   },
   {
-    path: '/passwordReset',
+    path: '/reset',
     name: 'reset',
     component: () => import(/* webpackChunkName: "reset" */ '../views/Reset.vue')
+    // component: ResetView
 
   },
   {
     path: '/initiateReset',
     name: 'intiate-reset',
-    component: () => import(/* webpackChunkName: "reset" */ '../views/InitiateReset.vue')
+    component: () => import(/* webpackChunkName: "reset" */ '../views/InitiateReset.vue'),
+    // component: InitiateResetView
 
   },
   {
     path: '/dashboard/',
     name: 'siner-dashboard',
-    component: DashboardView,
+    // component: DashboardView,
+    component: '../views/Dashboard.vue',
     // beforeEnter: isRouteAuthRequired,
     children:[
-      { path: 'reports', name: 'reports', component: ReportsView },
+      { path: 'reports', name: 'reports', component: '../views/Reports.vue' },
       
-      { path:'projects', name: 'projects-view',  component: ProjectsView },
+      { path:'projects', name: 'projects-view',  component: '../views/Projects.vue' },
       
-      {  path:'projects/:id',  name: 'project-details-view',  component: ProjectsDetailsView},
+      {  path:'projects/:id',  name: 'project-details-view',  component: '../views/ProjectDetails.vue' },
        
-      { path:'tags',  name:'tags-view', component: TagsView },
+      { path:'tags',  name:'tags-view', component: '../views/Tags.vue' },
       
-      { path: 'invoices', name: 'invoices-view', component: InvoicesView },
+      { path: 'invoices', name: 'invoices-view', component: '../views/Invoices.vue' },
 
-      { path: 'teams', name: 'teams-view', component: ComingSoon },
+      { path: 'teams', name: 'teams-view', component: '../views/ComingSoon.vue' },
       
-      { path: 'invoices/create', name: 'create-invoice-view', component: CreateInvoiceView },
+      { path: 'invoices/create', name: 'create-invoice-view', component: '../components/invoices/CreateInvoice.vue' },
 
-      { path: 'invoices/edit', name: 'edit-invoice-view', component: CreateInvoiceView },
+      { path: 'invoices/edit', name: 'edit-invoice-view', component: '../components/invoices/CreateInvoice.vue' },
       
-      { path: 'invoices/:id', name: 'invoice-details-view', component: InvoiceDetailsView },
+      { path: 'invoices/:id', name: 'invoice-details-view', component: '../components/invoices/InvoiceDetails.vue' },
       
-      { path: 'clients', name: 'clients-view', component: ClientsView },
+      { path: 'clients', name: 'clients-view', component: '../views/Clients.vue' },
 
-      { path:'clients/:id', name:'client-details-view', component: ClientsDetailsView },
+      { path:'clients/:id', name:'client-details-view', component: '../components/clients/ClientDetails.vue' },
       
-      { path:'settings', name:'settings-view', component: SettingsView },
+      { path:'settings', name:'settings-view', component: '../views/Settings.vue' },
     ],
   },
   {
