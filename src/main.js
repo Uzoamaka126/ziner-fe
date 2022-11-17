@@ -17,10 +17,17 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 
 import { isUserAuthenticated } from './utils/auth';
 
+const publicRoutes = {
+  login: true,
+  signup: true,
+  reset: true,
+  initiateReset: true
+}
 // set a navigation guard for protected routes
 router.beforeEach((to, from, next) => {
-  const isAuthOrHomePage = to.name !== 'login' && to.name !== 'signup' && to.name !== 'reset';
-  if (!isUserAuthenticated() && isAuthOrHomePage) next({ name: 'login' })
+
+  const acceptedPublicRoutes = publicRoutes[to.name];
+  if (!isUserAuthenticated() && !acceptedPublicRoutes) next({ name: 'login' })
   else next()
 });
 
